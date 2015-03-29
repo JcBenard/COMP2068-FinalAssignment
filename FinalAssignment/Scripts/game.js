@@ -8,19 +8,20 @@
 /// <reference path="constants.ts" />
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/gameBackground.ts" />
+/// <reference path="objects/gamewalls.ts" />
 /// <reference path="objects/snake.ts" />
 /// <reference path="objects/infobar.ts" />
 /// <reference path="objects/healthbar.ts" />
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/transitionbackground.ts" />
-/// <reference path="states/play.ts" />
+/// <reference path="states/stage1.ts" />
 //game variables
 var stats = new Stats();
 var canvas;
 var stage;
 var assetLoader;
 //game objects
-var play;
+var stage1;
 //game states
 var currentState;
 var currentStateFunction;
@@ -33,7 +34,6 @@ var finalHealth = 0;
 var xPos = constants.SCRREN_CENTER_WIDTH;
 var yPos = constants.SCRREN_CENTER_HEIGHT;
 var animation = "idleDown";
-var animationFlag = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();
@@ -49,7 +49,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.PLAY_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ function gameLoop() {
         changeState(currentState);
     }
     //run the update function of the current state
-    play.update();
+    currentStateFunction.update();
     stage.update();
     //stop tracking the fps for this frame
     stats.end();
@@ -78,10 +78,10 @@ function changeState(state) {
             break;
         case constants.INSTRUCTIONS_STATE:
             break;
-        case constants.PLAY_STATE:
+        case constants.STAGE1_STATE:
             stateChanged = false;
-            play = new states.Play();
-            currentStateFunction = play;
+            stage1 = new states.Stage1();
+            currentStateFunction = stage1;
             break;
         case constants.GAME_OVER_STATE:
             break;

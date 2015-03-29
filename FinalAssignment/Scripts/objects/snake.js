@@ -26,16 +26,9 @@ var objects;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {
-            this.x = xPos;
-            this.y = yPos;
-            this._counter++;
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);
-                animationFlag = false;
             }
-        };
-        Snake.prototype.animation = function (animationIndex) {
-            this.gotoAndPlay(animationIndex);
         };
         return Snake;
     })(createjs.Sprite);

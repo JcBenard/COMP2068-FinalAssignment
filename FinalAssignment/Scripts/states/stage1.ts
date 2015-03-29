@@ -1,19 +1,21 @@
 ﻿/// <reference path="../constants.ts" />
 /// <reference path="../objects/gameobject.ts" />
 /// <reference path="../objects/gameBackground.ts" />
+/// <reference path="../objects/gamewalls.ts" />
 /// <reference path="../objects/healthbar.ts" />
 /// <reference path="../objects/infobar.ts" />
 /// <reference path="../objects/label.ts" />
 /// <reference path="../objects/snake.ts" />
 
 module states {
-    export class Play{
+    export class Stage1{
 
         //instnced variables///////////////////////////////////////////////////////////
         public game: createjs.Container;
         public snake: objects.Snake;
         //public scoreText: objects.Label;
-        //public background: objects.GameBackground;
+        public background: objects.GameBackground;
+        public walls: objects.GameWalls;
         //public info: objects.InfoBar;
         //public healthBar: objects.HealthBar[] = [];
 
@@ -21,14 +23,18 @@ module states {
         public score: number = 0;
         public ticks = 0;
         public health = constants.PLAYER_HEALTH;
+        private direction = "";
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
             this.game = new createjs.Container();
 
-            ////create and add the background to the game
-            //this.background = new objects.GameBackground();
-            //this.game.addChild(this.background);
+            //create and add the background to the game
+            this.background = new objects.GameBackground();
+            this.game.addChild(this.background);
+
+            this.walls = new objects.GameWalls();
+            this.game.addChild(this.walls);
 
             //create and add th player to the game
             this.snake = new objects.Snake();
@@ -52,6 +58,7 @@ module states {
             stage.addChild(this.game);
 
             window.addEventListener("keydown", this.keyPressed, true);
+            window.addEventListener("keyup", this.keyRelease, true);
 
             //start the background music
             //createjs.Sound.play("backgroundMusic", { loop: -1 });
@@ -101,7 +108,8 @@ module states {
         //updates the game based on the elements
         public update() {
             this.snake.update();
-            //this.background.update();
+            this.background.update();
+            this.walls.update();
             
 
         }//end of update
@@ -109,28 +117,47 @@ module states {
         public keyPressed(event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_A:
-                    xPos -= 3;
+                    xPos += 4;
                     animation = "runLeft";
-                    animationFlag = true;
+                    this.direction = "Left";
                     break;
                 case constants.KEYCODE_D:
-                    xPos += 3;
+                    xPos -= 4;
                     animation = "runRight";
-                    animationFlag = true;
+                    this.direction = "Right"
                     break;
                 case constants.KEYCODE_W:
-                    yPos -= 3;
+                    yPos += 4;
                     animation = "runUp";
-                    animationFlag = true;
+                    this.direction = "Up";
                     break;
                 case constants.KEYCODE_S:
-                    yPos += 3;
+                    yPos -= 4;
                     animation = "runDown";
-                    animationFlag = true;
+                    this.direction = "Down";
                     break;
                 case 32:
-                    animation = "punchRight";
-                    animationFlag = true;
+                    animation = "punch" + this.direction;
+                    break;
+            }
+        }
+
+        public keyRelease(evnt) {
+            switch (evnt.keyCode) {
+                case constants.KEYCODE_A:
+                    animation = "idleLeft";
+                    break;
+                case constants.KEYCODE_D:
+                    animation = "idleRight";
+                    break;
+                case constants.KEYCODE_W:
+                    animation = "idleUp";
+                    break;
+                case constants.KEYCODE_S:
+                    animation = "idleDown";
+                    break;
+                case 32:
+                    animation = "idle" + this.direction;
                     break;
             }
         }

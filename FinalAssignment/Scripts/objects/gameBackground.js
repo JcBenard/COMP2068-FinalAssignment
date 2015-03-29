@@ -10,13 +10,13 @@ var objects;
         __extends(GameBackground, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function GameBackground() {
-            _super.call(this, managers.Assets.loader("gameBackground"));
+            _super.call(this, managers.Assets.loader.getResult("gameBackground"));
             //private instanced variables
             this._dx = 4;
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
-            this.x = this.width - constants.SCREEN_WIDTH;
-            this.y = this.height - constants.SCREEN_HEIGHT;
+            this.x = 0;
+            this.y = -this.height * .75;
             xPos = this.x;
             yPos = this.y;
         }

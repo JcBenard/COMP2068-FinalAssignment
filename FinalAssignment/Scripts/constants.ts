@@ -17,7 +17,7 @@
     //game state constants
     export var MENU_STATE: number = 0;
     export var INSTRUCTIONS_STATE: number = 1;
-    export var PLAY_STATE: number = 2;
+    export var STAGE1_STATE: number = 2;
     export var GAME_OVER_STATE: number = 3;
     export var WIN_STATE: number = 4;
 

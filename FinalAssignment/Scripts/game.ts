@@ -9,13 +9,14 @@
 /// <reference path="constants.ts" />
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/gameBackground.ts" />
+/// <reference path="objects/gamewalls.ts" />
 /// <reference path="objects/snake.ts" />
 /// <reference path="objects/infobar.ts" />
 /// <reference path="objects/healthbar.ts" />
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/transitionbackground.ts" />
 
-/// <reference path="states/play.ts" />
+/// <reference path="states/stage1.ts" />
 
 //game variables
 var stats: Stats = new Stats();
@@ -24,7 +25,7 @@ var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
 
 //game objects
-var play: states.Play;
+var stage1: states.Stage1;
 
 //game states
 var currentState: number;
@@ -40,7 +41,6 @@ var finalHealth: number = 0;
 var xPos: number = constants.SCRREN_CENTER_WIDTH;
 var yPos: number = constants.SCRREN_CENTER_HEIGHT;
 var animation: string = "idleDown";
-var animationFlag: boolean = false;
 
 // Game Objects 
 function preload() {
@@ -60,7 +60,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.PLAY_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 
 }
@@ -83,7 +83,7 @@ function gameLoop() {
     }
 
     //run the update function of the current state
-    play.update();
+    currentStateFunction.update();
     stage.update();
 
     //stop tracking the fps for this frame
@@ -98,10 +98,10 @@ function changeState(state: number) {
             break;
         case constants.INSTRUCTIONS_STATE://if its instructions state
             break;
-        case constants.PLAY_STATE://if its play state
+        case constants.STAGE1_STATE://if its play state
             stateChanged = false;
-            play = new states.Play();
-            currentStateFunction = play;         
+            stage1 = new states.Stage1();
+            currentStateFunction = stage1;         
             break;
         case constants.GAME_OVER_STATE://if its game over state         
             break;

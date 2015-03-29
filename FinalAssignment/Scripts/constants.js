@@ -15,7 +15,7 @@ var constants;
     //game state constants
     constants.MENU_STATE = 0;
     constants.INSTRUCTIONS_STATE = 1;
-    constants.PLAY_STATE = 2;
+    constants.STAGE1_STATE = 2;
     constants.GAME_OVER_STATE = 3;
     constants.WIN_STATE = 4;
     constants.KEYCODE_W = 87;

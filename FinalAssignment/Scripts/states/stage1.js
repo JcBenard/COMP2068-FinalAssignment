@@ -8,9 +8,9 @@
 /// <reference path="../objects/snake.ts" />
 var states;
 (function (states) {
-    var Play = (function () {
+    var Stage1 = (function () {
         //constructor///////////////////////////////////////////////////////////////////////
-        function Play() {
+        function Stage1() {
             //public info: objects.InfoBar;
             //public healthBar: objects.HealthBar[] = [];
             this.difficulty = 1;
@@ -81,12 +81,12 @@ var states;
         //    }
         //}//end of collider
         //updates the game based on the elements
-        Play.prototype.update = function () {
+        Stage1.prototype.update = function () {
             this.snake.update();
             this.background.update();
             this.walls.update();
         }; //end of update
-        Play.prototype.keyPressed = function (event) {
+        Stage1.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_A:
                     xPos += 4;
@@ -113,7 +113,7 @@ var states;
                     break;
             }
         };
-        Play.prototype.keyRelease = function (evnt) {
+        Stage1.prototype.keyRelease = function (evnt) {
             switch (evnt.keyCode) {
                 case constants.KEYCODE_A:
                     animation = "idleLeft";
@@ -132,8 +132,8 @@ var states;
                     break;
             }
         };
-        return Play;
+        return Stage1;
     })();
-    states.Play = Play; //end of play
+    states.Stage1 = Stage1; //end of play
 })(states || (states = {}));
-//# sourceMappingURL=play.js.map
+//# sourceMappingURL=stage1.js.map

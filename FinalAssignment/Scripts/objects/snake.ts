@@ -29,19 +29,10 @@ module objects {
 
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update() {
-            this.x = xPos;
-            this.y = yPos;
-
-            this._counter++
 
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);
-                animationFlag = false;
             }
-        }
-
-        public animation(animationIndex: string) {
-            this.gotoAndPlay(animationIndex);
         }
     }
 }  
