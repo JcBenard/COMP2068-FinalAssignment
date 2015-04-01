@@ -18,19 +18,19 @@ module states {
         //instnced variables///////////////////////////////////////////////////////////
         public game: createjs.Container;
         public snake: objects.Snake;
-        //public mines: objects.Mine[] = [];
+        public mines: objects.Mine[] = [];
         public background: objects.MovingBackgroud;
         public tank: objects.Tank;
         public info: objects.InfoBar;
         //public healthBar: objects.HealthBar[] = [];
         //public ration: objects.Ration;
-        //public tankBullet: objects.TankBullet;
-        //public shell: objects.Shell;
+        public tankBullet: objects.TankBullet;
+        public shell: objects.Shell;
         //public antiTank: objects.AntiTank[] = [];
 
         public ticks: number = 0;
         public health = constants.PLAYER_HEALTH;
-        public tankHealth: number = 10;
+        public tankHealth: number = 1;
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -46,9 +46,10 @@ module states {
             this.background = new objects.MovingBackgroud();
             this.game.addChild(this.background);
 
-            //for (var index = 0; index < constants.MINE_NUM; index++) {
-            //    this.mines[index] = new objects.Mine();
-            //}
+            for (var index = 0; index < constants.MINE_NUM; index++) {
+                this.mines[index] = new objects.Mine();
+                this.game.addChild(this.mines[index]);
+            }
 
             ////create and add the ration to the game
             //this.ration = new objects.Ration();
@@ -62,13 +63,13 @@ module states {
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
 
-            ////create and add the bullet to the game
-            //this.bullet = new objects.TankBullet();
-            //this.game.addChild(this.bullet);
+            //create and add the bullet to the game
+            this.tankBullet = new objects.TankBullet();
+            this.game.addChild(this.tankBullet);
 
-            ////create and add the tank shell to the game
-            //this.shell = new objects.Shell();
-            //this.game.addChild(this.shell);
+            //create and add the tank shell to the game
+            this.shell = new objects.Shell();
+            this.game.addChild(this.shell);
 
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
@@ -117,6 +118,7 @@ module states {
                     if (collider.name == "mines" || collider.name == "bullet" || collider.name == "shell") {
                         this.health--;//remove 1 health from the players health variable
                         //this.game.removeChild(this.healthBar[this.health]);//remove one of the parts of the players health bar from the game
+
                         //if the player collided with something helpful and their health isn't full
                     } else if (collider.name == "ration" && this.health != 3) {
                         //this.game.addChild(this.healthBar[this.health]);//give the player a part of the health bar
@@ -131,15 +133,15 @@ module states {
         //updates the game based on the elements
         public update() {
 
-            ////if 90 frams have passed and the difficulty is greater then 1
-            //if (this.ticks % 90 == 0 && this.tankHealth < 7) {
-            //    this.bullet.reset(this.snake.y, this.tank.y);//shoot a bullet
-            //}
+            //if 90 frams have passed and the difficulty is greater then 1
+            if (this.ticks % 90 == 0 && this.tankHealth < 7) {
+                this.tankBullet.reset(this.snake.y, this.tank.y);//shoot a bullet
+            }
 
-            ////if 180 frams have passed and the difficulty is greater then 2
-            //if (this.ticks == 180 && this.tankHealth < 4) {
-            //    this.shell.reset(this.tank.y, this.tank.rotation);//fire 1 shell 
-            //}
+            //if 180 frams have passed and the difficulty is greater then 2
+            if (this.ticks == 180 && this.tankHealth < 4) {
+                this.shell.reset(this.tank.y, this.tank.rotation);//fire 1 shell 
+            }
             
 
             //update and check collision for the moving elements
@@ -147,19 +149,19 @@ module states {
             this.tank.update(this.snake.y);
 
             this.background.update();
-            //for (var index = 0; index < constants.MINE_NUM; index++) {
-            //    this.mines[index].update();
-            //    this.checkCollision(this.mines[index]);
-            //}
+            for (var index = 0; index < constants.MINE_NUM; index++) {
+                this.mines[index].update();
+                this.checkCollision(this.mines[index]);
+            }
 
             //this.ration.update();
             //this.checkCollision(this.ration);
 
-            //this.bullet.update();
-            //this.checkCollision(this.bullet);
+            this.tankBullet.update();
+            this.checkCollision(this.tankBullet);
 
-            //this.shell.update();
-            //this.checkCollision(this.shell);
+            this.shell.update();
+            this.checkCollision(this.shell);
             
             //if the ticker reaches 180 set it to 0
             if (this.ticks == 180) {

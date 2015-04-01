@@ -11,9 +11,11 @@
 /// <reference path="objects/stagebackground.ts" />
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/stagewalls.ts" />
+/// <reference path="objects/tankbullet.ts" />
 /// <reference path="objects/snake.ts" />
 /// <reference path="objects/infobar.ts" />
 /// <reference path="objects/healthbar.ts" />
+/// <reference path="objects/mine.ts" />
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/transitionbackground.ts" />
 

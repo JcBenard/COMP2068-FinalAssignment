@@ -39,4 +39,4 @@ var objects;
     })(objects.GameObject);
     objects.TankBullet = TankBullet;
 })(objects || (objects = {}));
-//# sourceMappingURL=tankBullet.js.map
+//# sourceMappingURL=tankbullet.js.map

@@ -16,14 +16,11 @@ var states;
     var Stage2 = (function () {
         //constructor///////////////////////////////////////////////////////////////////////
         function Stage2() {
-            //public healthBar: objects.HealthBar[] = [];
-            //public ration: objects.Ration;
-            //public tankBullet: objects.TankBullet;
-            //public shell: objects.Shell;
+            this.mines = [];
             //public antiTank: objects.AntiTank[] = [];
             this.ticks = 0;
             this.health = constants.PLAYER_HEALTH;
-            this.tankHealth = 10;
+            this.tankHealth = 1;
             xPos = 225;
             yPos = constants.SCRREN_CENTER_HEIGHT;
             snakeMove = true;
@@ -32,9 +29,10 @@ var states;
             //create and add the background to the game
             this.background = new objects.MovingBackgroud();
             this.game.addChild(this.background);
-            //for (var index = 0; index < constants.MINE_NUM; index++) {
-            //    this.mines[index] = new objects.Mine();
-            //}
+            for (var index = 0; index < constants.MINE_NUM; index++) {
+                this.mines[index] = new objects.Mine();
+                this.game.addChild(this.mines[index]);
+            }
             ////create and add the ration to the game
             //this.ration = new objects.Ration();
             //this.game.addChild(this.ration);
@@ -44,12 +42,12 @@ var states;
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
-            ////create and add the bullet to the game
-            //this.bullet = new objects.TankBullet();
-            //this.game.addChild(this.bullet);
-            ////create and add the tank shell to the game
-            //this.shell = new objects.Shell();
-            //this.game.addChild(this.shell);
+            //create and add the bullet to the game
+            this.tankBullet = new objects.TankBullet();
+            this.game.addChild(this.tankBullet);
+            //create and add the tank shell to the game
+            this.shell = new objects.Shell();
+            this.game.addChild(this.shell);
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
@@ -99,28 +97,28 @@ var states;
         }; //end of collider
         //updates the game based on the elements
         Stage2.prototype.update = function () {
-            ////if 90 frams have passed and the difficulty is greater then 1
-            //if (this.ticks % 90 == 0 && this.tankHealth < 7) {
-            //    this.bullet.reset(this.snake.y, this.tank.y);//shoot a bullet
-            //}
-            ////if 180 frams have passed and the difficulty is greater then 2
-            //if (this.ticks == 180 && this.tankHealth < 4) {
-            //    this.shell.reset(this.tank.y, this.tank.rotation);//fire 1 shell 
-            //}
+            //if 90 frams have passed and the difficulty is greater then 1
+            if (this.ticks % 90 == 0 && this.tankHealth < 7) {
+                this.tankBullet.reset(this.snake.y, this.tank.y); //shoot a bullet
+            }
+            //if 180 frams have passed and the difficulty is greater then 2
+            if (this.ticks == 180 && this.tankHealth < 4) {
+                this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
+            }
             //update and check collision for the moving elements
             this.snake.update();
             this.tank.update(this.snake.y);
             this.background.update();
-            //for (var index = 0; index < constants.MINE_NUM; index++) {
-            //    this.mines[index].update();
-            //    this.checkCollision(this.mines[index]);
-            //}
+            for (var index = 0; index < constants.MINE_NUM; index++) {
+                this.mines[index].update();
+                this.checkCollision(this.mines[index]);
+            }
             //this.ration.update();
             //this.checkCollision(this.ration);
-            //this.bullet.update();
-            //this.checkCollision(this.bullet);
-            //this.shell.update();
-            //this.checkCollision(this.shell);
+            this.tankBullet.update();
+            this.checkCollision(this.tankBullet);
+            this.shell.update();
+            this.checkCollision(this.shell);
             //if the ticker reaches 180 set it to 0
             if (this.ticks == 180) {
                 this.ticks = 0;
@@ -131,10 +129,10 @@ var states;
         Stage2.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_W:
-                    yPos += 4;
+                    yPos -= 4;
                     break;
                 case constants.KEYCODE_S:
-                    yPos -= 4;
+                    yPos += 4;
                     break;
             }
         };
