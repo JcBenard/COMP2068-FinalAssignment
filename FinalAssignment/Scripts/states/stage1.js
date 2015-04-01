@@ -1,7 +1,7 @@
 /// <reference path="../constants.ts" />
 /// <reference path="../objects/gameobject.ts" />
-/// <reference path="../objects/gameBackground.ts" />
-/// <reference path="../objects/gamewalls.ts" />
+/// <reference path="../objects/stagebackground.ts" />
+/// <reference path="../objects/stagewalls.ts" />
 /// <reference path="../objects/healthbar.ts" />
 /// <reference path="../objects/infobar.ts" />
 /// <reference path="../objects/label.ts" />
@@ -11,7 +11,6 @@ var states;
     var Stage1 = (function () {
         //constructor///////////////////////////////////////////////////////////////////////
         function Stage1() {
-            //public info: objects.InfoBar;
             //public healthBar: objects.HealthBar[] = [];
             this.difficulty = 1;
             this.score = 0;
@@ -20,16 +19,16 @@ var states;
             this.direction = "";
             this.game = new createjs.Container();
             //create and add the background to the game
-            this.background = new objects.GameBackground();
+            this.background = new objects.StageBackground("1");
             this.game.addChild(this.background);
-            this.walls = new objects.GameWalls();
+            this.walls = new objects.StageWalls("1");
             this.game.addChild(this.walls);
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
-            ////create and add the bottom info bar to the game
-            //this.info = new objects.InfoBar();
-            //this.game.addChild(this.info);
+            //create and add the bottom info bar to the game
+            this.info = new objects.InfoBar();
+            this.game.addChild(this.info);
             ////create and add the parts of the health bar to the game
             //for (var index2 = 0; index2 < this.health; index2++) {
             //    this.healthBar[index2] = new objects.HealthBar(index2);

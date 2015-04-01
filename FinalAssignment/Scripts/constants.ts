@@ -11,7 +11,7 @@
     export var SCRREN_CENTER_HEIGHT: number = SCREEN_HEIGHT * 0.5;
 
     //game stats constants
-    export var PLAYER_HEALTH: number = 3;
+    export var PLAYER_HEALTH: number = 6;
     export var MINE_NUM: number = 10;
 
     //game state constants

@@ -10,7 +10,7 @@ var objects;
         __extends(InfoBar, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function InfoBar() {
-            _super.call(this, assetLoader.getResult("info"));
+            _super.call(this, managers.Assets.loader.getResult("info"));
             this.y = 440;
         }
         return InfoBar;

@@ -6,10 +6,10 @@ var __extends = this.__extends || function (d, b) {
 };
 var objects;
 (function (objects) {
-    var GameBackground = (function (_super) {
-        __extends(GameBackground, _super);
+    var StageBackground = (function (_super) {
+        __extends(StageBackground, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function GameBackground() {
+        function StageBackground() {
             _super.call(this, managers.Assets.loader.getResult("gameBackground"));
             //private instanced variables
             this._dx = 4;
@@ -21,12 +21,12 @@ var objects;
             yPos = this.y;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
-        GameBackground.prototype.update = function () {
+        StageBackground.prototype.update = function () {
             this.x = xPos;
             this.y = yPos;
         };
-        return GameBackground;
+        return StageBackground;
     })(createjs.Bitmap);
-    objects.GameBackground = GameBackground;
+    objects.StageBackground = StageBackground;
 })(objects || (objects = {}));
-//# sourceMappingURL=gameBackground.js.map
+//# sourceMappingURL=stage1Background.js.map

@@ -7,9 +7,9 @@
 
 /// <reference path="managers/assets.ts" />
 /// <reference path="constants.ts" />
+/// <reference path="objects/stagebackground.ts" />
 /// <reference path="objects/gameobject.ts" />
-/// <reference path="objects/gameBackground.ts" />
-/// <reference path="objects/gamewalls.ts" />
+/// <reference path="objects/stagewalls.ts" />
 /// <reference path="objects/snake.ts" />
 /// <reference path="objects/infobar.ts" />
 /// <reference path="objects/healthbar.ts" />

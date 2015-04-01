@@ -2,8 +2,8 @@
     // Image and Sound Manifest;
     var assetManifest = [
         { id: "mine", src: "assets/images/mine.png" },
-        { id: "gameBackground", src: "assets/images/gameBackground.png" },
-        { id: "gameWalls", src: "assets/images/gameWalls.png" },
+        { id: "gameBackground1", src: "assets/images/stage1Background.png" },
+        { id: "gameWalls1", src: "assets/images/stage1Walls.png" },
         { id: "tank", src: "assets/images/tank.png" },
         { id: "info", src: "assets/images/infoBar.png" },
         { id: "star", src: "assets/images/star.png" },
@@ -95,10 +95,23 @@
             "runLeft": { frames: [5, 6], speed: 0.08 },
             "runRight": { frames: [10, 11], speed: 0.08 },
             "runUp": { frames: [14, 15], speed: 0.08 },
-            "punchDown": [0], 
-            "punchLeft": [4], 
+            "punchDown": [0],
+            "punchLeft": [4],
             "punchRight": [12],
-            "punchUp": [16]
+            "punchUp": [16],
+            "idleDownGun": [3],
+            "idleLeftGun": [7],
+            "idleRightGun": [9],
+            "idleUpGun": [13],
+            "runDownGun": { frames: [1, 2], speed: 0.08 },
+            "runLeftGun": { frames: [5, 6], speed: 0.08 },
+            "runRightGun": { frames: [10, 11], speed: 0.08 },
+            "runUpGun": { frames: [14, 15], speed: 0.08 },
+            "punchDownGun": [0],
+            "punchLeftGun": [4],
+            "punchRightGun": [12],
+            "punchUpGun": [16],
+            "health": [49]
         }
     }
 

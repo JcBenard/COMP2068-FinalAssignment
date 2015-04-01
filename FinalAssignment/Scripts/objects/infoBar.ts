@@ -5,7 +5,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
-            super(assetLoader.getResult("info"));
+            super(managers.Assets.loader.getResult("info"));
 
             this.y = 440;
         }

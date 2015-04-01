@@ -1,7 +1,7 @@
 ﻿/// <reference path="../constants.ts" />
 /// <reference path="../objects/gameobject.ts" />
-/// <reference path="../objects/gameBackground.ts" />
-/// <reference path="../objects/gamewalls.ts" />
+/// <reference path="../objects/stagebackground.ts" />
+/// <reference path="../objects/stagewalls.ts" />
 /// <reference path="../objects/healthbar.ts" />
 /// <reference path="../objects/infobar.ts" />
 /// <reference path="../objects/label.ts" />
@@ -14,9 +14,9 @@ module states {
         public game: createjs.Container;
         public snake: objects.Snake;
         //public scoreText: objects.Label;
-        public background: objects.GameBackground;
-        public walls: objects.GameWalls;
-        //public info: objects.InfoBar;
+        public background: objects.StageBackground;
+        public walls: objects.StageWalls;
+        public info: objects.InfoBar;
         //public healthBar: objects.HealthBar[] = [];
 
         public difficulty: number = 1;
@@ -30,19 +30,19 @@ module states {
             this.game = new createjs.Container();
 
             //create and add the background to the game
-            this.background = new objects.GameBackground();
+            this.background = new objects.StageBackground("1");
             this.game.addChild(this.background);
 
-            this.walls = new objects.GameWalls();
+            this.walls = new objects.StageWalls("1");
             this.game.addChild(this.walls);
 
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
 
-            ////create and add the bottom info bar to the game
-            //this.info = new objects.InfoBar();
-            //this.game.addChild(this.info);
+            //create and add the bottom info bar to the game
+            this.info = new objects.InfoBar();
+            this.game.addChild(this.info);
 
             ////create and add the parts of the health bar to the game
             //for (var index2 = 0; index2 < this.health; index2++) {

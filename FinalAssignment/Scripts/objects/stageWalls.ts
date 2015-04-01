@@ -1,6 +1,6 @@
 ﻿module objects {
 
-    export class GameBackground extends createjs.Bitmap {
+    export class StageWalls extends createjs.Bitmap {
         //public instanced variables
         public width;
         public height;
@@ -9,9 +9,9 @@
         private _dx = 4;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor() {
+        constructor(stageNumber: string) {
 
-            super(managers.Assets.loader.getResult("gameBackground"));
+            super(managers.Assets.loader.getResult("gameWalls" + stageNumber));
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
@@ -30,4 +30,4 @@
             this.y = yPos;
         }
     }
-}  
+}   

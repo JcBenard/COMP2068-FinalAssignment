@@ -15,7 +15,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(assetString:string) {
 
-            super(assetLoader.getResult(assetString));
+            super(managers.Assets.loader.getResult(assetString));
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;

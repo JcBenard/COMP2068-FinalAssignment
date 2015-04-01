@@ -10,7 +10,7 @@ var constants;
     constants.SCRREN_CENTER_WIDTH = constants.SCREEN_WIDTH * 0.5;
     constants.SCRREN_CENTER_HEIGHT = constants.SCREEN_HEIGHT * 0.5;
     //game stats constants
-    constants.PLAYER_HEALTH = 3;
+    constants.PLAYER_HEALTH = 6;
     constants.MINE_NUM = 10;
     //game state constants
     constants.MENU_STATE = 0;
