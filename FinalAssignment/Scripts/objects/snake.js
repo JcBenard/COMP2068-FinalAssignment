@@ -26,6 +26,10 @@ var objects;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {
+            if (snakeMove == true) {
+                this.x = xPos;
+                this.y = yPos;
+            }
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);
             }

@@ -10,7 +10,7 @@ var objects;
         __extends(MovingBackgroud, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function MovingBackgroud() {
-            _super.call(this, assetLoader.getResult("stageBackground2"));
+            _super.call(this, managers.Assets.loader.getResult("gameBackground2"));
             //private instanced variables
             this._dx = 4;
             this.width = this.getBounds().width;
@@ -39,4 +39,4 @@ var objects;
     })(createjs.Bitmap);
     objects.MovingBackgroud = MovingBackgroud;
 })(objects || (objects = {}));
-//# sourceMappingURL=movingBackground.js.map
+//# sourceMappingURL=movingbackground.js.map

@@ -6,6 +6,7 @@
 /// <reference path="typings/stats/stats.d.ts" />
 /// <reference path="managers/assets.ts" />
 /// <reference path="constants.ts" />
+/// <reference path="objects/movingbackground.ts" />
 /// <reference path="objects/stagebackground.ts" />
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/stagewalls.ts" />
@@ -15,6 +16,7 @@
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/transitionbackground.ts" />
 /// <reference path="states/stage1.ts" />
+/// <reference path="states/stage2.ts" />
 //game variables
 var stats = new Stats();
 var canvas;
@@ -22,6 +24,7 @@ var stage;
 var assetLoader;
 //game objects
 var stage1;
+var stage2;
 //game states
 var currentState;
 var currentStateFunction;
@@ -33,7 +36,8 @@ var finalAvaterY = 0;
 var finalHealth = 0;
 var xPos = constants.SCRREN_CENTER_WIDTH;
 var yPos = constants.SCRREN_CENTER_HEIGHT;
-var animation = "idleDown";
+var animation = "idleUp";
+var snakeMove = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();
@@ -49,7 +53,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE2_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -82,6 +86,11 @@ function changeState(state) {
             stateChanged = false;
             stage1 = new states.Stage1();
             currentStateFunction = stage1;
+            break;
+        case constants.STAGE2_STATE:
+            stateChanged = false;
+            stage2 = new states.Stage2();
+            currentStateFunction = stage2;
             break;
         case constants.GAME_OVER_STATE:
             break;

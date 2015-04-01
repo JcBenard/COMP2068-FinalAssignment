@@ -18,8 +18,9 @@
     export var MENU_STATE: number = 0;
     export var INSTRUCTIONS_STATE: number = 1;
     export var STAGE1_STATE: number = 2;
+    export var STAGE2_STATE: number = 4;
     export var GAME_OVER_STATE: number = 3;
-    export var WIN_STATE: number = 4;
+    export var WIN_STATE: number = 5;
 
     export var KEYCODE_W = 87;
     export var KEYCODE_A = 65;

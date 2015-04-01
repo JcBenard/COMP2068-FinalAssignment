@@ -7,6 +7,7 @@
 
 /// <reference path="managers/assets.ts" />
 /// <reference path="constants.ts" />
+/// <reference path="objects/movingbackground.ts" />
 /// <reference path="objects/stagebackground.ts" />
 /// <reference path="objects/gameobject.ts" />
 /// <reference path="objects/stagewalls.ts" />
@@ -17,6 +18,7 @@
 /// <reference path="objects/transitionbackground.ts" />
 
 /// <reference path="states/stage1.ts" />
+/// <reference path="states/stage2.ts" />
 
 //game variables
 var stats: Stats = new Stats();
@@ -26,6 +28,7 @@ var assetLoader: createjs.LoadQueue;
 
 //game objects
 var stage1: states.Stage1;
+var stage2: states.Stage2;
 
 //game states
 var currentState: number;
@@ -40,7 +43,8 @@ var finalHealth: number = 0;
 
 var xPos: number = constants.SCRREN_CENTER_WIDTH;
 var yPos: number = constants.SCRREN_CENTER_HEIGHT;
-var animation: string = "idleDown";
+var animation: string = "idleUp";
+var snakeMove: Boolean = false;
 
 // Game Objects 
 function preload() {
@@ -60,7 +64,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE2_STATE;
     changeState(currentState);
 
 }
@@ -102,6 +106,11 @@ function changeState(state: number) {
             stateChanged = false;
             stage1 = new states.Stage1();
             currentStateFunction = stage1;         
+            break;
+        case constants.STAGE2_STATE://if its play state
+            stateChanged = false;
+            stage2 = new states.Stage2();
+            currentStateFunction = stage2;
             break;
         case constants.GAME_OVER_STATE://if its game over state         
             break;

@@ -4,6 +4,7 @@
         { id: "mine", src: "assets/images/mine.png" },
         { id: "gameBackground1", src: "assets/images/stage1Background.png" },
         { id: "gameWalls1", src: "assets/images/stage1Walls.png" },
+        { id: "gameBackground2", src: "assets/images/stage2Background.png" },
         { id: "tank", src: "assets/images/tank.png" },
         { id: "info", src: "assets/images/infoBar.png" },
         { id: "star", src: "assets/images/star.png" },

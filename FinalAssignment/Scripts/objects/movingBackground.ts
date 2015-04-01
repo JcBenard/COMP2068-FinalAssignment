@@ -11,7 +11,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
-            super(assetLoader.getResult("stageBackground2"));
+            super(managers.Assets.loader.getResult("gameBackground2"));
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
