@@ -17,10 +17,11 @@ var states;
         //constructor///////////////////////////////////////////////////////////////////////
         function Stage2() {
             this.mines = [];
-            //public antiTank: objects.AntiTank[] = [];
             this.ticks = 0;
             this.health = constants.PLAYER_HEALTH;
-            this.tankHealth = 1;
+            this.tankHealth = 10;
+            this.ammo = 2;
+            this.currentWeapon = "punch";
             xPos = 225;
             yPos = constants.SCRREN_CENTER_HEIGHT;
             snakeMove = true;
@@ -33,9 +34,12 @@ var states;
                 this.mines[index] = new objects.Mine();
                 this.game.addChild(this.mines[index]);
             }
-            ////create and add the ration to the game
-            //this.ration = new objects.Ration();
-            //this.game.addChild(this.ration);
+            //create and add the ration to the game
+            this.ration = new objects.Ration();
+            this.game.addChild(this.ration);
+            //create and add the tank to the game
+            this.antiTank = new objects.AntiTank(4);
+            this.game.addChild(this.antiTank);
             //create and add the tank to the game
             this.tank = new objects.Tank();
             this.game.addChild(this.tank);
@@ -66,12 +70,12 @@ var states;
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         };
         //check if two elements collided
-        Stage2.prototype.checkCollision = function (collider) {
+        Stage2.prototype.checkCollision = function (collider, colliding) {
             //make points using the player charater and the selected element
             var p1 = new createjs.Point();
             var p2 = new createjs.Point();
-            p1.x = this.snake.x;
-            p1.y = this.snake.y;
+            p1.x = colliding.x;
+            p1.y = colliding.y;
             p2.x = collider.x;
             p2.y = collider.y;
             //check if the elements have collided using the distance method and if they are
@@ -82,12 +86,18 @@ var states;
                     collider.isColliding = true; //set this varriables to true so they don't trigger collision again
                     collider.y = constants.SCREEN_HEIGHT; //move the element off the stage
                     //if the element that collided was harmful
-                    if (collider.name == "mines" || collider.name == "bullet" || collider.name == "shell") {
+                    if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
                         this.health--; //remove 1 health from the players health variable
                     }
                     else if (collider.name == "ration" && this.health != 3) {
                         //this.game.addChild(this.healthBar[this.health]);//give the player a part of the health bar
                         this.health++; //add 1 to the player's health variable
+                    }
+                    else if (collider.name == "antiTank") {
+                        this.tankHealth--;
+                        if (this.tankHealth % 2 == 0) {
+                            this.ration.reset();
+                        }
                     }
                 }
             }
@@ -102,8 +112,12 @@ var states;
                 this.tankBullet.reset(this.snake.y, this.tank.y); //shoot a bullet
             }
             //if 180 frams have passed and the difficulty is greater then 2
-            if (this.ticks == 180 && this.tankHealth < 4) {
+            if (this.ticks % 180 == 0 && this.tankHealth < 4) {
                 this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
+            }
+            if (useProjectile == true) {
+                this.antiTank.reset();
+                useProjectile = false;
             }
             //update and check collision for the moving elements
             this.snake.update();
@@ -111,16 +125,20 @@ var states;
             this.background.update();
             for (var index = 0; index < constants.MINE_NUM; index++) {
                 this.mines[index].update();
-                this.checkCollision(this.mines[index]);
+                this.checkCollision(this.mines[index], this.snake);
             }
-            //this.ration.update();
-            //this.checkCollision(this.ration);
+            this.ration.update();
+            this.checkCollision(this.ration, this.snake);
             this.tankBullet.update();
-            this.checkCollision(this.tankBullet);
+            this.checkCollision(this.tankBullet, this.snake);
             this.shell.update();
-            this.checkCollision(this.shell);
+            this.checkCollision(this.shell, this.snake);
+            this.antiTank.update();
+            this.checkCollision(this.antiTank, this.tank);
+            if (this.ticks == 1800) {
+            }
             //if the ticker reaches 180 set it to 0
-            if (this.ticks == 180) {
+            if (this.ticks == 1800) {
                 this.ticks = 0;
             }
             //increment the ticker
@@ -133,6 +151,9 @@ var states;
                     break;
                 case constants.KEYCODE_S:
                     yPos += 4;
+                    break;
+                case 32:
+                    useProjectile = true;
                     break;
             }
         };

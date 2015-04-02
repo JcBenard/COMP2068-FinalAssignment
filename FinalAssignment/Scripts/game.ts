@@ -18,6 +18,9 @@
 /// <reference path="objects/mine.ts" />
 /// <reference path="objects/label.ts" />
 /// <reference path="objects/transitionbackground.ts" />
+/// <reference path="objects/bullet.ts" />
+/// <reference path="objects/items.ts" />
+/// <reference path="objects/guard.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -47,6 +50,10 @@ var xPos: number = constants.SCRREN_CENTER_WIDTH;
 var yPos: number = constants.SCRREN_CENTER_HEIGHT;
 var animation: string = "idleUp";
 var snakeMove: Boolean = false;
+var useProjectile: Boolean = false;
+var currentWeapon: string = "punch";
+var haveGun: string = "";
+var direction: string = "";
 
 // Game Objects 
 function preload() {
@@ -66,7 +73,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE2_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 
 }

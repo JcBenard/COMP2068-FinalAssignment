@@ -1,24 +1,29 @@
 ﻿module objects {
 
-    export class AntiTank extends createjs.Bitmap {
-
-        private _dx: number;
+    export class AntiTank extends GameObject {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor(mineNumber: number) {
+        constructor(dx: number) {
 
-            super(assetLoader.getResult("antiTank"));
+            super("antiTank");
 
-            this._dx = 4;
+            this._dx = dx;
+            this._dy = 0;
+            this.soundString = "explosion";
+            this.name = "antiTank";
 
-            this.x = constants.SCREEN_WIDTH + 20;
-            this.y = 10 + (45 * (mineNumber - 1));
+            this.x = 0;
+            this.y = 700;
         }
 
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update() {
             this.x -= this._dx;
+        }
 
+        public reset() {
+            this.x = xPos;
+            this.y = yPos;
         }
     }
 }   

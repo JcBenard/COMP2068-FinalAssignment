@@ -1,6 +1,6 @@
 ﻿module objects {
 
-    export class GameObject extends createjs.Bitmap {
+    export class GameObject extends createjs.Sprite {
         //public instanced variables
         public width: number;
         public height: number;
@@ -15,7 +15,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(assetString:string) {
 
-            super(managers.Assets.loader.getResult(assetString));
+            super(managers.Assets.atlas, assetString);
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;

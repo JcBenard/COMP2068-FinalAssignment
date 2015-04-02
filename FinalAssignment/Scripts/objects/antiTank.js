@@ -9,18 +9,25 @@ var objects;
     var AntiTank = (function (_super) {
         __extends(AntiTank, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function AntiTank(mineNumber) {
-            _super.call(this, assetLoader.getResult("antiTank"));
-            this._dx = 4;
-            this.x = constants.SCREEN_WIDTH + 20;
-            this.y = 10 + (45 * (mineNumber - 1));
+        function AntiTank(dx) {
+            _super.call(this, "antiTank");
+            this._dx = dx;
+            this._dy = 0;
+            this.soundString = "explosion";
+            this.name = "antiTank";
+            this.x = 0;
+            this.y = 700;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         AntiTank.prototype.update = function () {
             this.x -= this._dx;
         };
+        AntiTank.prototype.reset = function () {
+            this.x = xPos;
+            this.y = yPos;
+        };
         return AntiTank;
-    })(createjs.Bitmap);
+    })(objects.GameObject);
     objects.AntiTank = AntiTank;
 })(objects || (objects = {}));
 //# sourceMappingURL=antiTank.js.map

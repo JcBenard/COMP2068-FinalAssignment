@@ -1,35 +1,37 @@
-var __extends = this.__extends || function (d, b) {
-    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
-    function __() { this.constructor = d; }
-    __.prototype = b.prototype;
-    d.prototype = new __();
-};
-var objects;
-(function (objects) {
-    var Bullet = (function (_super) {
-        __extends(Bullet, _super);
+﻿module objects {
+
+    export class Bullet extends GameObject {
+
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function Bullet() {
-            _super.call(this, "bullet");
+        constructor() {
+
+            super("bullet");
+
             this.soundString = "explosion";
             this.name = "bullet";
             this.x = -1000;
             this.y = -1000;
         }
+
         //public methods/////////////////////////////////////////////////////////////////////////////
-        Bullet.prototype.update = function () {
+        public update() {
             this.x += this._dx;
             this.y += this._dy;
+
             if (this.y >= 440) {
                 this.y = 500;
             }
-        };
-        Bullet.prototype.reset = function (playerX, playerY, playerDirection) {
+        }
+
+        public reset(playerX: number, playerY: number, playerDirection: string) {
+
             this.x = playerX;
             this.y = playerY;
+
             this._dx = 0;
             this._dy = 0;
-            switch (playerDirection) {
+
+            switch(playerDirection){
                 case ("Left"):
                     this._dx = -6;
                     break;
@@ -42,10 +44,8 @@ var objects;
                 case ("Down"):
                     this._dy = 6;
                     break;
+                
             }
-        };
-        return Bullet;
-    })(objects.GameObject);
-    objects.Bullet = Bullet;
-})(objects || (objects = {}));
-//# sourceMappingURL=bullet.js.map
+        }
+    }
+}  

@@ -14,7 +14,7 @@ var objects;
             this._dx = 5;
             this._dy = 0;
             this.soundString = "explosion";
-            this.name = "bullet";
+            this.name = "tankBullet";
             this.y = -10;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////

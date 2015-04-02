@@ -86,6 +86,9 @@
     <TypeScriptCompile Include="Scripts\game.ts" />
     <TypeScriptCompile Include="Scripts\managers\assets.ts" />
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
+    <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
+    <TypeScriptCompile Include="Scripts\objects\guard.ts" />
+    <TypeScriptCompile Include="Scripts\objects\items.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />
     <TypeScriptCompile Include="Scripts\objects\tankBullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\mine.ts" />
@@ -101,6 +104,7 @@
     <TypeScriptCompile Include="Scripts\objects\tank.ts" />
     <TypeScriptCompile Include="Scripts\objects\transitionBackground.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
+    <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />
