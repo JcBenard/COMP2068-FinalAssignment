@@ -1,40 +1,33 @@
-﻿/// <reference path="../constants.ts" />
-module objects {
-
-    export class Guard extends createjs.Sprite {
-
-        //instanced variables///////////////////////////////////////////////////////////////////////
-        private _dx: number = 0;
-        private _dy: number = 0;
-        public width: number;
-        public height: number;
-        private numbe: number = 0;
-        private _counter: number = 0;
-        private diffX: number = 0;
-        private diffY: number = 0;
-        private startLocationX: number;
-        private startLocationY: number;
-        private direction: String;
-
+var __extends = this.__extends || function (d, b) {
+    for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
+    function __() { this.constructor = d; }
+    __.prototype = b.prototype;
+    d.prototype = new __();
+};
+/// <reference path="../constants.ts" />
+var objects;
+(function (objects) {
+    var Guard = (function (_super) {
+        __extends(Guard, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor(setX: number, setY: number, direction: String) {
-
-            super(managers.Assets.atlas, "guardMove" + direction);
-
+        function Guard(setX, setY, direction) {
+            _super.call(this, managers.Assets.atlas, "guardMove" + direction);
+            //instanced variables///////////////////////////////////////////////////////////////////////
+            this._dx = 0;
+            this._dy = 0;
+            this.numbe = 0;
+            this._counter = 0;
+            this.diffX = 0;
+            this.diffY = 0;
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
-
             this.regX = this.width * 0.5;
             this.regY = this.height * 0.5;
-
             this.startLocationX = setX;
             this.startLocationY = setY;
-
             this.x = this.startLocationX;
             this.y = this.startLocationY;
-
             this.direction = direction;
-
             switch (this.direction) {
                 case ("Left"):
                     this._dx = -1;
@@ -50,49 +43,55 @@ module objects {
                     break;
             }
         }
-
         //public methods/////////////////////////////////////////////////////////////////////////////
-        public update() {
-
+        Guard.prototype.update = function () {
             if (this.direction == "Left") {
                 if (this.diffX < -400) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveRight");
-                } else if (this.diffX > 0) {
-                    this._dx = - this._dx;
+                }
+                else if (this.diffX > 0) {
+                    this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveLeft");
                 }
-            } else if (this.direction == "Right") {
+            }
+            else if (this.direction == "Right") {
                 if (this.diffX > 400) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveLeft");
-                } else if (this.diffX < 0) {
-                    this._dx = - this._dx;
+                }
+                else if (this.diffX < 0) {
+                    this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveRight");
                 }
-            } else if (this.direction == "Up") {
+            }
+            else if (this.direction == "Up") {
                 if (this.diffY < -400) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveDown");
-                } else if (this.diffY > 0) {
-                    this._dy = - this._dy;
+                }
+                else if (this.diffY > 0) {
+                    this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveUp");
                 }
-            } else if (this.direction == "Down") {
+            }
+            else if (this.direction == "Down") {
                 if (this.diffY > 400) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveUp");
-                } else if (this.diffY < 0) {
-                    this._dy = - this._dy;
+                }
+                else if (this.diffY < 0) {
+                    this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveDown");
                 }
             }
-
             this.diffX += this._dx;
             this.diffY += this._dy;
             this.x = this.startLocationX + xPos + this.diffX;
-            this.y = this.startLocationY + yPos+ this.diffY;
-           
-        }
-    }
-}   
+            this.y = this.startLocationY + yPos + this.diffY;
+        };
+        return Guard;
+    })(createjs.Sprite);
+    objects.Guard = Guard;
+})(objects || (objects = {}));
+//# sourceMappingURL=guard.js.map

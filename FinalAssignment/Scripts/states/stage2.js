@@ -79,7 +79,7 @@ var states;
             p2.x = collider.x;
             p2.y = collider.y;
             //check if the elements have collided using the distance method and if they are
-            if (this.distance(p1, p2) < ((this.snake.width * .5) + (collider.width * .5))) {
+            if (this.distance(p1, p2) < ((colliding.width * .5) + (collider.width * .5))) {
                 //if they aren't already colliding
                 if (!collider.isColliding) {
                     createjs.Sound.play(collider.soundString); //play the sound that would be made on collision

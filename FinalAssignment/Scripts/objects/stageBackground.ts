@@ -17,7 +17,7 @@
             this.height = this.getBounds().height;
 
             this.x = 0;
-            this.y = -this.height * .75 + 40;
+            this.y = -this.height + constants.SCREEN_HEIGHT - 40;
 
             xPos = this.x;
             yPos = this.y;

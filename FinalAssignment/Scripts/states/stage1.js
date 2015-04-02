@@ -8,6 +8,7 @@
 /// <reference path="../objects/snake.ts" />
 /// <reference path="../objects/items.ts" />
 /// <reference path="../objects/bullet.ts" />
+/// <reference path="../objects/guard.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -24,16 +25,18 @@ var states;
             this.game.addChild(this.background);
             this.walls = new objects.StageWalls("1");
             this.game.addChild(this.walls);
+            this.guard = new objects.Guard(500, 1500, "Down");
+            this.game.addChild(this.guard);
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
-            //create and add the bottom info bar to the game
-            this.info = new objects.InfoBar();
-            this.game.addChild(this.info);
-            this.pistol = new objects.Items("pistol", 0, 0);
+            this.pistol = new objects.Items("pistol", 500, 1500);
             this.game.addChild(this.pistol);
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
+            //create and add the bottom info bar to the game
+            this.info = new objects.InfoBar();
+            this.game.addChild(this.info);
             ////create and add the parts of the health bar to the game
             //for (var index2 = 0; index2 < this.health; index2++) {
             //    this.healthBar[index2] = new objects.HealthBar(index2);
@@ -55,24 +58,30 @@ var states;
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         };
         //check if two elements collided
-        Stage1.prototype.checkCollision = function (collider) {
+        Stage1.prototype.checkCollision = function (collider, collide) {
             //make points using the player charater and the selected element
             var p1 = new createjs.Point();
             var p2 = new createjs.Point();
-            p1.x = this.snake.x;
-            p1.y = this.snake.y;
+            p1.x = collide.x;
+            p1.y = collide.y;
             p2.x = collider.x;
             p2.y = collider.y;
             //check if the elements have collided using the distance method and if they are
-            if (this.distance(p1, p2) < ((this.snake.width * .5) + (collider.width * .5))) {
+            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
                 //if they aren't already colliding
                 if (!collider.isColliding) {
                     createjs.Sound.play(collider.soundString); //play the sound that would be made on collision
                     collider.isColliding = true; //set this varriables to true so they don't trigger collision again
-                    collider.y = constants.SCREEN_HEIGHT; //move the element off the stage
                     if (collider.name == "pistol") {
                         currentWeapon = "pistol";
                         haveGun = "Gun";
+                    }
+                    else if (collider.name == "bullet") {
+                        this.game.removeChild(collide);
+                        collider.y = constants.SCREEN_HEIGHT;
+                    }
+                    else if (collider.name == "snake") {
+                        this.game.removeChild(collide);
                     }
                 }
                 else {
@@ -87,6 +96,9 @@ var states;
                     case ("pistol"):
                         this.bullet.reset(this.snake.x, this.snake.y, direction);
                         break;
+                    case ("punch"):
+                        this.checkCollision(this.snake, this.guard);
+                        break;
                 }
                 useProjectile = false;
             }
@@ -95,7 +107,9 @@ var states;
             this.walls.update();
             this.pistol.update();
             this.bullet.update();
-            this.checkCollision(this.pistol);
+            this.guard.update();
+            this.checkCollision(this.pistol, this.snake);
+            this.checkCollision(this.bullet, this.guard);
         }; //end of update
         Stage1.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
@@ -127,6 +141,7 @@ var states;
                         animation = "idle" + direction + haveGun;
                         useProjectile = true;
                     }
+                    useProjectile = true;
                     break;
             }
         };

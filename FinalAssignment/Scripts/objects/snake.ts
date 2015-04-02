@@ -1,20 +1,21 @@
 ﻿/// <reference path="../constants.ts" />
+/// <reference path="gameobject.ts" />
+
 module objects {
 
-    export class Snake extends createjs.Sprite {
+    export class Snake extends GameObject {
 
         //instanced variables///////////////////////////////////////////////////////////////////////
-        private _dx: number = 0;
-        private _dy: number = 0;
-        public width: number;
-        public height: number;
         private numbe: number = 0;
         private _counter: number = 0;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
-            super(managers.Assets.atlas, animation);
+            super(animation);
+
+            this.name = "snake";
+            this.soundString = "explosion";
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
