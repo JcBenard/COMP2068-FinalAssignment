@@ -35,7 +35,7 @@ var states;
                 this.game.addChild(this.mines[index]);
             }
             //create and add the ration to the game
-            this.ration = new objects.Ration();
+            this.ration = new objects.Ration(4);
             this.game.addChild(this.ration);
             //create and add the tank to the game
             this.antiTank = new objects.AntiTank(4);

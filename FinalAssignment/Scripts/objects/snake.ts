@@ -31,9 +31,8 @@ module objects {
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update() {
 
-            if (snakeMove == true) {
-                this.x = xPos;
-                this.y = yPos;
+            if (stop == true) {
+
             }
 
             if (this.currentAnimation != animation) {

@@ -9,6 +9,8 @@
 /// <reference path="../objects/items.ts" />
 /// <reference path="../objects/bullet.ts" />
 /// <reference path="../objects/guard.ts" />
+/// <reference path="../objects/ration.ts" />
+/// <reference path="../objects/tankbackground.ts" />
 
 module states {
     export class Stage1{
@@ -22,6 +24,8 @@ module states {
         public pistol: objects.Items;
         public bullet: objects.Bullet;
         public guard: objects.Guard;
+        public ration: objects.Ration;
+        public tank: objects.TankBackground;
 
         //public healthBar: objects.HealthBar[] = [];
 
@@ -41,14 +45,17 @@ module states {
             this.walls = new objects.StageWalls("1");
             this.game.addChild(this.walls);
 
-            this.guard = new objects.Guard(500, 1500, "Down");
+            this.guard = new objects.Guard(500, 500, "Down");
             this.game.addChild(this.guard);
+
+            this.tank = new objects.TankBackground(500, 500);
+            this.game.addChild(this.tank);
 
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
 
-            this.pistol = new objects.Items("pistol", 500, 1500);
+            this.pistol = new objects.Items("pistol", 500, 500);
             this.game.addChild(this.pistol);
 
             this.bullet = new objects.Bullet();
@@ -58,7 +65,8 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
-            
+            this.ration = new objects.Ration(0);
+            this.game.addChild(this.info);
 
             ////create and add the parts of the health bar to the game
             //for (var index2 = 0; index2 < this.health; index2++) {
@@ -113,6 +121,8 @@ module states {
                         collider.y = constants.SCREEN_HEIGHT;
                     } else if (collider.name == "snake") {
                         this.game.removeChild(collide);
+                        this.ration.x = collide.x;
+                        this.ration.y = collide.y;
                     }
                 } else {//if the elements aren't colliding
                     collider.isColliding = false;//set the variable to false so they can collide again
@@ -122,6 +132,8 @@ module states {
 
         //updates the game based on the elements
         public update() {
+
+            
 
             if (useProjectile == true) {
                 switch (currentWeapon) {
@@ -138,13 +150,15 @@ module states {
             this.snake.update();
             this.background.update();
             this.walls.update();
+
             this.pistol.update();
             this.bullet.update();
             this.guard.update();
+            this.ration.update();
+            this.tank.update(this.snake);
 
             this.checkCollision(this.pistol, this.snake);
             this.checkCollision(this.bullet, this.guard);
-         
 
         }//end of update
 

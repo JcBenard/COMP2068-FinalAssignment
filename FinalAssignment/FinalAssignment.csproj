@@ -85,11 +85,13 @@
     <TypeScriptCompile Include="Scripts\constants.ts" />
     <TypeScriptCompile Include="Scripts\game.ts" />
     <TypeScriptCompile Include="Scripts\managers\assets.ts" />
+    <TypeScriptCompile Include="Scripts\managers\collision.ts" />
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\guard.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />
+    <TypeScriptCompile Include="Scripts\objects\tankBackground.ts" />
     <TypeScriptCompile Include="Scripts\objects\tankBullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\mine.ts" />
     <TypeScriptCompile Include="Scripts\objects\movingBackground.ts" />

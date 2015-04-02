@@ -20,6 +20,7 @@
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
+/// <reference path="objects/tankbackground.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 //game variables
@@ -47,6 +48,7 @@ var useProjectile = false;
 var currentWeapon = "punch";
 var haveGun = "";
 var direction = "";
+var stop = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();

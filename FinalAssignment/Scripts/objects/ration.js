@@ -9,9 +9,9 @@ var objects;
     var Ration = (function (_super) {
         __extends(Ration, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function Ration() {
+        function Ration(dx) {
             _super.call(this, "ration");
-            this._dx = 4;
+            this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ration";
             this.x = 700;

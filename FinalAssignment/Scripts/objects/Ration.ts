@@ -3,11 +3,11 @@
     export class Ration extends GameObject {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor() {
+        constructor(dx: number) {
 
             super("ration");
 
-            this._dx = 4;
+            this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ration";
             this.x = 700;

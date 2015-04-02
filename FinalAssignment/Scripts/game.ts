@@ -21,6 +21,7 @@
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
+/// <reference path="objects/tankbackground.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -54,6 +55,7 @@ var useProjectile: Boolean = false;
 var currentWeapon: string = "punch";
 var haveGun: string = "";
 var direction: string = "";
+var stop: boolean = false;
 
 // Game Objects 
 function preload() {
