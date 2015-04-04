@@ -87,6 +87,7 @@
     <TypeScriptCompile Include="Scripts\managers\assets.ts" />
     <TypeScriptCompile Include="Scripts\managers\collision.ts" />
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
+    <TypeScriptCompile Include="Scripts\objects\boxesVert.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\guard.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />
@@ -105,6 +106,7 @@
     <TypeScriptCompile Include="Scripts\objects\snake.ts" />
     <TypeScriptCompile Include="Scripts\objects\tank.ts" />
     <TypeScriptCompile Include="Scripts\objects\transitionBackground.ts" />
+    <TypeScriptCompile Include="Scripts\objects\worldContainer.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />

@@ -21,8 +21,11 @@
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
 /// <reference path="objects/tankbackground.ts" />
+/// <reference path="objects/worldcontainer.ts" />
+/// <reference path="objects/boxesvert.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
+/// <reference path="states/stage1boss.ts" />
 //game variables
 var stats = new Stats();
 var canvas;
@@ -43,12 +46,16 @@ var finalHealth = 0;
 var xPos = constants.SCRREN_CENTER_WIDTH;
 var yPos = constants.SCRREN_CENTER_HEIGHT;
 var animation = "idleUp";
-var snakeMove = false;
 var useProjectile = false;
 var currentWeapon = "punch";
 var haveGun = "";
 var direction = "";
-var stop = false;
+var dx = 0;
+var dy = 0;
+var collidingLeft = false;
+var collidingBottom = false;
+var collidingTop = false;
+var collidingRight = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();

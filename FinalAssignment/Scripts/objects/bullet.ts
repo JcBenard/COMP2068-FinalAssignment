@@ -46,6 +46,8 @@
                     break;
                 
             }
+
+            console.log("direction: " + playerDirection + " Speed: " + this._dx + ", " + this._dy);
         }
     }
 }  

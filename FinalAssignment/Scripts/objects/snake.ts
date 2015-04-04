@@ -31,8 +31,17 @@ module objects {
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update() {
 
-            if (stop == true) {
-
+            if (collidingBottom == true) {
+                this.y -= dy;
+            }
+            if (collidingRight == true) {
+                this.x -= dx;
+            }
+            if (collidingTop == true) {
+                this.y -= dy;
+            }
+            if (collidingLeft == true) {
+                this.x -= dx;
             }
 
             if (this.currentAnimation != animation) {

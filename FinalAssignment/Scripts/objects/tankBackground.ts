@@ -32,15 +32,6 @@
 
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update(snake) {
-
-            this.x = this.startLocationX + xPos;
-            this.y = this.startLocationY + yPos;
-
-            if (this.x >= snake.x + snake.getBounds().width || this.x + this.width <= snake.x || this.y >= snake.y + snake.getBounds().height || this.y + this.height <= snake.y) {
-                stop = false;
-            } else {
-                stop = true;
-            }
         }
     }
 }    

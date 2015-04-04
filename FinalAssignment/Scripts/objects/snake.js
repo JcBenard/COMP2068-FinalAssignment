@@ -27,7 +27,17 @@ var objects;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {
-            if (stop == true) {
+            if (collidingBottom == true) {
+                this.y -= dy;
+            }
+            if (collidingRight == true) {
+                this.x -= dx;
+            }
+            if (collidingTop == true) {
+                this.y -= dy;
+            }
+            if (collidingLeft == true) {
+                this.x -= dx;
             }
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);

@@ -24,7 +24,6 @@ var states;
             this.currentWeapon = "punch";
             xPos = 225;
             yPos = constants.SCRREN_CENTER_HEIGHT;
-            snakeMove = true;
             animation = "runRight";
             this.game = new createjs.Container();
             //create and add the background to the game

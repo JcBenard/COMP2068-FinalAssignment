@@ -19,7 +19,7 @@ var states;
             this.direction = "";
             this.game = new createjs.Container();
             //create and add the background to the game
-            this.background = new objects.StageBackground("1");
+            this.background = new objects.StageBackground("Boss1");
             this.game.addChild(this.background);
             this.walls = new objects.StageWalls("1");
             this.game.addChild(this.walls);
@@ -135,4 +135,4 @@ var states;
     })();
     states.Stage1Boss = Stage1Boss; //end of play
 })(states || (states = {}));
-//# sourceMappingURL=stage1Boss.js.map
+//# sourceMappingURL=stage1boss.js.map

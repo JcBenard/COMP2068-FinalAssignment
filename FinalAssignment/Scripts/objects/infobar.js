@@ -12,6 +12,7 @@ var objects;
         function InfoBar() {
             _super.call(this, managers.Assets.loader.getResult("info"));
             this.y = 440;
+            this.x = 0;
         }
         return InfoBar;
     })(createjs.Bitmap);

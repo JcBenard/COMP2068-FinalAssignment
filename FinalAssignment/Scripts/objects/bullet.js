@@ -43,6 +43,7 @@ var objects;
                     this._dy = 6;
                     break;
             }
+            console.log("direction: " + playerDirection + " Speed: " + this._dx + ", " + this._dy);
         };
         return Bullet;
     })(objects.GameObject);

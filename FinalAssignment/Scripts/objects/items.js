@@ -20,8 +20,6 @@ var objects;
             this.y = this.startLocationY;
         }
         Items.prototype.update = function () {
-            this.x = this.startLocationX + xPos;
-            this.y = this.startLocationY + yPos;
         };
         return Items;
     })(objects.GameObject);

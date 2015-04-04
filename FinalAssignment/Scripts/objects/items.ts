@@ -23,8 +23,6 @@ module objects {
         }
 
         update() {
-            this.x = this.startLocationX + xPos;
-            this.y = this.startLocationY + yPos;
         }
     }
 }  

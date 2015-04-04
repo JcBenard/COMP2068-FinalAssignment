@@ -29,7 +29,7 @@ module states {
             this.game = new createjs.Container();
 
             //create and add the background to the game
-            this.background = new objects.StageBackground("1");
+            this.background = new objects.StageBackground("Boss1");
             this.game.addChild(this.background);
 
             this.walls = new objects.StageWalls("1");

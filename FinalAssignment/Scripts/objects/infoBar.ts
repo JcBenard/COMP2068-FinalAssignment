@@ -8,6 +8,7 @@
             super(managers.Assets.loader.getResult("info"));
 
             this.y = 440;
+            this.x = 0;
         }
     }
 }   

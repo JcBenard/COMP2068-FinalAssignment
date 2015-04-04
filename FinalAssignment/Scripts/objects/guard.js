@@ -19,6 +19,7 @@ var objects;
             this._counter = 0;
             this.diffX = 0;
             this.diffY = 0;
+            this.name = "guard";
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
             this.regX = this.width * 0.5;
@@ -87,7 +88,7 @@ var objects;
             }
             this.diffX += this._dx;
             this.diffY += this._dy;
-            this.x = this.startLocationX + xPos + this.diffX;
+            this.x += this._dx;
             this.y = this.startLocationY + yPos + this.diffY;
         };
         return Guard;

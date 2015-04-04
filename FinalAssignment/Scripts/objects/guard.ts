@@ -15,6 +15,7 @@ module objects {
         private startLocationX: number;
         private startLocationY: number;
         private direction: String;
+        public name = "guard";
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(setX: number, setY: number, direction: String) {
@@ -90,7 +91,7 @@ module objects {
 
             this.diffX += this._dx;
             this.diffY += this._dy;
-            this.x = this.startLocationX + xPos + this.diffX;
+            this.x += this._dx;
             this.y = this.startLocationY + yPos+ this.diffY;
            
         }

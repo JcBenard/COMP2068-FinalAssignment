@@ -22,9 +22,12 @@
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
 /// <reference path="objects/tankbackground.ts" />
+/// <reference path="objects/worldcontainer.ts" />
+/// <reference path="objects/boxesvert.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
+/// <reference path="states/stage1boss.ts" />
 
 //game variables
 var stats: Stats = new Stats();
@@ -50,12 +53,16 @@ var finalHealth: number = 0;
 var xPos: number = constants.SCRREN_CENTER_WIDTH;
 var yPos: number = constants.SCRREN_CENTER_HEIGHT;
 var animation: string = "idleUp";
-var snakeMove: Boolean = false;
 var useProjectile: Boolean = false;
 var currentWeapon: string = "punch";
 var haveGun: string = "";
 var direction: string = "";
-var stop: boolean = false;
+var dx: number = 0;
+var dy: number = 0;
+var collidingLeft: Boolean = false;
+var collidingBottom: Boolean = false;
+var collidingTop: Boolean = false;
+var collidingRight: Boolean = false;
 
 // Game Objects 
 function preload() {

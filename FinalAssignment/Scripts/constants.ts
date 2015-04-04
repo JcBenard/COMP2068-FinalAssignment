@@ -9,6 +9,7 @@
     export var SCREEN_HEIGHT: number = 480;
     export var SCRREN_CENTER_WIDTH: number = SCREEN_WIDTH * 0.5;
     export var SCRREN_CENTER_HEIGHT: number = SCREEN_HEIGHT * 0.5;
+    export var SCRREN_CENTER_HEIGHT_WITH_BAR: number = (SCREEN_HEIGHT - 40) * 0.5;
 
     //game stats constants
     export var PLAYER_HEALTH: number = 6;
@@ -18,6 +19,7 @@
     export var MENU_STATE: number = 0;
     export var INSTRUCTIONS_STATE: number = 1;
     export var STAGE1_STATE: number = 2;
+    export var STAGE1BOSS_STATE: number = 3;
     export var STAGE2_STATE: number = 4;
     export var GAME_OVER_STATE: number = 3;
     export var WIN_STATE: number = 5;

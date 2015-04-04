@@ -39,7 +39,6 @@ module states {
 
             xPos = 225;
             yPos = constants.SCRREN_CENTER_HEIGHT;
-            snakeMove = true;
             animation = "runRight";
 
             this.game = new createjs.Container();
