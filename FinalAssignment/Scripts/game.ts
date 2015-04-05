@@ -63,10 +63,7 @@ var collidingLeft: Boolean = false;
 var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
-var collidingObjectLeft: Boolean = false;
-var collidingObjectBottom: Boolean = false;
-var collidingObjectTop: Boolean = false;
-var collidingObjectRight: Boolean = false;
+var snakeColl: Boolean = false;
 
 // Game Objects 
 function preload() {

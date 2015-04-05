@@ -56,10 +56,7 @@ var collidingLeft = false;
 var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
-var collidingObjectLeft = false;
-var collidingObjectBottom = false;
-var collidingObjectTop = false;
-var collidingObjectRight = false;
+var snakeColl = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();

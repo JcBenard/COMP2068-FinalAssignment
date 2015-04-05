@@ -47,7 +47,7 @@ var objects;
         //public methods/////////////////////////////////////////////////////////////////////////////
         Guard.prototype.update = function () {
             if (this.direction == "Left") {
-                if (this.diffX < -400) {
+                if (this.diffX < -300) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveRight");
                 }
@@ -57,7 +57,7 @@ var objects;
                 }
             }
             else if (this.direction == "Right") {
-                if (this.diffX > 400) {
+                if (this.diffX > 300) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveLeft");
                 }
@@ -67,7 +67,7 @@ var objects;
                 }
             }
             else if (this.direction == "Up") {
-                if (this.diffY < -400) {
+                if (this.diffY < -300) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveDown");
                 }
@@ -77,7 +77,7 @@ var objects;
                 }
             }
             else if (this.direction == "Down") {
-                if (this.diffY > 400) {
+                if (this.diffY > 300) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveUp");
                 }
@@ -89,7 +89,7 @@ var objects;
             this.diffX += this._dx;
             this.diffY += this._dy;
             this.x += this._dx;
-            this.y = this.startLocationY + yPos + this.diffY;
+            this.y += this._dy;
         };
         return Guard;
     })(createjs.Sprite);

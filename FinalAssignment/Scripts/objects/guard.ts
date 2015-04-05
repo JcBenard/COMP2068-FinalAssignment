@@ -56,7 +56,7 @@ module objects {
         public update() {
 
             if (this.direction == "Left") {
-                if (this.diffX < -400) {
+                if (this.diffX < -300) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveRight");
                 } else if (this.diffX > 0) {
@@ -64,7 +64,7 @@ module objects {
                     this.gotoAndPlay("guardMoveLeft");
                 }
             } else if (this.direction == "Right") {
-                if (this.diffX > 400) {
+                if (this.diffX > 300) {
                     this._dx = -this._dx;
                     this.gotoAndPlay("guardMoveLeft");
                 } else if (this.diffX < 0) {
@@ -72,7 +72,7 @@ module objects {
                     this.gotoAndPlay("guardMoveRight");
                 }
             } else if (this.direction == "Up") {
-                if (this.diffY < -400) {
+                if (this.diffY < -300) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveDown");
                 } else if (this.diffY > 0) {
@@ -80,7 +80,7 @@ module objects {
                     this.gotoAndPlay("guardMoveUp");
                 }
             } else if (this.direction == "Down") {
-                if (this.diffY > 400) {
+                if (this.diffY > 300) {
                     this._dy = -this._dy;
                     this.gotoAndPlay("guardMoveUp");
                 } else if (this.diffY < 0) {
@@ -92,7 +92,7 @@ module objects {
             this.diffX += this._dx;
             this.diffY += this._dy;
             this.x += this._dx;
-            this.y = this.startLocationY + yPos+ this.diffY;
+            this.y += this._dy;
            
         }
     }

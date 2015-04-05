@@ -27,18 +27,27 @@ module states {
         public info: objects.InfoBar;
         public pistol: objects.Items;
         public bullet: objects.Bullet;
-        public guard: objects.Guard;
+        public guards: objects.Guard[] = [];
         public ration: objects.Ration;
-        public tank: objects.BackgroundObjects;
-        public boxes: objects.BackgroundObjects;
-        public boxes2: objects.BackgroundObjects;
+        public tanks: objects.BackgroundObjects[] = [];
+        public verticalBoxes: objects.BackgroundObjects[] = [];
+        public horizontalBoxes: objects.BackgroundObjects[] = [];
+        //public boxes: objects.BackgroundObjects;
+        //public boxes2: objects.BackgroundObjects;
 
         //public healthBar: objects.HealthBar[] = [];
 
-        public difficulty: number = 1;
-        public score: number = 0;
-        public ticks = 0;
-        public health = constants.PLAYER_HEALTH;
+        private health = constants.PLAYER_HEALTH;
+
+        private tankX: number[] = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
+        private tankY: number[] = [-161, -161, -100, -100, -865, - 685, -865, - 685, -865, - 685];
+        private vBoxesX: number[] = [-200, 260, 760, 1260];
+        private vBoxesY: number[] = [-821, -821, -821, -821];
+        private hBoxesX: number[] = [-120, 640];
+        private hBoxesY: number[] = [-380, -460];
+        private guardX: number[] = [680, 1180, ];
+        private guardY: number[] = [-135, 145,];
+        private guardDirection: string[] = ["Down", "Up", ];
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -52,17 +61,25 @@ module states {
             this.walls = new objects.StageWalls("1");
             this.world.addChild(this.walls);
 
-            this.guard = new objects.Guard(200, -600, "Down");
-            this.world.addChild(this.guard);
+            for (var index = 0; index < this.tankX.length; index++) {
+                this.tanks[index] = new objects.BackgroundObjects(this.tankX[index], this.tankY[index], "stationTank");
+                this.world.addChild(this.tanks[index]);
+            }
 
-            this.boxes = new objects.BackgroundObjects(200, -300,"boxesV");
-            this.world.addChild(this.boxes);
+            for (var index = 0; index < this.vBoxesX.length; index++) {
+                this.verticalBoxes[index] = new objects.BackgroundObjects(this.vBoxesX[index], this.vBoxesY[index], "boxesV");
+                this.world.addChild(this.verticalBoxes[index]);
+            }
 
-            this.boxes2 = new objects.BackgroundObjects(-200, -300, "boxesH");
-            this.world.addChild(this.boxes2);
-
-            this.tank = new objects.BackgroundObjects(0, -600, "stationTank");
-            this.world.addChild(this.tank);
+            for (var index = 0; index < this.hBoxesX.length; index++) {
+                this.horizontalBoxes[index] = new objects.BackgroundObjects(this.hBoxesX[index], this.hBoxesY[index], "boxesH");
+                this.world.addChild(this.horizontalBoxes[index]);
+            }
+         
+            for (var index = 0; index < this.hBoxesX.length; index++) {
+                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
+                this.world.addChild(this.guards[index]);
+            }
 
             //create and add th player to the game
             this.snake = new objects.Snake();
@@ -71,7 +88,7 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
-            this.pistol = new objects.Items("pistol", 200, -200);
+            this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
 
             this.bullet = new objects.Bullet();
@@ -105,46 +122,6 @@ module states {
         }//end of constructor
 
         //public methods//////////////////////////////////////////////////////////////////////////////////
-        //calculate the distance between two points
-        public distance(p1: createjs.Point, p2: createjs.Point): number {
-
-            return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-        }
-
-        //check if two elements collided
-        public checkCollision(collider: objects.GameObject, collide) {
-            //make points using the player charater and the selected element
-            var p1: createjs.Point = new createjs.Point();
-            var p2: createjs.Point = new createjs.Point();
-
-            p1 = collide.globalToLocal(collide.x, collide.y);
-            //console.log(p1.x + " " + p1.y + " Collidie");
-            p2 = collider.globalToLocal(collider.x, collider.y);
-            //console.log(p2.x + " " + p2.y + " Collider");
-
-            //check if the elements have collided using the distance method and if they are
-            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
-                //if they aren't already colliding
-                if (!collider.isColliding) {
-                    createjs.Sound.play(collider.soundString);//play the sound that would be made on collision
-                    collider.isColliding = true;//set this varriables to true so they don't trigger collision again
-
-                    if (collider.name == "pistol") {
-                        currentWeapon = "pistol";
-                        haveGun = "Gun";
-                    } else if (collider.name == "bullet") {
-                        this.game.removeChild(collide);
-                        collider.y = constants.SCREEN_HEIGHT;
-                    } else if (collider.name == "snake") {
-                        this.game.removeChild(collide);
-                        this.ration.x = collide.x;
-                        this.ration.y = collide.y;
-                    }
-                } else {//if the elements aren't colliding
-                    collider.isColliding = false;//set the variable to false so they can collide again
-                }
-            }
-        }//end of collider
 
         //updates the game based on the elements
         public update() {
@@ -155,22 +132,36 @@ module states {
                         this.bullet.reset(this.snake.x, this.snake.y, direction);
                         break;
                     case ("punch"):
-                        this.playerObjectsCollision(this.snake, this.guard);
+                        for (var index = 0; index < this.guards.length; index++) {
+                            this.playerObjectsCollision(this.snake, this.guards[index]);
+                        }
                         break;
                 }
                 useProjectile = false;
             }
 
-            this.guard.update();
             this.snake.update();
             this.bullet.update();
             this.world.update();
-            this.boxes.update(this.snake, this.world);
-            this.boxes2.update(this.snake, this.world);
-            this.tank.update(this.snake, this.world);
+            
+            for (var index = 0; index < this.tanks.length; index++) {
+                this.tanks[index].update(this.snake, this.world);
+            }
 
-            this.objectsCollision(this.pistol, this.snake);
-            this.playerObjectsCollision(this.bullet, this.guard);
+            for (var index = 0; index < this.verticalBoxes.length; index++) {
+                this.verticalBoxes[index].update(this.snake, this.world);
+            }
+
+            for (var index = 0; index < this.horizontalBoxes.length; index++) {
+                this.horizontalBoxes[index].update(this.snake, this.world);
+            }
+
+            for (var index = 0; index < this.guards.length; index++) {
+                this.guards[index].update();
+                this.playerObjectsCollision(this.bullet, this.guards[index]);
+            }
+
+            this.objectsCollision(this.pistol, this.snake);           
             this.wallCollision();
 
             ////console.log(this.snake.globalToLocal(this.pistol.x, this.pistol.y));
@@ -220,29 +211,33 @@ module states {
         }
 
         public wallCollision() {
-            if (this.world.x >= constants.SCRREN_CENTER_WIDTH || this.snake.x < constants.SCRREN_CENTER_WIDTH - 3) {
+            if (this.world.x >= constants.SCRREN_CENTER_WIDTH || this.snake.x < constants.SCRREN_CENTER_WIDTH - 5) {
                 collidingLeft = true;
                 this.world.x = constants.SCRREN_CENTER_WIDTH;
+                snakeColl = true;
             } else {
                 collidingLeft = false;
             }
 
-            if (this.world.y <= constants.SCRREN_CENTER_HEIGHT || this.snake.y > constants.SCRREN_CENTER_HEIGHT + 3) {
+            if (this.world.y <= constants.SCRREN_CENTER_HEIGHT || this.snake.y > constants.SCRREN_CENTER_HEIGHT + 5) {
                 collidingBottom = true;
+                snakeColl = true;
                 this.world.y = constants.SCRREN_CENTER_HEIGHT
             } else {
                 collidingBottom = false;
             }
 
-            if (this.world.x <= -870 || this.snake.x > constants.SCRREN_CENTER_WIDTH + 3) {
+            if (this.world.x <= -870 || this.snake.x > constants.SCRREN_CENTER_WIDTH + 5) {
                 collidingRight = true;
+                snakeColl = true;
                 this.world.x = -870;
             } else {
                 collidingRight = false;
             }
 
-            if (this.world.y >= 1085 || this.snake.y < constants.SCRREN_CENTER_HEIGHT - 3) {
+            if (this.world.y >= 1085 || this.snake.y < constants.SCRREN_CENTER_HEIGHT - 5) {
                 collidingTop = true;
+                snakeColl = true;
                 this.world.y = 1085;
             } else {
                 collidingTop = false;

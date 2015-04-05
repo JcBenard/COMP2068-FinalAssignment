@@ -20,8 +20,6 @@ var objects;
             this.soundString = "explosion";
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = constants.SCRREN_CENTER_HEIGHT;
-            this.regX = 0;
-            this.regY = 0;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {

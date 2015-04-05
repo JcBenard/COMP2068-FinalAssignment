@@ -18,10 +18,7 @@ module objects {
             this.soundString = "explosion";
 
             this.x = constants.SCRREN_CENTER_WIDTH;  
-            this.y = constants.SCRREN_CENTER_HEIGHT;    
-            
-            this.regX = 0;
-            this.regY = 0;           
+            this.y = constants.SCRREN_CENTER_HEIGHT;          
             
         }
 
@@ -40,6 +37,7 @@ module objects {
             if (collidingLeft == true) {
                 this.x -= dx;
             }
+
 
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);

@@ -11,32 +11,36 @@ var objects;
         //constructor////////////////////////////////////////////////////////////////////////////////
         function BackgroundObjects(xLocation, yLocation, objectType) {
             _super.call(this, managers.Assets.loader.getResult(objectType));
-            //instanced variables///////////////////////////////////////////////////////////////////////
-            this._dx = 0;
-            this._dy = 0;
-            this.numbe = 0;
-            this._counter = 0;
-            this.diffX = 0;
-            this.diffY = 0;
             this.height = this.getBounds().height;
             this.width = this.getBounds().width;
             this.x = xLocation;
             this.y = yLocation;
             this.collisionBox = new createjs.Shape();
-            this.collisionBox.graphics.drawRect(0, 0, this.width - 40, this.height - 40);
+            this.collisionBox.graphics.drawRect(0, 0, this.width - 20, this.height - 40);
             this.boxHeight = this.height - 40;
             this.boxWidth = this.width - 20;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         BackgroundObjects.prototype.update = function (player, world) {
-            var pt = this.globalToLocal(player.x, player.y);
-            if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + player.width <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + player.height <= this.collisionBox.y) {
-                this.worldX = world.x;
-                this.worldY = world.y;
+            var tempPlayer = player;
+            tempPlayer.regX = 0;
+            tempPlayer.regY = 0;
+            var pt = this.globalToLocal(tempPlayer.x, tempPlayer.y);
+            if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + tempPlayer.width <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + tempPlayer.height <= this.collisionBox.y) {
             }
             else {
-                world.x = this.worldX;
-                world.y = this.worldY;
+                if (collidingBottom == true || collidingTop == true) {
+                    player.y += dy;
+                }
+                else {
+                    world.y -= dy;
+                }
+                if (collidingRight == true || collidingLeft == true) {
+                    player.x += dx;
+                }
+                else {
+                    world.x -= dx;
+                }
             }
         };
         return BackgroundObjects;
