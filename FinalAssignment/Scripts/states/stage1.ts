@@ -13,6 +13,7 @@
 /// <reference path="../objects/tankbackground.ts" />
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
+/// <reference path="../objects/wallshapes.ts" />
 
 
 module states {
@@ -32,8 +33,7 @@ module states {
         public tanks: objects.BackgroundObjects[] = [];
         public verticalBoxes: objects.BackgroundObjects[] = [];
         public horizontalBoxes: objects.BackgroundObjects[] = [];
-        //public boxes: objects.BackgroundObjects;
-        //public boxes2: objects.BackgroundObjects;
+        public wallCollisionShapes: objects.WallShapes[] = [];
 
         //public healthBar: objects.HealthBar[] = [];
 
@@ -45,9 +45,13 @@ module states {
         private vBoxesY: number[] = [-821, -821, -821, -821];
         private hBoxesX: number[] = [-120, 640];
         private hBoxesY: number[] = [-380, -460];
-        private guardX: number[] = [680, 1180, ];
-        private guardY: number[] = [-135, 145,];
-        private guardDirection: string[] = ["Down", "Up", ];
+        private guardX: number[] = [680, 1180, 275, -220, -120, -85, 195, 900, 1190, 480, 545, 550];
+        private guardY: number[] = [-155, 135, -335, -35, -455, -535, -855, -545, -860, -930, -930, -495];
+        private guardDirection: string[] = ["Down", "Up", "Down", "Up", "Right", "Up", "Down", "Up", "Down", "Left", "Right", "Right"];
+        private wallX: number[] = [390, 605];
+        private wallY: number[] = [-320, -320];
+        private wallHeight: number[] = [395, 105];
+        private wallWidth: number[] = [215, 920];
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -76,9 +80,14 @@ module states {
                 this.world.addChild(this.horizontalBoxes[index]);
             }
          
-            for (var index = 0; index < this.hBoxesX.length; index++) {
+            for (var index = 0; index < this.guardX.length; index++) {
                 this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
                 this.world.addChild(this.guards[index]);
+            }
+
+            for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
+                this.world.addChild(this.wallCollisionShapes[index]);
             }
 
             //create and add th player to the game
@@ -159,6 +168,10 @@ module states {
             for (var index = 0; index < this.guards.length; index++) {
                 this.guards[index].update();
                 this.playerObjectsCollision(this.bullet, this.guards[index]);
+            }
+
+            for (var index = 0; index < this.wallCollisionShapes.length; index++) {
+                this.wallCollisionShapes[index].update(this.snake, this.world);
             }
 
             this.objectsCollision(this.pistol, this.snake);           

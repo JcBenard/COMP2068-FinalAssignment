@@ -23,6 +23,7 @@
 /// <reference path="objects/tankbackground.ts" />
 /// <reference path="objects/worldcontainer.ts" />
 /// <reference path="objects/backgroundobjects.ts" />
+/// <reference path="objects/wallshapes.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />

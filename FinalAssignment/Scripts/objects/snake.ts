@@ -25,19 +25,12 @@ module objects {
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update() {
 
-            if (collidingBottom == true) {
+            if (collidingBottom == true || collidingTop == true) {
                 this.y -= dy;
             }
-            if (collidingRight == true) {
+            if (collidingRight == true || collidingLeft == true) {
                 this.x -= dx;
             }
-            if (collidingTop == true) {
-                this.y -= dy;
-            }
-            if (collidingLeft == true) {
-                this.x -= dx;
-            }
-
 
             if (this.currentAnimation != animation) {
                 this.gotoAndPlay(animation);

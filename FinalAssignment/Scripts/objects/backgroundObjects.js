@@ -16,17 +16,14 @@ var objects;
             this.x = xLocation;
             this.y = yLocation;
             this.collisionBox = new createjs.Shape();
-            this.collisionBox.graphics.drawRect(0, 0, this.width - 20, this.height - 40);
-            this.boxHeight = this.height - 40;
-            this.boxWidth = this.width - 20;
+            this.collisionBox.graphics.drawRect(0, 0, this.width - 10, this.height - 30);
+            this.boxHeight = this.height - 30;
+            this.boxWidth = this.width - 10;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         BackgroundObjects.prototype.update = function (player, world) {
-            var tempPlayer = player;
-            tempPlayer.regX = 0;
-            tempPlayer.regY = 0;
-            var pt = this.globalToLocal(tempPlayer.x, tempPlayer.y);
-            if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + tempPlayer.width <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + tempPlayer.height <= this.collisionBox.y) {
+            var pt = this.globalToLocal(player.x, player.y);
+            if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + player.width * .5 <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + player.height * .5 <= this.collisionBox.y) {
             }
             else {
                 if (collidingBottom == true || collidingTop == true) {

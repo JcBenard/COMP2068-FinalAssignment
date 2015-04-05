@@ -13,6 +13,7 @@
 /// <reference path="../objects/tankbackground.ts" />
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
+/// <reference path="../objects/wallshapes.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -22,8 +23,7 @@ var states;
             this.tanks = [];
             this.verticalBoxes = [];
             this.horizontalBoxes = [];
-            //public boxes: objects.BackgroundObjects;
-            //public boxes2: objects.BackgroundObjects;
+            this.wallCollisionShapes = [];
             //public healthBar: objects.HealthBar[] = [];
             this.health = constants.PLAYER_HEALTH;
             this.tankX = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
@@ -32,9 +32,13 @@ var states;
             this.vBoxesY = [-821, -821, -821, -821];
             this.hBoxesX = [-120, 640];
             this.hBoxesY = [-380, -460];
-            this.guardX = [680, 1180,];
-            this.guardY = [-146, 145,];
-            this.guardDirection = ["Down", "Up",];
+            this.guardX = [680, 1180, 275, -220, -120, -85, 195, 900, 1190, 480, 545, 550];
+            this.guardY = [-155, 135, -335, -35, -455, -535, -855, -545, -860, -930, -930, -495];
+            this.guardDirection = ["Down", "Up", "Down", "Up", "Right", "Up", "Down", "Up", "Down", "Left", "Right", "Right"];
+            this.wallX = [390, 605];
+            this.wallY = [-320, -320];
+            this.wallHeight = [395, 105];
+            this.wallWidth = [215, 920];
             this.game = new createjs.Container();
             this.world = new objects.WorldContainer();
             //create and add the background to the game
@@ -54,9 +58,13 @@ var states;
                 this.horizontalBoxes[index] = new objects.BackgroundObjects(this.hBoxesX[index], this.hBoxesY[index], "boxesH");
                 this.world.addChild(this.horizontalBoxes[index]);
             }
-            for (var index = 0; index < this.hBoxesX.length; index++) {
+            for (var index = 0; index < this.guardX.length; index++) {
                 this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
                 this.world.addChild(this.guards[index]);
+            }
+            for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
+                this.world.addChild(this.wallCollisionShapes[index]);
             }
             //create and add th player to the game
             this.snake = new objects.Snake();
@@ -117,6 +125,9 @@ var states;
             for (var index = 0; index < this.guards.length; index++) {
                 this.guards[index].update();
                 this.playerObjectsCollision(this.bullet, this.guards[index]);
+            }
+            for (var index = 0; index < this.wallCollisionShapes.length; index++) {
+                this.wallCollisionShapes[index].update(this.snake, this.world);
             }
             this.objectsCollision(this.pistol, this.snake);
             this.wallCollision();

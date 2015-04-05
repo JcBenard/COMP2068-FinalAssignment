@@ -23,16 +23,10 @@ var objects;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {
-            if (collidingBottom == true) {
+            if (collidingBottom == true || collidingTop == true) {
                 this.y -= dy;
             }
-            if (collidingRight == true) {
-                this.x -= dx;
-            }
-            if (collidingTop == true) {
-                this.y -= dy;
-            }
-            if (collidingLeft == true) {
+            if (collidingRight == true || collidingLeft == true) {
                 this.x -= dx;
             }
             if (this.currentAnimation != animation) {

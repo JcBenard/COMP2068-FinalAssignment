@@ -106,6 +106,7 @@
     <TypeScriptCompile Include="Scripts\objects\snake.ts" />
     <TypeScriptCompile Include="Scripts\objects\tank.ts" />
     <TypeScriptCompile Include="Scripts\objects\transitionBackground.ts" />
+    <TypeScriptCompile Include="Scripts\objects\wallShapes.ts" />
     <TypeScriptCompile Include="Scripts\objects\worldContainer.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
