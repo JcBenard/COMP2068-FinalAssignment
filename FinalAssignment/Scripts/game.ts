@@ -23,7 +23,7 @@
 /// <reference path="objects/guard.ts" />
 /// <reference path="objects/tankbackground.ts" />
 /// <reference path="objects/worldcontainer.ts" />
-/// <reference path="objects/boxesvert.ts" />
+/// <reference path="objects/backgroundobjects.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -63,6 +63,10 @@ var collidingLeft: Boolean = false;
 var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
+var collidingObjectLeft: Boolean = false;
+var collidingObjectBottom: Boolean = false;
+var collidingObjectTop: Boolean = false;
+var collidingObjectRight: Boolean = false;
 
 // Game Objects 
 function preload() {

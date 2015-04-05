@@ -87,7 +87,7 @@
     <TypeScriptCompile Include="Scripts\managers\assets.ts" />
     <TypeScriptCompile Include="Scripts\managers\collision.ts" />
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
-    <TypeScriptCompile Include="Scripts\objects\boxesVert.ts" />
+    <TypeScriptCompile Include="Scripts\objects\backgroundObjects.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\guard.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />

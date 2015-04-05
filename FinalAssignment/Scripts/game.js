@@ -22,7 +22,7 @@
 /// <reference path="objects/guard.ts" />
 /// <reference path="objects/tankbackground.ts" />
 /// <reference path="objects/worldcontainer.ts" />
-/// <reference path="objects/boxesvert.ts" />
+/// <reference path="objects/backgroundobjects.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -56,6 +56,10 @@ var collidingLeft = false;
 var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
+var collidingObjectLeft = false;
+var collidingObjectBottom = false;
+var collidingObjectTop = false;
+var collidingObjectRight = false;
 // Game Objects 
 function preload() {
     managers.Assets.init();

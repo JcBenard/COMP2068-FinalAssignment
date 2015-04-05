@@ -12,7 +12,7 @@
 /// <reference path="../objects/ration.ts" />
 /// <reference path="../objects/tankbackground.ts" />
 /// <reference path="../objects/worldcontainer.ts" />
-/// <reference path="../objects/boxesvert.ts" />
+/// <reference path="../objects/backgroundobjects.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -32,8 +32,12 @@ var states;
             this.world.addChild(this.walls);
             this.guard = new objects.Guard(200, -600, "Down");
             this.world.addChild(this.guard);
-            this.boxes = new objects.BoxesVert(200, -100);
+            this.boxes = new objects.BackgroundObjects(200, -300, "boxesV");
             this.world.addChild(this.boxes);
+            this.boxes2 = new objects.BackgroundObjects(-200, -300, "boxesH");
+            this.world.addChild(this.boxes2);
+            this.tank = new objects.BackgroundObjects(0, -600, "stationTank");
+            this.world.addChild(this.tank);
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
@@ -118,7 +122,9 @@ var states;
             this.snake.update();
             this.bullet.update();
             this.world.update();
-            this.boxes.update(this.snake);
+            this.boxes.update(this.snake, this.world);
+            this.boxes2.update(this.snake, this.world);
+            this.tank.update(this.snake, this.world);
             this.objectsCollision(this.pistol, this.snake);
             this.playerObjectsCollision(this.bullet, this.guard);
             this.wallCollision();

@@ -18,12 +18,10 @@ var objects;
             this._counter = 0;
             this.name = "snake";
             this.soundString = "explosion";
-            this.width = this.getBounds().width;
-            this.height = this.getBounds().height;
-            this.regX = this.width * 0.5;
-            this.regY = this.height * 0.5;
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = constants.SCRREN_CENTER_HEIGHT;
+            this.regX = 0;
+            this.regY = 0;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {

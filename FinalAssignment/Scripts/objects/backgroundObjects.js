@@ -6,11 +6,11 @@ var __extends = this.__extends || function (d, b) {
 };
 var objects;
 (function (objects) {
-    var BoxesVert = (function (_super) {
-        __extends(BoxesVert, _super);
+    var BackgroundObjects = (function (_super) {
+        __extends(BackgroundObjects, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function BoxesVert(xLocation, yLocation) {
-            _super.call(this, managers.Assets.loader.getResult("boxesV"));
+        function BackgroundObjects(xLocation, yLocation, objectType) {
+            _super.call(this, managers.Assets.loader.getResult(objectType));
             //instanced variables///////////////////////////////////////////////////////////////////////
             this._dx = 0;
             this._dy = 0;
@@ -28,7 +28,7 @@ var objects;
             this.boxWidth = this.width - 20;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
-        BoxesVert.prototype.update = function (player, world) {
+        BackgroundObjects.prototype.update = function (player, world) {
             var pt = this.globalToLocal(player.x, player.y);
             if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + player.width <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + player.height <= this.collisionBox.y) {
                 this.worldX = world.x;
@@ -39,8 +39,8 @@ var objects;
                 world.y = this.worldY;
             }
         };
-        return BoxesVert;
+        return BackgroundObjects;
     })(createjs.Bitmap);
-    objects.BoxesVert = BoxesVert;
+    objects.BackgroundObjects = BackgroundObjects;
 })(objects || (objects = {}));
-//# sourceMappingURL=boxesvert.js.map
+//# sourceMappingURL=backgroundobjects.js.map
