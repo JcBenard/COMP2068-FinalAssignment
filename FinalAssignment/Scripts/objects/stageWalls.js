@@ -15,8 +15,12 @@ var objects;
             this._dx = 4;
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
-            this.x = -constants.SCRREN_CENTER_WIDTH;
-            this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
+            if (stageNumber == "1Boss") {
+            }
+            else {
+                this.x = -constants.SCRREN_CENTER_WIDTH;
+                this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
+            }
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         StageWalls.prototype.update = function () {

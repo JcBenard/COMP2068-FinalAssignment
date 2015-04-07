@@ -13,8 +13,8 @@ var objects;
             _super.call(this, "bullet");
             this.soundString = "explosion";
             this.name = "bullet";
-            this.x = -1000;
-            this.y = -1000;
+            this.x = -10000;
+            this.y = 10000;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Bullet.prototype.update = function () {
@@ -24,9 +24,9 @@ var objects;
                 this.y = 500;
             }
         };
-        Bullet.prototype.reset = function (playerX, playerY, playerDirection) {
-            this.x = playerX;
-            this.y = playerY;
+        Bullet.prototype.reset = function (player, playerDirection) {
+            this.x = player.x;
+            this.y = player.y;
             this._dx = 0;
             this._dy = 0;
             switch (playerDirection) {

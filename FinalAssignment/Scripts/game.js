@@ -21,11 +21,11 @@
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
-/// <reference path="objects/tankbackground.ts" />
 /// <reference path="objects/worldcontainer.ts" />
 /// <reference path="objects/backgroundobjects.ts" />
 /// <reference path="objects/wallshapes.ts" />
 /// <reference path="objects/ammobox.ts" />
+/// <reference path="objects/gunner.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -36,6 +36,7 @@ var stage;
 var assetLoader;
 //game objects
 var stage1;
+var stage1Boss;
 var stage2;
 //game states
 var currentState;
@@ -48,7 +49,7 @@ var finalAvaterY = 0;
 var finalHealth = 0;
 var animation = "idleUp";
 var useProjectile = false;
-var currentWeapon = "punch";
+var currentWeapon = "pistol";
 var haveGun = "";
 var direction = "";
 var dx = 0;
@@ -74,7 +75,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE1BOSS_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -107,6 +108,11 @@ function changeState(state) {
             stateChanged = false;
             stage1 = new states.Stage1();
             currentStateFunction = stage1;
+            break;
+        case constants.STAGE1BOSS_STATE:
+            stateChanged = false;
+            stage1Boss = new states.Stage1Boss();
+            currentStateFunction = stage1Boss;
             break;
         case constants.STAGE2_STATE:
             stateChanged = false;

@@ -13,6 +13,7 @@ var objects;
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = constants.SCRREN_CENTER_HEIGHT;
         }
+        //updates the postion of the world container bases on the current x and y movements
         WorldContainer.prototype.update = function () {
             this.x += dx;
             this.y += dy;

@@ -22,11 +22,11 @@
 /// <reference path="objects/bullet.ts" />
 /// <reference path="objects/items.ts" />
 /// <reference path="objects/guard.ts" />
-/// <reference path="objects/tankbackground.ts" />
 /// <reference path="objects/worldcontainer.ts" />
 /// <reference path="objects/backgroundobjects.ts" />
 /// <reference path="objects/wallshapes.ts" />
 /// <reference path="objects/ammobox.ts" />
+/// <reference path="objects/gunner.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -40,6 +40,7 @@ var assetLoader: createjs.LoadQueue;
 
 //game objects
 var stage1: states.Stage1;
+var stage1Boss: states.Stage1Boss;
 var stage2: states.Stage2;
 
 //game states
@@ -55,7 +56,7 @@ var finalHealth: number = 0;
 
 var animation: string = "idleUp";
 var useProjectile: Boolean = false;
-var currentWeapon: string = "punch";
+var currentWeapon: string = "pistol";
 var haveGun: string = "";
 var direction: string = "";
 var dx: number = 0;
@@ -85,7 +86,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE1BOSS_STATE;
     changeState(currentState);
 
 }
@@ -127,6 +128,11 @@ function changeState(state: number) {
             stateChanged = false;
             stage1 = new states.Stage1();
             currentStateFunction = stage1;         
+            break;
+        case constants.STAGE1BOSS_STATE:
+            stateChanged = false;
+            stage1Boss = new states.Stage1Boss();
+            currentStateFunction = stage1Boss;
             break;
         case constants.STAGE2_STATE://if its play state
             stateChanged = false;

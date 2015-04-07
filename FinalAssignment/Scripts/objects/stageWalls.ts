@@ -9,15 +9,18 @@
         private _dx = 4;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor(stageNumber: string) {
+        constructor(stageNumber: string ) {
 
             super(managers.Assets.loader.getResult("gameWalls" + stageNumber));
 
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
-            this.x = -constants.SCRREN_CENTER_WIDTH;
-            this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
+            if (stageNumber == "1Boss") {
+            } else {
+                this.x = -constants.SCRREN_CENTER_WIDTH;
+                this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
+            }
 
         }
 

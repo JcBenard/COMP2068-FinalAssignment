@@ -9,8 +9,8 @@
 
             this.soundString = "explosion";
             this.name = "bullet";
-            this.x = -1000;
-            this.y = -1000;
+            this.x = -10000;
+            this.y = 10000;
         }
 
         //public methods/////////////////////////////////////////////////////////////////////////////
@@ -23,10 +23,10 @@
             }
         }
 
-        public reset(playerX: number, playerY: number, playerDirection: string) {
+        public reset(player , playerDirection: string) {
 
-            this.x = playerX;
-            this.y = playerY;
+            this.x = player.x;
+            this.y = player.y;
 
             this._dx = 0;
             this._dy = 0;

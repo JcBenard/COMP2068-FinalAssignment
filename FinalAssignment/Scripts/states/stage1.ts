@@ -10,7 +10,6 @@
 /// <reference path="../objects/bullet.ts" />
 /// <reference path="../objects/guard.ts" />
 /// <reference path="../objects/ration.ts" />
-/// <reference path="../objects/tankbackground.ts" />
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
@@ -153,7 +152,7 @@ module states {
                 //check what weapon the player is using and do what's in the case
                 switch (currentWeapon) {
                     case ("pistol"):
-                        this.bullet.reset(this.snake.x, this.snake.y, direction);
+                        this.bullet.reset(this.snake, direction);
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {

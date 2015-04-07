@@ -10,7 +10,6 @@
 /// <reference path="../objects/bullet.ts" />
 /// <reference path="../objects/guard.ts" />
 /// <reference path="../objects/ration.ts" />
-/// <reference path="../objects/tankbackground.ts" />
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
@@ -109,7 +108,7 @@ var states;
             if (useProjectile == true) {
                 switch (currentWeapon) {
                     case ("pistol"):
-                        this.bullet.reset(this.snake.x, this.snake.y, direction);
+                        this.bullet.reset(this.snake, direction);
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
