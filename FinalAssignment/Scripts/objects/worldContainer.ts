@@ -9,6 +9,7 @@
             this.y = constants.SCRREN_CENTER_HEIGHT;
         }
 
+        //updates the postion of the world container bases on the current x and y movements
         update() {
             this.x += dx;
             this.y += dy;

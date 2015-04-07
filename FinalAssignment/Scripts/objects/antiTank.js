@@ -22,9 +22,9 @@ var objects;
         AntiTank.prototype.update = function () {
             this.x -= this._dx;
         };
-        AntiTank.prototype.reset = function () {
-            this.x = xPos;
-            this.y = yPos;
+        AntiTank.prototype.reset = function (player) {
+            this.x = player.x;
+            this.y = player.x;
         };
         return AntiTank;
     })(objects.GameObject);

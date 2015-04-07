@@ -4,6 +4,7 @@
 /// <reference path="typings/soundjs/soundjs.d.ts" />
 /// <reference path="typings/preloadjs/preloadjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
+/// <reference path="managers/collision.ts" />
 /// <reference path="managers/assets.ts" />
 /// <reference path="constants.ts" />
 /// <reference path="objects/movingbackground.ts" />
@@ -24,6 +25,7 @@
 /// <reference path="objects/worldcontainer.ts" />
 /// <reference path="objects/backgroundobjects.ts" />
 /// <reference path="objects/wallshapes.ts" />
+/// <reference path="objects/ammobox.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -44,8 +46,6 @@ var finalScore = 0;
 var finalDifficulty = 1;
 var finalAvaterY = 0;
 var finalHealth = 0;
-var xPos = constants.SCRREN_CENTER_WIDTH;
-var yPos = constants.SCRREN_CENTER_HEIGHT;
 var animation = "idleUp";
 var useProjectile = false;
 var currentWeapon = "punch";
@@ -58,6 +58,7 @@ var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
 var snakeColl = false;
+var ammo = [0, 0, 0, 0];
 // Game Objects 
 function preload() {
     managers.Assets.init();

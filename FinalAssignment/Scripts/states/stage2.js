@@ -11,6 +11,7 @@
 /// <reference path="../objects/shell.ts" />
 /// <reference path="../objects/snake.ts" />
 /// <reference path="../objects/tank.ts" />
+/// <reference path="../objects/ammobox.ts" />
 var states;
 (function (states) {
     var Stage2 = (function () {
@@ -20,11 +21,9 @@ var states;
             this.ticks = 0;
             this.health = constants.PLAYER_HEALTH;
             this.tankHealth = 10;
-            this.ammo = 2;
             this.currentWeapon = "punch";
-            xPos = 225;
-            yPos = constants.SCRREN_CENTER_HEIGHT;
             animation = "runRight";
+            collidingBottom = true;
             this.game = new createjs.Container();
             //create and add the background to the game
             this.background = new objects.MovingBackgroud();
@@ -45,6 +44,7 @@ var states;
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
+            this.snake.x = 225;
             //create and add the bullet to the game
             this.tankBullet = new objects.TankBullet();
             this.game.addChild(this.tankBullet);
@@ -62,6 +62,7 @@ var states;
             //add all the elements to the stage
             stage.addChild(this.game);
             window.addEventListener("keydown", this.keyPressed, true);
+            window.addEventListener("keyup", this.keyRelease, true);
         } //end of constructor
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //calculate the distance between two points
@@ -115,7 +116,7 @@ var states;
                 this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
             }
             if (useProjectile == true) {
-                this.antiTank.reset();
+                this.antiTank.reset(this.snake);
                 useProjectile = false;
             }
             //update and check collision for the moving elements
@@ -146,13 +147,23 @@ var states;
         Stage2.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_W:
-                    yPos -= 4;
+                    dy = 2;
                     break;
                 case constants.KEYCODE_S:
-                    yPos += 4;
+                    dy = -2;
                     break;
                 case 32:
                     useProjectile = true;
+                    break;
+            }
+        };
+        Stage2.prototype.keyRelease = function (evnt) {
+            switch (evnt.keyCode) {
+                case constants.KEYCODE_W:
+                    dy = 0;
+                    break;
+                case constants.KEYCODE_S:
+                    dy = 0;
                     break;
             }
         };

@@ -14,6 +14,7 @@
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
+/// <reference path="../managers/collision.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -39,11 +40,14 @@ var states;
             this.wallY = [-320, -320];
             this.wallHeight = [395, 105];
             this.wallWidth = [215, 920];
+            //create a game container to store all elements
             this.game = new createjs.Container();
+            //create a world container to hold all background elements
             this.world = new objects.WorldContainer();
             //create and add the background to the game
             this.background = new objects.StageBackground("1");
             this.world.addChild(this.background);
+            //create and add the walls to the game
             this.walls = new objects.StageWalls("1");
             this.world.addChild(this.walls);
             for (var index = 0; index < this.tankX.length; index++) {
@@ -69,13 +73,16 @@ var states;
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
+            //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
+            //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
-            //create and add the bottom info bar to the game
+            //create and add a ration to the game
             this.ration = new objects.Ration(0);
             this.world.addChild(this.ration);
             ////create and add the parts of the health bar to the game
@@ -83,20 +90,22 @@ var states;
             //    this.healthBar[index2] = new objects.HealthBar(index2);
             //    this.game.addChild(this.healthBar[index2]);
             //}
-            ////create and add the score field to the game
-            //this.scoreText = new objects.Label("0", 355, 475);
-            //this.game.addChild(this.scoreText);
-            //add all the elements to the stage
+            //add all the elements in the world container to the lowest level of the game container
             this.game.addChildAt(this.world, 0);
+            //add the game container to the stage
             stage.addChild(this.game);
+            //add event listeners for the keys
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
+            //create the collision manager
+            this.collision = new managers.Collision();
             //start the background music
             //createjs.Sound.play("backgroundMusic", { loop: -1 });
         } //end of constructor
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //updates the game based on the elements
         Stage1.prototype.update = function () {
+            //if the flag to use a weapon is true
             if (useProjectile == true) {
                 switch (currentWeapon) {
                     case ("pistol"):
@@ -104,101 +113,39 @@ var states;
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
-                            this.playerObjectsCollision(this.snake, this.guards[index]);
+                            this.collision.playerObjectsCollision(this.snake, this.guards[index]);
                         }
                         break;
                 }
+                //set the use weapon flag to false;
                 useProjectile = false;
             }
+            //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
             this.world.update();
             for (var index = 0; index < this.tanks.length; index++) {
-                this.tanks[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.tanks[index]);
             }
             for (var index = 0; index < this.verticalBoxes.length; index++) {
-                this.verticalBoxes[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
             }
             for (var index = 0; index < this.horizontalBoxes.length; index++) {
-                this.horizontalBoxes[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
             }
             for (var index = 0; index < this.guards.length; index++) {
                 this.guards[index].update();
-                this.playerObjectsCollision(this.bullet, this.guards[index]);
+                this.collision.playerObjectsCollision(this.bullet, this.guards[index]);
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.wallCollisionShapes[index].update(this.snake, this.world);
             }
-            this.objectsCollision(this.pistol, this.snake);
-            this.wallCollision();
-            ////console.log(this.snake.globalToLocal(this.pistol.x, this.pistol.y));
-            //console.log(this.pistol.globalToLocal(this.snake.x, this.snake.y));
-            //console.log(this.snake.y + ", " + this.snake.y);
-            //this.checkCollision(this.pistol, this.snake);
-            //this.checkCollision(this.bullet, this.guard);
+            //check collision for snake and the stationary pistol
+            this.collision.objectsCollision(this.pistol, this.snake);
+            //check collision for snake and the outer walls          
+            this.collision.wallCollision(this.world, this.snake);
         }; //end of update
-        Stage1.prototype.objectsCollision = function (collider, collide) {
-            var pt = collider.globalToLocal(collide.x, collide.y);
-            if (collider.hitTest(pt.x, pt.y)) {
-                createjs.Sound.play(collider.soundString);
-                collider.x = -1000;
-                collider.y = -1000;
-                this.world.removeChild(collider);
-                if (collider.name == "pistol") {
-                    currentWeapon = "pistol";
-                    haveGun = "Gun";
-                }
-            }
-        };
-        Stage1.prototype.playerObjectsCollision = function (collider, collide) {
-            var pt = collide.globalToLocal(collider.x, collider.y);
-            if (collide.hitTest(pt.x, pt.y)) {
-                createjs.Sound.play(collider.soundString);
-                if (collide.name == "guard") {
-                    collide.x = -1000;
-                    collide.y = -1000;
-                    this.world.removeChild(collide);
-                }
-                if (collider.name == "bullet") {
-                    collider.x = -10000;
-                    collider.y = -10000;
-                }
-            }
-        };
-        Stage1.prototype.wallCollision = function () {
-            if (this.world.x >= constants.SCRREN_CENTER_WIDTH || this.snake.x < constants.SCRREN_CENTER_WIDTH - 5) {
-                collidingLeft = true;
-                this.world.x = constants.SCRREN_CENTER_WIDTH;
-                snakeColl = true;
-            }
-            else {
-                collidingLeft = false;
-            }
-            if (this.world.y <= constants.SCRREN_CENTER_HEIGHT || this.snake.y > constants.SCRREN_CENTER_HEIGHT + 5) {
-                collidingBottom = true;
-                snakeColl = true;
-                this.world.y = constants.SCRREN_CENTER_HEIGHT;
-            }
-            else {
-                collidingBottom = false;
-            }
-            if (this.world.x <= -870 || this.snake.x > constants.SCRREN_CENTER_WIDTH + 5) {
-                collidingRight = true;
-                snakeColl = true;
-                this.world.x = -870;
-            }
-            else {
-                collidingRight = false;
-            }
-            if (this.world.y >= 1085 || this.snake.y < constants.SCRREN_CENTER_HEIGHT - 5) {
-                collidingTop = true;
-                snakeColl = true;
-                this.world.y = 1085;
-            }
-            else {
-                collidingTop = false;
-            }
-        };
+        //if the player presses a key
         Stage1.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_A:
@@ -233,6 +180,7 @@ var states;
                     break;
             }
         };
+        //when the player resleases a key
         Stage1.prototype.keyRelease = function (evnt) {
             switch (evnt.keyCode) {
                 case constants.KEYCODE_A:

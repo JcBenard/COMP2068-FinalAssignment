@@ -11,6 +11,7 @@
 /// <reference path="../objects/shell.ts" />
 /// <reference path="../objects/snake.ts" />
 /// <reference path="../objects/tank.ts" />
+/// <reference path="../objects/ammobox.ts" />
 
 module states {
     export class Stage2 {
@@ -24,6 +25,7 @@ module states {
         public info: objects.InfoBar;
         //public healthBar: objects.HealthBar[] = [];
         public ration: objects.Ration;
+        public ammoBox: objects.AmmoBox;
         public tankBullet: objects.TankBullet;
         public shell: objects.Shell;
         public antiTank: objects.AntiTank;
@@ -31,15 +33,13 @@ module states {
         private ticks: number = 0;
         private health = constants.PLAYER_HEALTH;
         private tankHealth: number = 10;
-        private ammo: number = 2;
         private currentWeapon: string = "punch";
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
 
-            xPos = 225;
-            yPos = constants.SCRREN_CENTER_HEIGHT;
             animation = "runRight";
+            collidingBottom = true;
 
             this.game = new createjs.Container();
 
@@ -67,6 +67,7 @@ module states {
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
+            this.snake.x = 225;
 
             //create and add the bullet to the game
             this.tankBullet = new objects.TankBullet();
@@ -90,6 +91,7 @@ module states {
             stage.addChild(this.game);
 
             window.addEventListener("keydown", this.keyPressed, true);
+            window.addEventListener("keyup", this.keyRelease, true);
 
         }//end of constructor
 
@@ -154,7 +156,7 @@ module states {
             }
 
             if (useProjectile == true) {
-                this.antiTank.reset();
+                this.antiTank.reset(this.snake);
                 useProjectile = false;
             }
 
@@ -197,14 +199,25 @@ module states {
         public keyPressed(event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_W:
-                    yPos -= 4;
+                    dy = 2;
                     break;
                 case constants.KEYCODE_S:
-                    yPos += 4;
+                    dy = -2;
                     break;
                 case 32:
                     useProjectile = true;
                     break;
+            }
+        }
+        public keyRelease(evnt) {
+            switch (evnt.keyCode) {
+                case constants.KEYCODE_W:
+                    dy = 0;
+                    break;
+                case constants.KEYCODE_S:
+                    dy = 0;
+                    break;
+
             }
         }
     }//end of play

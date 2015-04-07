@@ -1,46 +1,117 @@
-﻿//module managers {
-//    // Collision Manager Class
-//    export class Collision {
+﻿module managers {
+    // Collision Manager Class
+    export class Collision {
 
-//        //calculate the distance between two points
-//        public distance(p1: createjs.Point, p2: createjs.Point): number {
+        constructor() {
 
-//            return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-//        }
+        }
 
-//        //check if two elements collided
-//        public checkCollision(collider: objects.GameObject, collide) {
-//            //make points using the player charater and the selected element
-//            var p1: createjs.Point = new createjs.Point();
-//            var p2: createjs.Point = new createjs.Point();
+        //collision for objects moving into the player objects
+        public objectsCollision(collider: objects.GameObject, collide) {
 
-//            p1.x = collide.x;
-//            p1.y = collide.y;
-//            p2.x = collider.x;
-//            p2.y = collider.y;
+            //make the two point on the same grid
+            var pt = collider.globalToLocal(collide.x, collide.y);
 
-//            //check if the elements have collided using the distance method and if they are
-//            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
-//                //if they aren't already colliding
-//                if (!collider.isColliding) {
-//                    createjs.Sound.play(collider.soundString);//play the sound that would be made on collision
-//                    collider.isColliding = true;//set this varriables to true so they don't trigger collision again
+            //check if the two points are colliding
+            if (collider.hitTest(pt.x, pt.y)) {
+                //play the sound associated with the collider and move it off the stage
+                createjs.Sound.play(collider.soundString);
+                collider.x = -1000;
+                collider.y = -1000;
 
-//                    if (collider.name == "pistol") {
-//                        currentWeapon = "pistol";
-//                        haveGun = "Gun";
-//                    } else if (collider.name == "bullet") {
-//                        this.game.removeChild(collide);
-//                        collider.y = constants.SCREEN_HEIGHT;
-//                    } else if (collider.name == "snake") {
-//                        this.game.removeChild(collide);
-//                        this.ration.x = collide.x;
-//                        this.ration.y = collide.y;
-//                    }
-//                } else {//if the elements aren't colliding
-//                    collider.isColliding = false;//set the variable to false so they can collide again
-//                }
-//            }
-//        }
-//    }//end of collider
-//}  
+                //if the collider's name is pistol set the players weapon to it and mark them as having a gun for animation purpose
+                if (collider.name == "pistol") {
+                    currentWeapon = "pistol";
+                    haveGun = "Gun";
+                }//end of if
+            }//end of if
+        }//end of objects collision
+
+        //collision for the player objects moving into objects
+        public playerObjectsCollision(collider: objects.GameObject, collide) {
+
+            //make the two point on the same grid
+            var pt = collide.globalToLocal(collider.x, collider.y);
+
+            //check if the two points are colliding
+            if (collide.hitTest(pt.x, pt.y)) {
+                //play the sound associated with the collider
+                createjs.Sound.play(collider.soundString);
+
+                //if the collide is a guard move it off the stage
+                if (collide.name == "guard") {
+                    collide.x = -1000;
+                    collide.y = -1000;
+                }//end of if
+
+                //if the collider is a bullet move it off the stage
+                if (collider.name == "bullet") {
+                    collider.x = -10000;
+                    collider.y = -10000;
+                }//end of if
+            }//end of if
+        }//end of player objects collision
+
+        //collision for walls
+        public wallCollision(world, player) {
+            if (world.x >= constants.SCRREN_CENTER_WIDTH || player.x < constants.SCRREN_CENTER_WIDTH - 5) {
+                collidingLeft = true;
+                world.x = constants.SCRREN_CENTER_WIDTH;
+                snakeColl = true;
+            } else {
+                collidingLeft = false;
+            }//end of if
+
+            if (world.y <= constants.SCRREN_CENTER_HEIGHT || player.y > constants.SCRREN_CENTER_HEIGHT + 5) {
+                collidingBottom = true;
+                snakeColl = true;
+                world.y = constants.SCRREN_CENTER_HEIGHT
+            } else {
+                collidingBottom = false;
+            }//end of if
+
+            if (world.x <= -870 || player.x > constants.SCRREN_CENTER_WIDTH + 5) {
+                collidingRight = true;
+                snakeColl = true;
+                world.x = -870;
+            } else {
+                collidingRight = false;
+            }//end of if
+
+            if (world.y >= 1085 || player.y < constants.SCRREN_CENTER_HEIGHT - 5) {
+                collidingTop = true;
+                snakeColl = true;
+                world.y = 1085;
+            } else {
+                collidingTop = false;
+            }//end of if
+        }//end of if
+
+        //collision for background objects like boxes and walls
+        public backgroundObjectsCollision(player, world, backgroundObject) {
+
+            //make the two point on the same grid
+            var pt = backgroundObject.globalToLocal(player.x, player.y);
+
+            //check if the player isn't in the object
+            if (pt.x >= backgroundObject.collisionBox.x + backgroundObject.boxWidth
+                || pt.x + player.width * .5 <= backgroundObject.collisionBox.x
+                || pt.y >= backgroundObject.collisionBox.y + backgroundObject.boxHeight
+                || pt.y + player.height * .5 <= backgroundObject.collisionBox.y) {
+
+            } else {//if they are in the object
+                if (collidingBottom == true || collidingTop == true) {//if the player is currently colliding with the top or bottom wall
+                    player.y += dy;//move the player away from the object
+                } else {
+                    world.y -= dy;//move the screen away from the object
+                }//end of if
+
+                if (collidingRight == true || collidingLeft == true) {//if the player is currently colliding with the left or right wall
+                    player.x += dx;//move the player away from the object
+                } else {
+                    world.x -= dx;//move the screen away from the object
+                }//end of if
+            }//end of if
+        }//
+    }//end of collider
+}  

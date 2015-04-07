@@ -14,6 +14,7 @@
 /// <reference path="../objects/worldcontainer.ts" />
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
+/// <reference path="../managers/collision.ts" />
 
 
 module states {
@@ -35,6 +36,8 @@ module states {
         public horizontalBoxes: objects.BackgroundObjects[] = [];
         public wallCollisionShapes: objects.WallShapes[] = [];
 
+        public collision: managers.Collision;
+
         //public healthBar: objects.HealthBar[] = [];
 
         private health = constants.PLAYER_HEALTH;
@@ -55,36 +58,44 @@ module states {
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
+            //create a game container to store all elements
             this.game = new createjs.Container();
+            //create a world container to hold all background elements
             this.world = new objects.WorldContainer();
 
             //create and add the background to the game
             this.background = new objects.StageBackground("1");
             this.world.addChild(this.background);
 
+            //create and add the walls to the game
             this.walls = new objects.StageWalls("1");
             this.world.addChild(this.walls);
 
+            //create and add all the tank elements, using the vaules in the arrays for location
             for (var index = 0; index < this.tankX.length; index++) {
                 this.tanks[index] = new objects.BackgroundObjects(this.tankX[index], this.tankY[index], "stationTank");
                 this.world.addChild(this.tanks[index]);
             }
 
+            //create and add all the vertical boxes, using the vaules in the arrays for location
             for (var index = 0; index < this.vBoxesX.length; index++) {
                 this.verticalBoxes[index] = new objects.BackgroundObjects(this.vBoxesX[index], this.vBoxesY[index], "boxesV");
                 this.world.addChild(this.verticalBoxes[index]);
             }
 
+            //create and add all the horizontal boxes, using the vaules in the arrays for location
             for (var index = 0; index < this.hBoxesX.length; index++) {
                 this.horizontalBoxes[index] = new objects.BackgroundObjects(this.hBoxesX[index], this.hBoxesY[index], "boxesH");
                 this.world.addChild(this.horizontalBoxes[index]);
             }
          
+            //create and add all the guards to the game, using the vaules in the arrays for location and the direction
             for (var index = 0; index < this.guardX.length; index++) {
                 this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
                 this.world.addChild(this.guards[index]);
             }
 
+            //create and add all the walls to the game, using the vales in the array for location and size
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
@@ -94,18 +105,19 @@ module states {
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
 
+            //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
+            //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
 
+            //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
-
-            //create and add the bottom info bar to the game
             
-
+            //create and add a ration to the game
             this.ration = new objects.Ration(0);
             this.world.addChild(this.ration);
 
@@ -115,16 +127,17 @@ module states {
             //    this.game.addChild(this.healthBar[index2]);
             //}
 
-            ////create and add the score field to the game
-            //this.scoreText = new objects.Label("0", 355, 475);
-            //this.game.addChild(this.scoreText);
-
-            //add all the elements to the stage
+            //add all the elements in the world container to the lowest level of the game container
             this.game.addChildAt(this.world, 0);
+            //add the game container to the stage
             stage.addChild(this.game);
 
+            //add event listeners for the keys
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
+
+            //create the collision manager
+            this.collision = new managers.Collision();
 
             //start the background music
             //createjs.Sound.play("backgroundMusic", { loop: -1 });
@@ -135,129 +148,59 @@ module states {
         //updates the game based on the elements
         public update() {
 
+            //if the flag to use a weapon is true
             if (useProjectile == true) {
+                //check what weapon the player is using and do what's in the case
                 switch (currentWeapon) {
                     case ("pistol"):
                         this.bullet.reset(this.snake.x, this.snake.y, direction);
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
-                            this.playerObjectsCollision(this.snake, this.guards[index]);
+                            this.collision.playerObjectsCollision(this.snake, this.guards[index]);
                         }
                         break;
                 }
+                //set the use weapon flag to false;
                 useProjectile = false;
             }
 
+            //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
             this.world.update();
             
+            //check collision for the tanks using the collision manager
             for (var index = 0; index < this.tanks.length; index++) {
-                this.tanks[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.tanks[index]);
             }
-
+            //check collision for the vertical boxes using the collision manager
             for (var index = 0; index < this.verticalBoxes.length; index++) {
-                this.verticalBoxes[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
             }
-
+            //check collision for the horizontal using the collision manager
             for (var index = 0; index < this.horizontalBoxes.length; index++) {
-                this.horizontalBoxes[index].update(this.snake, this.world);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
             }
-
+            //check collision for the guards and the bullet colliding and update the guards
             for (var index = 0; index < this.guards.length; index++) {
                 this.guards[index].update();
-                this.playerObjectsCollision(this.bullet, this.guards[index]);
+                this.collision.playerObjectsCollision(this.bullet, this.guards[index]);
             }
-
+            //check collision for the walls using the collision manager
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.wallCollisionShapes[index].update(this.snake, this.world);
             }
-
-            this.objectsCollision(this.pistol, this.snake);           
-            this.wallCollision();
-
-            ////console.log(this.snake.globalToLocal(this.pistol.x, this.pistol.y));
-            //console.log(this.pistol.globalToLocal(this.snake.x, this.snake.y));
-            //console.log(this.snake.y + ", " + this.snake.y);
-
-            //this.checkCollision(this.pistol, this.snake);
-            //this.checkCollision(this.bullet, this.guard);
+            //check collision for snake and the stationary pistol
+            this.collision.objectsCollision(this.pistol, this.snake); 
+            //check collision for snake and the outer walls          
+            this.collision.wallCollision(this.world, this.snake);
 
         }//end of update
 
-        public objectsCollision(collider: objects.GameObject, collide) {
-
-            var pt = collider.globalToLocal(collide.x, collide.y);
-
-            if (collider.hitTest(pt.x, pt.y)) {
-                createjs.Sound.play(collider.soundString);
-                collider.x = -1000;
-                collider.y = -1000;
-                this.world.removeChild(collider);
-
-                if (collider.name == "pistol") {                 
-                    currentWeapon = "pistol";
-                    haveGun = "Gun";                 
-                }
-            }
-        }
-
-        public playerObjectsCollision(collider: objects.GameObject, collide) {
-
-            var pt = collide.globalToLocal(collider.x, collider.y);
-
-            if (collide.hitTest(pt.x, pt.y)) {
-                createjs.Sound.play(collider.soundString);
-
-                if (collide.name == "guard") {
-                    collide.x = -1000;
-                    collide.y = -1000;
-                    this.world.removeChild(collide);
-                }
-
-                if (collider.name == "bullet") {
-                    collider.x = -10000;
-                    collider.y = -10000;
-                }
-            }
-        }
-
-        public wallCollision() {
-            if (this.world.x >= constants.SCRREN_CENTER_WIDTH || this.snake.x < constants.SCRREN_CENTER_WIDTH - 5) {
-                collidingLeft = true;
-                this.world.x = constants.SCRREN_CENTER_WIDTH;
-                snakeColl = true;
-            } else {
-                collidingLeft = false;
-            }
-
-            if (this.world.y <= constants.SCRREN_CENTER_HEIGHT || this.snake.y > constants.SCRREN_CENTER_HEIGHT + 5) {
-                collidingBottom = true;
-                snakeColl = true;
-                this.world.y = constants.SCRREN_CENTER_HEIGHT
-            } else {
-                collidingBottom = false;
-            }
-
-            if (this.world.x <= -870 || this.snake.x > constants.SCRREN_CENTER_WIDTH + 5) {
-                collidingRight = true;
-                snakeColl = true;
-                this.world.x = -870;
-            } else {
-                collidingRight = false;
-            }
-
-            if (this.world.y >= 1085 || this.snake.y < constants.SCRREN_CENTER_HEIGHT - 5) {
-                collidingTop = true;
-                snakeColl = true;
-                this.world.y = 1085;
-            } else {
-                collidingTop = false;
-            }
-        }
-
+        //if the player presses a key
         public keyPressed(event) {
+            //check what key is pressed then if its a movement key change the direction movement amount, the animation and the direction varriables
             switch (event.keyCode) {
                 case constants.KEYCODE_A:
                     dx = 2;
@@ -279,6 +222,7 @@ module states {
                     animation = "runDown" + haveGun;
                     direction = "Down";
                     break;
+                //if they used space go to the weapon animation and set the use weapon flag to true
                 case 32:
                     if (currentWeapon == "punch") {
                         animation = "punch" + direction;                                                         
@@ -291,7 +235,9 @@ module states {
             }
         }
 
+        //when the player resleases a key
         public keyRelease(evnt) {
+            //check what key was relased if it was a movement key set the direction movement amount to 0 and the animation to the idle animation for that direction
             switch (evnt.keyCode) {
                 case constants.KEYCODE_A:
                     dx = 0;
@@ -309,6 +255,7 @@ module states {
                     dy = 0;
                     animation = "idleDown" + haveGun;
                     break;
+                //if they released space set the animation to idle
                 case 32:
                     animation = "idle" + direction + haveGun;
                     break;

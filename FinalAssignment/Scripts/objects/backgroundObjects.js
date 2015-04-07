@@ -20,26 +20,6 @@ var objects;
             this.boxHeight = this.height - 30;
             this.boxWidth = this.width - 10;
         }
-        //public methods/////////////////////////////////////////////////////////////////////////////
-        BackgroundObjects.prototype.update = function (player, world) {
-            var pt = this.globalToLocal(player.x, player.y);
-            if (pt.x >= this.collisionBox.x + this.boxWidth || pt.x + player.width * .5 <= this.collisionBox.x || pt.y >= this.collisionBox.y + this.boxHeight || pt.y + player.height * .5 <= this.collisionBox.y) {
-            }
-            else {
-                if (collidingBottom == true || collidingTop == true) {
-                    player.y += dy;
-                }
-                else {
-                    world.y -= dy;
-                }
-                if (collidingRight == true || collidingLeft == true) {
-                    player.x += dx;
-                }
-                else {
-                    world.x -= dx;
-                }
-            }
-        };
         return BackgroundObjects;
     })(createjs.Bitmap);
     objects.BackgroundObjects = BackgroundObjects;

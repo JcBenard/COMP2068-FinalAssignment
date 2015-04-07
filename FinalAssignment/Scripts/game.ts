@@ -5,6 +5,7 @@
 /// <reference path="typings/preloadjs/preloadjs.d.ts" />
 /// <reference path="typings/stats/stats.d.ts" />
 
+/// <reference path="managers/collision.ts" />
 /// <reference path="managers/assets.ts" />
 /// <reference path="constants.ts" />
 /// <reference path="objects/movingbackground.ts" />
@@ -25,6 +26,7 @@
 /// <reference path="objects/worldcontainer.ts" />
 /// <reference path="objects/backgroundobjects.ts" />
 /// <reference path="objects/wallshapes.ts" />
+/// <reference path="objects/ammobox.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -51,8 +53,6 @@ var finalDifficulty: number = 1;
 var finalAvaterY: number = 0;
 var finalHealth: number = 0;
 
-var xPos: number = constants.SCRREN_CENTER_WIDTH;
-var yPos: number = constants.SCRREN_CENTER_HEIGHT;
 var animation: string = "idleUp";
 var useProjectile: Boolean = false;
 var currentWeapon: string = "punch";
@@ -65,6 +65,7 @@ var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
 var snakeColl: Boolean = false;
+var ammo: number[] = [0,0,0,0];
 
 // Game Objects 
 function preload() {

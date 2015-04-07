@@ -1,18 +1,16 @@
 ﻿module objects {
 
-    export class AntiTank extends GameObject {
+    export class AmmoBox extends GameObject {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(dx: number) {
 
-            super("antiTank");
+            super("ration");
 
             this._dx = dx;
-            this._dy = 0;
-            this.soundString = "explosion";
-            this.name = "antiTank";
-
-            this.x = 0;
+            this.soundString = "difficulty";
+            this.name = "ammo";
+            this.x = 700;
             this.y = 700;
         }
 
@@ -21,9 +19,10 @@
             this.x -= this._dx;
         }
 
-        public reset(player) {
-            this.x = player.x;
-            this.y = player.x;
+        //
+        public reset() {
+            this.x = constants.SCREEN_WIDTH;
+            this.y = Math.floor(Math.random() * 430);
         }
     }
-}   
+}  
