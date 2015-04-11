@@ -4,13 +4,14 @@ var __extends = this.__extends || function (d, b) {
     __.prototype = b.prototype;
     d.prototype = new __();
 };
+/// <reference path="guardloschecker.ts" />
 /// <reference path="../constants.ts" />
 var objects;
 (function (objects) {
     var Guard = (function (_super) {
         __extends(Guard, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function Guard(setX, setY, direction) {
+        function Guard(setX, setY, direction, world) {
             _super.call(this, managers.Assets.atlas, "guardMove" + direction);
             //instanced variables///////////////////////////////////////////////////////////////////////
             this._dx = 0;
@@ -20,6 +21,8 @@ var objects;
             this.diffX = 0;
             this.diffY = 0;
             this.name = "guard";
+            this.losCheckers = [];
+            this.counter = 0;
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
             this.regX = this.width * 0.5;
@@ -45,46 +48,47 @@ var objects;
             }
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
-        Guard.prototype.update = function () {
-            if (this.direction == "Left") {
-                if (this.diffX < -300) {
-                    this._dx = -this._dx;
-                    this.gotoAndPlay("guardMoveRight");
-                }
-                else if (this.diffX > 0) {
-                    this._dx = -this._dx;
-                    this.gotoAndPlay("guardMoveLeft");
-                }
+        Guard.prototype.update = function (player, world) {
+            //for (var index = 0; index < this.losCheckers.length; index++) {
+            //    this.losCheckers[index].update();
+            //    if (this.losCheckers[index].remove == true) {
+            //        world.removeChild(this.losCheckers[index]);
+            //        this.losCheckers.splice(index, 1);                   
+            //    }
+            //}
+            //if (this.counter % 50 == 0) {
+            //    var losChecker = new objects.GuardLosChecker(this);
+            //    this.losCheckers.push(losChecker);
+            //    world.addChild(losChecker);
+            //}
+            //this.counter++;
+            if (this.direction == "Left" && this.diffX < -300) {
+                this._dx = -this._dx;
+                this.gotoAndPlay("guardMoveRight");
+                this.diffX = 0;
+                this.direction = "Right";
+                this.losCheckers = [];
             }
-            else if (this.direction == "Right") {
-                if (this.diffX > 300) {
-                    this._dx = -this._dx;
-                    this.gotoAndPlay("guardMoveLeft");
-                }
-                else if (this.diffX < 0) {
-                    this._dx = -this._dx;
-                    this.gotoAndPlay("guardMoveRight");
-                }
+            else if (this.direction == "Right" && this.diffX > 300) {
+                this._dx = -this._dx;
+                this.gotoAndPlay("guardMoveLeft");
+                this.diffX = 0;
+                this.direction = "Left";
+                this.losCheckers = [];
             }
-            else if (this.direction == "Up") {
-                if (this.diffY < -300) {
-                    this._dy = -this._dy;
-                    this.gotoAndPlay("guardMoveDown");
-                }
-                else if (this.diffY > 0) {
-                    this._dy = -this._dy;
-                    this.gotoAndPlay("guardMoveUp");
-                }
+            else if (this.direction == "Up" && this.diffY < -300) {
+                this._dy = -this._dy;
+                this.gotoAndPlay("guardMoveDown");
+                this.diffY = 0;
+                this.direction = "Down";
+                this.losCheckers = [];
             }
-            else if (this.direction == "Down") {
-                if (this.diffY > 300) {
-                    this._dy = -this._dy;
-                    this.gotoAndPlay("guardMoveUp");
-                }
-                else if (this.diffY < 0) {
-                    this._dy = -this._dy;
-                    this.gotoAndPlay("guardMoveDown");
-                }
+            else if (this.direction == "Down" && this.diffY > 300) {
+                this._dy = -this._dy;
+                this.gotoAndPlay("guardMoveUp");
+                this.diffY = 0;
+                this.direction = "Up";
+                this.losCheckers = [];
             }
             this.diffX += this._dx;
             this.diffY += this._dy;

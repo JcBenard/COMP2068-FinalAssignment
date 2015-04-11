@@ -27,6 +27,8 @@
 /// <reference path="objects/wallshapes.ts" />
 /// <reference path="objects/ammobox.ts" />
 /// <reference path="objects/gunner.ts" />
+/// <reference path="objects/guardloschecker.ts" />
+/// <reference path="objects/ammobox.ts" />
 
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -56,7 +58,7 @@ var finalHealth: number = 0;
 
 var animation: string = "idleUp";
 var useProjectile: Boolean = false;
-var currentWeapon: string = "pistol";
+var currentWeapon: string = "punch";
 var haveGun: string = "";
 var direction: string = "";
 var dx: number = 0;
@@ -66,7 +68,8 @@ var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
 var snakeColl: Boolean = false;
-var ammo: number[] = [0,0,0,0];
+var ammo: number = 0;
+var playerHealth: number = constants.PLAYER_HEALTH;
 
 // Game Objects 
 function preload() {
@@ -86,7 +89,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1BOSS_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 
 }

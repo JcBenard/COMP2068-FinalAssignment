@@ -90,7 +90,9 @@
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
     <TypeScriptCompile Include="Scripts\objects\backgroundObjects.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
+    <TypeScriptCompile Include="Scripts\objects\door.ts" />
     <TypeScriptCompile Include="Scripts\objects\guard.ts" />
+    <TypeScriptCompile Include="Scripts\objects\guardLosChecker.ts" />
     <TypeScriptCompile Include="Scripts\objects\gunner.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />

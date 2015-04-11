@@ -22,6 +22,7 @@ var states;
         function Stage1Boss() {
             this.enemyBullets = [];
             this.verticalBoxes = [];
+            this.healthBar = [];
             //public healthBar: objects.HealthBar[] = [];
             this.health = constants.PLAYER_HEALTH;
             this.boxesX = [120, 280, 440];
@@ -57,11 +58,10 @@ var states;
             //create and add a ration to the game
             this.ration = new objects.Ration(0);
             this.game.addChild(this.ration);
-            ////create and add the parts of the health bar to the game
-            //for (var index2 = 0; index2 < this.health; index2++) {
-            //    this.healthBar[index2] = new objects.HealthBar(index2);
-            //    this.game.addChild(this.healthBar[index2]);
-            //}
+            for (var index2 = 0; index2 < constants.PLAYER_HEALTH; index2++) {
+                this.healthBar[index2] = new objects.HealthBar(index2);
+                this.game.addChild(this.healthBar[index2]);
+            }
             //add the game container to the stage
             stage.addChild(this.game);
             //add event listeners for the keys
@@ -89,10 +89,10 @@ var states;
             this.snake.update();
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
-            this.collision.playerObjectsCollision(this.bullet, this.gunner);
+            this.collision.playerObjectsCollision(this.bullet, this.gunner, null, null, this.game, this.healthBar);
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
-                this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake);
+                this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake, null, null, this.game, this.healthBar);
             }
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.verticalBoxes[index]);

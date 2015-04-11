@@ -14,6 +14,8 @@
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
 /// <reference path="../managers/collision.ts" />
+/// <reference path="../objects/guardloschecker.ts" />
+/// <reference path="../objects/ammobox.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -24,8 +26,7 @@ var states;
             this.verticalBoxes = [];
             this.horizontalBoxes = [];
             this.wallCollisionShapes = [];
-            //public healthBar: objects.HealthBar[] = [];
-            this.health = constants.PLAYER_HEALTH;
+            this.healthBar = [];
             this.tankX = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
             this.tankY = [-161, -161, -100, -100, -865, -685, -865, -685, -865, -685];
             this.vBoxesX = [-200, 260, 760, 1260];
@@ -35,10 +36,11 @@ var states;
             this.guardX = [680, 1180, 275, -220, -120, -85, 195, 900, 1190, 480, 545, 550];
             this.guardY = [-155, 135, -335, -35, -455, -535, -855, -545, -860, -930, -930, -495];
             this.guardDirection = ["Down", "Up", "Down", "Up", "Right", "Up", "Down", "Up", "Down", "Left", "Right", "Right"];
-            this.wallX = [390, 605];
-            this.wallY = [-320, -320];
-            this.wallHeight = [395, 105];
-            this.wallWidth = [215, 920];
+            this.wallX = [605];
+            this.wallY = [-320];
+            this.wallHeight = [105];
+            this.wallWidth = [920];
+            this.wallDirection = ["Horizontal"];
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create a world container to hold all background elements
@@ -62,13 +64,19 @@ var states;
                 this.world.addChild(this.horizontalBoxes[index]);
             }
             for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
+                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
                 this.world.addChild(this.guards[index]);
             }
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
             }
+            //create and add a ration to the game
+            this.ration = new objects.Ration(0);
+            this.world.addChild(this.ration);
+            //create and add a ammo box to the game
+            this.ammoBox = new objects.AmmoBox(0);
+            this.world.addChild(this.ammoBox);
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
@@ -81,14 +89,10 @@ var states;
             //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
-            //create and add a ration to the game
-            this.ration = new objects.Ration(0);
-            this.world.addChild(this.ration);
-            ////create and add the parts of the health bar to the game
-            //for (var index2 = 0; index2 < this.health; index2++) {
-            //    this.healthBar[index2] = new objects.HealthBar(index2);
-            //    this.game.addChild(this.healthBar[index2]);
-            //}
+            for (var index2 = 0; index2 < constants.PLAYER_HEALTH; index2++) {
+                this.healthBar[index2] = new objects.HealthBar(index2);
+                this.game.addChild(this.healthBar[index2]);
+            }
             //add all the elements in the world container to the lowest level of the game container
             this.game.addChildAt(this.world, 0);
             //add the game container to the stage
@@ -112,7 +116,7 @@ var states;
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
-                            this.collision.playerObjectsCollision(this.snake, this.guards[index]);
+                            this.collision.playerObjectsCollision(this.snake, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
                         }
                         break;
                 }
@@ -123,26 +127,35 @@ var states;
             this.snake.update();
             this.bullet.update();
             this.world.update();
+            this.ration.update();
+            this.ammoBox.update();
             for (var index = 0; index < this.tanks.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.world, this.tanks[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.tanks[index]);
             }
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.verticalBoxes[index]);
             }
             for (var index = 0; index < this.horizontalBoxes.length; index++) {
-                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.horizontalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.horizontalBoxes[index]);
             }
             for (var index = 0; index < this.guards.length; index++) {
-                this.guards[index].update();
-                this.collision.playerObjectsCollision(this.bullet, this.guards[index]);
+                this.guards[index].update(this.snake, this.world);
+                this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
-                this.wallCollisionShapes[index].update(this.snake, this.world);
+                this.collision.wallObjectsCollision(this.snake, this.world, this.wallCollisionShapes[index]);
+                this.collision.wallObjectsCollision(this.bullet, this.world, this.wallCollisionShapes[index]);
             }
-            //check collision for snake and the stationary pistol
-            this.collision.objectsCollision(this.pistol, this.snake);
+            //check collision for snake and the stationary pickups
+            this.collision.objectsCollision(this.pistol, this.snake, null, null);
+            this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
+            this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             //check collision for snake and the outer walls          
             this.collision.wallCollision(this.world, this.snake);
+            //check collision for snakes bullet and the objects
         }; //end of update
         //if the player presses a key
         Stage1.prototype.keyPressed = function (event) {

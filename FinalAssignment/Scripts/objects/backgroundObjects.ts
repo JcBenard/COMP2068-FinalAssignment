@@ -22,7 +22,7 @@
             this.y = yLocation;
 
             this.collisionBox= new createjs.Shape();
-            this.collisionBox.graphics.drawRect(0, 0, this.width - 10, this.height - 30);
+            this.collisionBox.graphics.beginFill("blue").drawRect(0, 0, this.width - 10, this.height - 30);
             this.boxHeight = this.height - 30;
             this.boxWidth = this.width - 10;
         }

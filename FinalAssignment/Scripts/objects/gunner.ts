@@ -31,31 +31,31 @@ module objects {
 
                 console.log(this.positionToMove);
                 if (this.positionToMove > this.x) {
-                    this.dx = 2;
+                    this.dx = 3;
                 } else if (this.positionToMove < this.x) {
-                    this.dx = -2;
+                    this.dx = -3;
                 }
                 this.counter++;
             }
-            if (this.x != this.positionToMove) {
+            if (this.x > this.positionToMove + 3 || this.x < this.positionToMove - 3) {
                 this.x += this.dx;
             } else {
                 this.gotoAndPlay("gunnerIdle");
 
                 this.counter++;
 
-                if (this.counter % 30 == 0 || this.counter < 150) {
+                if (this.counter < 125) {
                     switch (this.counter) {
-                        case (30):
+                        case (25):
                             this.shoot(bullets[0]);
                             break;
-                        case (60):
+                        case (50):
                             this.shoot(bullets[1]);
                             break;
-                        case (90):
+                        case (75):
                             this.shoot(bullets[2]);
                             break;
-                        case (120):
+                        case (100):
                             this.shoot(bullets[3]);
                             break;
                     }

@@ -26,6 +26,8 @@
 /// <reference path="objects/wallshapes.ts" />
 /// <reference path="objects/ammobox.ts" />
 /// <reference path="objects/gunner.ts" />
+/// <reference path="objects/guardloschecker.ts" />
+/// <reference path="objects/ammobox.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -49,7 +51,7 @@ var finalAvaterY = 0;
 var finalHealth = 0;
 var animation = "idleUp";
 var useProjectile = false;
-var currentWeapon = "pistol";
+var currentWeapon = "punch";
 var haveGun = "";
 var direction = "";
 var dx = 0;
@@ -59,7 +61,8 @@ var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
 var snakeColl = false;
-var ammo = [0, 0, 0, 0];
+var ammo = 0;
+var playerHealth = constants.PLAYER_HEALTH;
 // Game Objects 
 function preload() {
     managers.Assets.init();
@@ -75,7 +78,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1BOSS_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////

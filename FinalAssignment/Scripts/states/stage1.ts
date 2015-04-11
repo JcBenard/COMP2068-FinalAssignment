@@ -14,6 +14,8 @@
 /// <reference path="../objects/backgroundobjects.ts" />
 /// <reference path="../objects/wallshapes.ts" />
 /// <reference path="../managers/collision.ts" />
+/// <reference path="../objects/guardloschecker.ts" />
+/// <reference path="../objects/ammobox.ts" />
 
 
 module states {
@@ -34,12 +36,11 @@ module states {
         public verticalBoxes: objects.BackgroundObjects[] = [];
         public horizontalBoxes: objects.BackgroundObjects[] = [];
         public wallCollisionShapes: objects.WallShapes[] = [];
+        public ammoBox: objects.AmmoBox;
 
         public collision: managers.Collision;
 
-        //public healthBar: objects.HealthBar[] = [];
-
-        private health = constants.PLAYER_HEALTH;
+        public healthBar: objects.HealthBar[] = [];
 
         private tankX: number[] = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
         private tankY: number[] = [-161, -161, -100, -100, -865, - 685, -865, - 685, -865, - 685];
@@ -50,10 +51,11 @@ module states {
         private guardX: number[] = [680, 1180, 275, -220, -120, -85, 195, 900, 1190, 480, 545, 550];
         private guardY: number[] = [-155, 135, -335, -35, -455, -535, -855, -545, -860, -930, -930, -495];
         private guardDirection: string[] = ["Down", "Up", "Down", "Up", "Right", "Up", "Down", "Up", "Down", "Left", "Right", "Right"];
-        private wallX: number[] = [390, 605];
-        private wallY: number[] = [-320, -320];
-        private wallHeight: number[] = [395, 105];
-        private wallWidth: number[] = [215, 920];
+        private wallX: number[] = [605, 390];
+        private wallY: number[] = [-320, -295];
+        private wallHeight: number[] = [105];
+        private wallWidth: number[] = [920];
+        private wallDirection: String[] = ["Horizontal"];
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -90,7 +92,7 @@ module states {
          
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
             for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index]);
+                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
                 this.world.addChild(this.guards[index]);
             }
 
@@ -99,6 +101,14 @@ module states {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
             }
+
+            //create and add a ration to the game
+            this.ration = new objects.Ration(0);
+            this.world.addChild(this.ration);
+
+            //create and add a ammo box to the game
+            this.ammoBox = new objects.AmmoBox(0);
+            this.world.addChild(this.ammoBox);
 
             //create and add th player to the game
             this.snake = new objects.Snake();
@@ -115,16 +125,12 @@ module states {
             //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
-            
-            //create and add a ration to the game
-            this.ration = new objects.Ration(0);
-            this.world.addChild(this.ration);
 
-            ////create and add the parts of the health bar to the game
-            //for (var index2 = 0; index2 < this.health; index2++) {
-            //    this.healthBar[index2] = new objects.HealthBar(index2);
-            //    this.game.addChild(this.healthBar[index2]);
-            //}
+            //create and add the parts of the health bar to the game
+            for (var index2 = 0; index2 < constants.PLAYER_HEALTH; index2++) {
+                this.healthBar[index2] = new objects.HealthBar(index2);
+                this.game.addChild(this.healthBar[index2]);
+            }
 
             //add all the elements in the world container to the lowest level of the game container
             this.game.addChildAt(this.world, 0);
@@ -156,7 +162,7 @@ module states {
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
-                            this.collision.playerObjectsCollision(this.snake, this.guards[index]);
+                            this.collision.playerObjectsCollision(this.snake, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
                         }
                         break;
                 }
@@ -168,32 +174,42 @@ module states {
             this.snake.update();
             this.bullet.update();
             this.world.update();
+            this.ration.update();
+            this.ammoBox.update();
             
             //check collision for the tanks using the collision manager
             for (var index = 0; index < this.tanks.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.world, this.tanks[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.tanks[index]);
+
             }
             //check collision for the vertical boxes using the collision manager
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.verticalBoxes[index]);
             }
             //check collision for the horizontal using the collision manager
             for (var index = 0; index < this.horizontalBoxes.length; index++) {
-                this.collision.backgroundObjectsCollision(this.snake, this.world, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.snake, this.world, this.horizontalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.world, this.horizontalBoxes[index]);
             }
             //check collision for the guards and the bullet colliding and update the guards
             for (var index = 0; index < this.guards.length; index++) {
-                this.guards[index].update();
-                this.collision.playerObjectsCollision(this.bullet, this.guards[index]);
+                this.guards[index].update(this.snake, this.world);
+                this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
             }
             //check collision for the walls using the collision manager
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
-                this.wallCollisionShapes[index].update(this.snake, this.world);
+                this.collision.wallObjectsCollision(this.snake, this.world, this.wallCollisionShapes[index]);
+                this.collision.wallObjectsCollision(this.bullet, this.world, this.wallCollisionShapes[index]);
             }
-            //check collision for snake and the stationary pistol
-            this.collision.objectsCollision(this.pistol, this.snake); 
+            //check collision for snake and the stationary pickups
+            this.collision.objectsCollision(this.pistol, this.snake, null, null); 
+            this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar); 
+            this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
             //check collision for snake and the outer walls          
             this.collision.wallCollision(this.world, this.snake);
+            //check collision for snakes bullet and the objects
 
         }//end of update
 

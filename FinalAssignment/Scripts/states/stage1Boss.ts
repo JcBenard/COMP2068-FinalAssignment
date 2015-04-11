@@ -32,6 +32,7 @@ module states {
         public enemyBullets: objects.Bullet[] = [];
         public ration: objects.Ration;
         public verticalBoxes: objects.BackgroundObjects [] = [];
+        public healthBar: objects.HealthBar[] = [];
 
         public collision: managers.Collision;
 
@@ -85,11 +86,12 @@ module states {
             this.ration = new objects.Ration(0);
             this.game.addChild(this.ration);
 
-            ////create and add the parts of the health bar to the game
-            //for (var index2 = 0; index2 < this.health; index2++) {
-            //    this.healthBar[index2] = new objects.HealthBar(index2);
-            //    this.game.addChild(this.healthBar[index2]);
-            //}
+            //create and add the parts of the health bar to the game
+            for (var index2 = 0; index2 < constants.PLAYER_HEALTH; index2++) {
+                this.healthBar[index2] = new objects.HealthBar(index2);
+                this.game.addChild(this.healthBar[index2]);
+            }
+
             //add the game container to the stage
             stage.addChild(this.game);
 
@@ -126,11 +128,11 @@ module states {
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
 
-            this.collision.playerObjectsCollision(this.bullet, this.gunner);
+            this.collision.playerObjectsCollision(this.bullet, this.gunner, null, null, this.game, this.healthBar);
 
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
-                this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake);
+                this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake, null, null, this.game, this.healthBar);
             }
 
             //check collision for the vertical boxes using the collision manager

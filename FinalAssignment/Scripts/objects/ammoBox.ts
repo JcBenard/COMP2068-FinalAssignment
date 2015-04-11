@@ -5,7 +5,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(dx: number) {
 
-            super("ration");
+            super("ammoBox");
 
             this._dx = dx;
             this.soundString = "difficulty";

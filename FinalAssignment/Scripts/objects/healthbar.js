@@ -10,12 +10,12 @@ var objects;
         __extends(HealthBar, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function HealthBar(barNumber) {
-            _super.call(this, assetLoader.getResult("life"));
-            this.x = 136 + (37 * barNumber);
+            _super.call(this, managers.Assets.atlas, "health");
+            this.x = 136 + (18.5 * barNumber);
             this.y = 444;
         }
         return HealthBar;
-    })(createjs.Bitmap);
+    })(createjs.Sprite);
     objects.HealthBar = HealthBar;
 })(objects || (objects = {}));
 //# sourceMappingURL=healthbar.js.map

@@ -7,7 +7,7 @@
         }
 
         //collision for objects moving into the player objects
-        public objectsCollision(collider: objects.GameObject, collide) {
+        public objectsCollision(collider: objects.GameObject, collide, game, healthBar) {
 
             //make the two point on the same grid
             var pt = collider.globalToLocal(collide.x, collide.y);
@@ -23,12 +23,25 @@
                 if (collider.name == "pistol") {
                     currentWeapon = "pistol";
                     haveGun = "Gun";
-                }//end of if
+                    ammo = 5;
+                } else if (collider.name == "ammo") {
+                    ammo += 1;
+                } else if (collider.name == "ration") {
+                    if (playerHealth == constants.PLAYER_HEALTH) {
+                    } else if (playerHealth == constants.PLAYER_HEALTH - 1) {
+                        game.addChild(healthBar[playerHealth]);
+                        playerHealth += 1;                       
+                    } else {
+                        game.addChild(healthBar[playerHealth]);
+                        game.addChild(healthBar[playerHealth + 1]);
+                        playerHealth += 2;
+                    }
+                }
             }//end of if
         }//end of objects collision
 
         //collision for the player objects moving into objects
-        public playerObjectsCollision(collider: objects.GameObject, collide) {
+        public playerObjectsCollision(collider: objects.GameObject, collide, ration, ammoBox, game, healthBar) {
 
             //make the two point on the same grid
             var pt = collide.globalToLocal(collider.x, collider.y);
@@ -40,9 +53,24 @@
 
                 //if the collide is a guard move it off the stage
                 if (collide.name == "guard") {
+                    var random = Math.floor((Math.random() * 10) + 1); 
+                    if (random == 1) {
+                        ammoBox.x = collide.x;
+                        ammoBox.y = collide.y;
+                    } else if (random == 2) {
+                        ration.x = collide.x;
+                        ration.y = collide.y;
+                    }
+
                     collide.x = -1000;
                     collide.y = -1000;
                 }//end of if
+
+                if (collide.name == "snake") {
+                    playerHealth -= 2;
+                    game.removeChild(healthBar[playerHealth + 1]);
+                    game.removeChild(healthBar[playerHealth]);
+                }
 
                 //if the collider is a bullet move it off the stage
                 if (collider.name == "bullet") {
@@ -87,31 +115,67 @@
             }//end of if
         }//end of if
 
-        //collision for background objects like boxes and walls
-        public backgroundObjectsCollision(player, world, backgroundObject) {
+        //collision for background objects like boxes
+        public backgroundObjectsCollision(object, world, backgroundObject) {
 
             //make the two point on the same grid
-            var pt = backgroundObject.globalToLocal(player.x, player.y);
+            var pt = backgroundObject.globalToLocal(object.x, object.y);
 
             //check if the player isn't in the object
             if (pt.x >= backgroundObject.collisionBox.x + backgroundObject.boxWidth
-                || pt.x + player.width * .5 <= backgroundObject.collisionBox.x
+                || pt.x + object.width * .5 <= backgroundObject.collisionBox.x
                 || pt.y >= backgroundObject.collisionBox.y + backgroundObject.boxHeight
-                || pt.y + player.height * .5 <= backgroundObject.collisionBox.y) {
+                || pt.y + object.height * .5 <= backgroundObject.collisionBox.y) {
 
             } else {//if they are in the object
-                if (collidingBottom == true || collidingTop == true) {//if the player is currently colliding with the top or bottom wall
-                    player.y += dy;//move the player away from the object
-                } else {
-                    world.y -= dy;//move the screen away from the object
-                }//end of if
+                if (object.name == "snake") {
+                    if (collidingBottom == true || collidingTop == true) {//if the player is currently colliding with the top or bottom wall
+                        object.y += dy;//move the player away from the object
+                    } else {
+                        world.y -= dy;//move the screen away from the object
+                    }//end of if
 
-                if (collidingRight == true || collidingLeft == true) {//if the player is currently colliding with the left or right wall
-                    player.x += dx;//move the player away from the object
-                } else {
-                    world.x -= dx;//move the screen away from the object
-                }//end of if
+                    if (collidingRight == true || collidingLeft == true) {//if the player is currently colliding with the left or right wall
+                        object.x += dx;//move the player away from the object
+                    } else {
+                        world.x -= dx;//move the screen away from the object
+                    }//end of if
+                } else if (object.name == "bullet") {
+                    object.x = -2000;
+                    object.y = -2000;
+                }
             }//end of if
         }//
+
+
+        //public methods/////////////////////////////////////////////////////////////////////////////
+        public wallObjectsCollision(object, world, wall: objects.WallShapes) {
+
+            var pt = wall.globalToLocal(object.x, object.y);
+
+            if (pt.x >= wall.xLocation + wall.width
+                || pt.x + object.width * .5 <= wall.xLocation
+                || pt.y >= wall.yLocation + wall.height
+                || pt.y + object.height * .5 <= wall.yLocation) {
+
+            } else {
+                if (object.name == "snake") {
+                    if (collidingBottom == true || collidingTop == true) {
+                        object.y += dy;
+                    } else {
+                        world.y -= dy;
+                    }
+
+                    if (collidingRight == true || collidingLeft == true) {
+                        object.x += dx;
+                    } else {
+                        world.x -= dx;
+                    }
+                } else if (object.name == "bullet") {
+                    object.x = -2000;
+                    object.y = -2000;
+                }
+            }
+        }
     }//end of collider
 }  

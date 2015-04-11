@@ -19,30 +19,5 @@
             this.width = width;
             this.height = height;
         }
-
-        //public methods/////////////////////////////////////////////////////////////////////////////
-        public update(player, world) {
-
-            var pt = this.globalToLocal(player.x, player.y);
-
-            if (pt.x >= this.xLocation + this.width
-                || pt.x + player.width * .5 <= this.xLocation
-                || pt.y >= this.yLocation + this.height
-                || pt.y + player.height * .5 <= this.yLocation) {
-
-            } else {
-                if (collidingBottom == true || collidingTop == true) {
-                    player.y += dy;
-                } else {
-                    world.y -= dy;
-                }
-
-                if (collidingRight == true || collidingLeft == true) {
-                    player.x += dx;
-                } else {
-                    world.x -= dx;
-                }
-            }
-        }
     }
 }    

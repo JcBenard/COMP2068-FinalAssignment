@@ -1,13 +1,13 @@
 ﻿module objects {
 
-    export class HealthBar extends createjs.Bitmap {
+    export class HealthBar extends createjs.Sprite {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(barNumber: number) {
 
-            super(assetLoader.getResult("life"));
+            super(managers.Assets.atlas, "health");
 
-            this.x = 136 + (37 * barNumber);
+            this.x = 136 + (18.5 * barNumber);
             this.y = 444;
         }
     }
