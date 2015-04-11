@@ -33,14 +33,16 @@ module states {
         public ration: objects.Ration;
         public verticalBoxes: objects.BackgroundObjects [] = [];
         public healthBar: objects.HealthBar[] = [];
+        public wallCollisionShapes: objects.WallShapes[] = [];
 
         public collision: managers.Collision;
 
-        //public healthBar: objects.HealthBar[] = [];
-
-        private health = constants.PLAYER_HEALTH;
         private boxesX: number[] = [120, 280, 440];
         private boxesY: number = 124;
+        private wallX: number[] = [0, 0, constants.SCREEN_WIDTH - 40, 0];
+        private wallY: number[] = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
+        private wallWidth: number[] = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
+        private wallHeight: number[] = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -58,6 +60,12 @@ module states {
             for (var index = 0; index < this.boxesX.length; index++) {
                 this.verticalBoxes[index] = new objects.BackgroundObjects(this.boxesX[index], this.boxesY, "boxesV"); 
                 this.game.addChild(this.verticalBoxes[index]);
+            }
+
+            //create and add all the walls to the game, using the vales in the array for location and size
+            for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
+                this.game.addChild(this.wallCollisionShapes[index]);
             }
 
             //create and add th player to the game
@@ -138,6 +146,12 @@ module states {
             //check collision for the vertical boxes using the collision manager
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.verticalBoxes[index]);
+            }
+
+            //check collision for the walls using the collision manager
+            for (var index = 0; index < this.wallCollisionShapes.length; index++) {
+                this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);
+                this.collision.wallObjectsCollision(this.bullet, this.game, this.wallCollisionShapes[index]);
             }
 
         }//end of update

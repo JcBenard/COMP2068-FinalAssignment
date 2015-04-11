@@ -23,10 +23,13 @@ var states;
             this.enemyBullets = [];
             this.verticalBoxes = [];
             this.healthBar = [];
-            //public healthBar: objects.HealthBar[] = [];
-            this.health = constants.PLAYER_HEALTH;
+            this.wallCollisionShapes = [];
             this.boxesX = [120, 280, 440];
             this.boxesY = 124;
+            this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
+            this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
+            this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
+            this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create and add the background to the game
@@ -38,6 +41,10 @@ var states;
             for (var index = 0; index < this.boxesX.length; index++) {
                 this.verticalBoxes[index] = new objects.BackgroundObjects(this.boxesX[index], this.boxesY, "boxesV");
                 this.game.addChild(this.verticalBoxes[index]);
+            }
+            for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
+                this.game.addChild(this.wallCollisionShapes[index]);
             }
             //create and add th player to the game
             this.snake = new objects.Snake();
@@ -96,6 +103,10 @@ var states;
             }
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.verticalBoxes[index]);
+            }
+            for (var index = 0; index < this.wallCollisionShapes.length; index++) {
+                this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);
+                this.collision.wallObjectsCollision(this.bullet, this.game, this.wallCollisionShapes[index]);
             }
         }; //end of update
         //if the player presses a key

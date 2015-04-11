@@ -159,6 +159,9 @@ var managers;
                     object.x = -2000;
                     object.y = -2000;
                 }
+                if (wall.name == "door") {
+                    return true;
+                }
             }
         };
         return Collision;

@@ -7,6 +7,7 @@
         public height: number;
         public xLocation: number;
         public yLocation: number;
+        public name: string;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(xLocation: number, yLocation: number, height: number, width: number) {

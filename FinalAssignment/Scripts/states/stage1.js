@@ -36,11 +36,10 @@ var states;
             this.guardX = [680, 1180, 275, -220, -120, -85, 195, 900, 1190, 480, 545, 550];
             this.guardY = [-155, 135, -335, -35, -455, -535, -855, -545, -860, -930, -930, -495];
             this.guardDirection = ["Down", "Up", "Down", "Up", "Right", "Up", "Down", "Up", "Down", "Left", "Right", "Right"];
-            this.wallX = [605];
-            this.wallY = [-320];
-            this.wallHeight = [105];
-            this.wallWidth = [920];
-            this.wallDirection = ["Horizontal"];
+            this.wallX = [605, 390, -320, -320, 1465, -320];
+            this.wallY = [-320, -320, -1070, -1070, -1070, 190];
+            this.wallWidth = [920, 225, 55, 1835, 40, 1835];
+            this.wallHeight = [105, 395, 1290, 80, 1290, 17];
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create a world container to hold all background elements
@@ -71,6 +70,9 @@ var states;
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
             }
+            this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
+            this.doorCollision.name = "door";
+            this.world.addChild(this.doorCollision);
             //create and add a ration to the game
             this.ration = new objects.Ration(0);
             this.world.addChild(this.ration);
@@ -148,6 +150,13 @@ var states;
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.world, this.wallCollisionShapes[index]);
                 this.collision.wallObjectsCollision(this.bullet, this.world, this.wallCollisionShapes[index]);
+            }
+            if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
+                this.world.removeAllChildren();
+                this.game.removeAllChildren();
+                stage.removeChild(this.game);
+                currentState = constants.STAGE1BOSS_STATE;
+                stateChanged = true;
             }
             //check collision for snake and the stationary pickups
             this.collision.objectsCollision(this.pistol, this.snake, null, null);
