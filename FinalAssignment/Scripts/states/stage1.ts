@@ -59,6 +59,9 @@ module states {
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
+
+            playerHealth = constants.PLAYER_HEALTH;
+
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create a world container to hold all background elements
@@ -214,6 +217,8 @@ module states {
             if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
                 this.world.removeAllChildren();
                 this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
                 stage.removeChild(this.game);
                 currentState = constants.STAGE1BOSS_STATE;
                 stateChanged = true;
@@ -232,37 +237,39 @@ module states {
         //if the player presses a key
         public keyPressed(event) {
             //check what key is pressed then if its a movement key change the direction movement amount, the animation and the direction varriables
-            switch (event.keyCode) {
-                case constants.KEYCODE_A:
-                    dx = 2;
-                    animation = "runLeft" + haveGun;
-                    direction = "Left";
-                    break;
-                case constants.KEYCODE_D:
-                    dx = -2;
-                    animation = "runRight" + haveGun;
-                    direction = "Right"
-                    break;
-                case constants.KEYCODE_W:
-                    dy = 2;
-                    animation = "runUp" + haveGun;
-                    direction = "Up";
-                    break;
-                case constants.KEYCODE_S:
-                    dy = -2;
-                    animation = "runDown" + haveGun;
-                    direction = "Down";
-                    break;
-                //if they used space go to the weapon animation and set the use weapon flag to true
-                case 32:
-                    if (currentWeapon == "punch") {
-                        animation = "punch" + direction;                                                         
-                    } else {
-                        animation = "idle" + direction + haveGun;
+            if (dx == 0 && dy == 0) {
+                switch (event.keyCode) {
+                    case constants.KEYCODE_A:
+                        dx = 2;
+                        animation = "runLeft" + haveGun;
+                        direction = "Left";
+                        break;
+                    case constants.KEYCODE_D:
+                        dx = -2;
+                        animation = "runRight" + haveGun;
+                        direction = "Right"
+                        break;
+                    case constants.KEYCODE_W:
+                        dy = 2;
+                        animation = "runUp" + haveGun;
+                        direction = "Up";
+                        break;
+                    case constants.KEYCODE_S:
+                        dy = -2;
+                        animation = "runDown" + haveGun;
+                        direction = "Down";
+                        break;
+                    //if they used space go to the weapon animation and set the use weapon flag to true
+                    case 32:
+                        if (currentWeapon == "punch") {
+                            animation = "punch" + direction;
+                        } else {
+                            animation = "idle" + direction + haveGun;
+                            useProjectile = true;
+                        }
                         useProjectile = true;
-                    }
-                    useProjectile = true;
-                    break;
+                        break;
+                }
             }
         }
 
@@ -288,7 +295,9 @@ module states {
                     break;
                 //if they released space set the animation to idle
                 case 32:
-                    animation = "idle" + direction + haveGun;
+                    if (dx == 0 && dy == 0) {
+                        animation = "idle" + direction + haveGun;
+                    }
                     break;
             }
         }

@@ -68,7 +68,7 @@ var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
 var snakeColl: Boolean = false;
-var ammo: number = 0;
+var ammo: number = 5;
 var playerHealth: number = constants.PLAYER_HEALTH;
 
 // Game Objects 
@@ -89,7 +89,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE2_STATE;
     changeState(currentState);
 
 }

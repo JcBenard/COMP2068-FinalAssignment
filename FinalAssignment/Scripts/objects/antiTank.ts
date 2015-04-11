@@ -23,7 +23,7 @@
 
         public reset(player) {
             this.x = player.x;
-            this.y = player.x;
+            this.y = player.y;
         }
     }
 }   

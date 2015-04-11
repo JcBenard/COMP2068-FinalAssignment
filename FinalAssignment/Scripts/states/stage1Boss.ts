@@ -48,6 +48,9 @@ module states {
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
+
+            playerHealth = constants.PLAYER_HEALTH;
+
             //create a game container to store all elements
             this.game = new createjs.Container();
 
@@ -70,7 +73,7 @@ module states {
                 this.game.addChild(this.wallCollisionShapes[index]);
             }
 
-            this.doorCollision = new objects.WallShapes(285, 10, 60, 80);
+            this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
             this.doorCollision.name = "door";
             this.game.addChild(this.doorCollision);
 
@@ -174,6 +177,8 @@ module states {
 
             if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
                 this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
                 stage.removeChild(this.game);
                 currentState = constants.STAGE2_STATE;
                 stateChanged = true;

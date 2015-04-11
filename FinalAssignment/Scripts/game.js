@@ -61,7 +61,7 @@ var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
 var snakeColl = false;
-var ammo = 0;
+var ammo = 5;
 var playerHealth = constants.PLAYER_HEALTH;
 // Game Objects 
 function preload() {
@@ -78,7 +78,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE2_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////

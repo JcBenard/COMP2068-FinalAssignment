@@ -12,16 +12,17 @@
 /// <reference path="../objects/snake.ts" />
 /// <reference path="../objects/tank.ts" />
 /// <reference path="../objects/ammobox.ts" />
+/// <reference path="../managers/collision.ts" />
 var states;
 (function (states) {
     var Stage2 = (function () {
         //constructor///////////////////////////////////////////////////////////////////////
         function Stage2() {
             this.mines = [];
+            this.healthBar = [];
             this.ticks = 0;
-            this.health = constants.PLAYER_HEALTH;
             this.tankHealth = 10;
-            this.currentWeapon = "punch";
+            playerHealth = constants.PLAYER_HEALTH;
             animation = "runRight";
             collidingBottom = true;
             this.game = new createjs.Container();
@@ -57,57 +58,16 @@ var states;
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
-            ////create and add the parts of the health bar to the game
-            //for (var index2 = 0; index2 < this.health; index2++) {
-            //    this.healthBar[index2] = new objects.HealthBar(index2);
-            //    this.game.addChild(this.healthBar[index2]);
-            //}
+            for (var index2 = 0; index2 < playerHealth; index2++) {
+                this.healthBar[index2] = new objects.HealthBar(index2);
+                this.game.addChild(this.healthBar[index2]);
+            }
             //add all the elements to the stage
             stage.addChild(this.game);
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
+            this.collision = new managers.Collision();
         } //end of constructor
-        //public methods//////////////////////////////////////////////////////////////////////////////////
-        //calculate the distance between two points
-        Stage2.prototype.distance = function (p1, p2) {
-            return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
-        };
-        //check if two elements collided
-        Stage2.prototype.checkCollision = function (collider, colliding) {
-            //make points using the player charater and the selected element
-            var p1 = new createjs.Point();
-            var p2 = new createjs.Point();
-            p1.x = colliding.x;
-            p1.y = colliding.y;
-            p2.x = collider.x;
-            p2.y = collider.y;
-            //check if the elements have collided using the distance method and if they are
-            if (this.distance(p1, p2) < ((colliding.width * .5) + (collider.width * .5))) {
-                //if they aren't already colliding
-                if (!collider.isColliding) {
-                    createjs.Sound.play(collider.soundString); //play the sound that would be made on collision
-                    collider.isColliding = true; //set this varriables to true so they don't trigger collision again
-                    collider.y = constants.SCREEN_HEIGHT; //move the element off the stage
-                    //if the element that collided was harmful
-                    if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
-                        this.health--; //remove 1 health from the players health variable
-                    }
-                    else if (collider.name == "ration" && this.health != 3) {
-                        //this.game.addChild(this.healthBar[this.health]);//give the player a part of the health bar
-                        this.health++; //add 1 to the player's health variable
-                    }
-                    else if (collider.name == "antiTank") {
-                        this.tankHealth--;
-                        if (this.tankHealth % 2 == 0) {
-                            this.ration.reset();
-                        }
-                    }
-                }
-            }
-            else {
-                collider.isColliding = false; //set the variable to false so they can collide again
-            }
-        }; //end of collider
         //updates the game based on the elements
         Stage2.prototype.update = function () {
             //if 90 frams have passed and the difficulty is greater then 1
@@ -135,19 +95,22 @@ var states;
             this.background.update();
             for (var index = 0; index < constants.MINE_NUM; index++) {
                 this.mines[index].update();
-                this.checkCollision(this.mines[index], this.snake);
+                this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
             }
             this.ration.update();
-            this.checkCollision(this.ration, this.snake);
+            this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
             this.ammoBox.update();
-            //this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
+            this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             this.tankBullet.update();
-            this.checkCollision(this.tankBullet, this.snake);
+            this.collision.objectsCollision(this.tankBullet, this.snake, this.game, this.healthBar);
             this.shell.update();
-            this.checkCollision(this.shell, this.snake);
+            this.collision.objectsCollision(this.shell, this.snake, this.game, this.healthBar);
             this.antiTank.update();
-            this.checkCollision(this.antiTank, this.tank);
-            if (this.ticks == 1800) {
+            if (this.collision.objectsCollision(this.antiTank, this.tank, this.game, this.healthBar)) {
+                this.tankHealth--;
+                if (this.tankHealth % 2 == 0) {
+                    this.ration.reset();
+                }
             }
             //if the ticker reaches 180 set it to 0
             if (this.ticks == 1800) {

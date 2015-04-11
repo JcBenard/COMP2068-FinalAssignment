@@ -24,7 +24,7 @@ var objects;
         };
         AntiTank.prototype.reset = function (player) {
             this.x = player.x;
-            this.y = player.x;
+            this.y = player.y;
         };
         return AntiTank;
     })(objects.GameObject);

@@ -30,6 +30,7 @@ var states;
             this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
             this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
             this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
+            playerHealth = constants.PLAYER_HEALTH;
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create and add the background to the game
@@ -46,7 +47,7 @@ var states;
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.game.addChild(this.wallCollisionShapes[index]);
             }
-            this.doorCollision = new objects.WallShapes(285, 10, 60, 80);
+            this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
             this.doorCollision.name = "door";
             this.game.addChild(this.doorCollision);
             //create and add a ammo box to the game
@@ -121,6 +122,8 @@ var states;
             }
             if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
                 this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
                 stage.removeChild(this.game);
                 currentState = constants.STAGE2_STATE;
                 stateChanged = true;

@@ -40,6 +40,7 @@ var states;
             this.wallY = [-320, -320, -1070, -1070, -1070, 190];
             this.wallWidth = [920, 225, 55, 1835, 40, 1835];
             this.wallHeight = [105, 395, 1290, 80, 1290, 17];
+            playerHealth = constants.PLAYER_HEALTH;
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create a world container to hold all background elements
@@ -157,6 +158,8 @@ var states;
             if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
                 this.world.removeAllChildren();
                 this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
                 stage.removeChild(this.game);
                 currentState = constants.STAGE1BOSS_STATE;
                 stateChanged = true;
@@ -171,37 +174,40 @@ var states;
         }; //end of update
         //if the player presses a key
         Stage1.prototype.keyPressed = function (event) {
-            switch (event.keyCode) {
-                case constants.KEYCODE_A:
-                    dx = 2;
-                    animation = "runLeft" + haveGun;
-                    direction = "Left";
-                    break;
-                case constants.KEYCODE_D:
-                    dx = -2;
-                    animation = "runRight" + haveGun;
-                    direction = "Right";
-                    break;
-                case constants.KEYCODE_W:
-                    dy = 2;
-                    animation = "runUp" + haveGun;
-                    direction = "Up";
-                    break;
-                case constants.KEYCODE_S:
-                    dy = -2;
-                    animation = "runDown" + haveGun;
-                    direction = "Down";
-                    break;
-                case 32:
-                    if (currentWeapon == "punch") {
-                        animation = "punch" + direction;
-                    }
-                    else {
-                        animation = "idle" + direction + haveGun;
+            //check what key is pressed then if its a movement key change the direction movement amount, the animation and the direction varriables
+            if (dx == 0 && dy == 0) {
+                switch (event.keyCode) {
+                    case constants.KEYCODE_A:
+                        dx = 2;
+                        animation = "runLeft" + haveGun;
+                        direction = "Left";
+                        break;
+                    case constants.KEYCODE_D:
+                        dx = -2;
+                        animation = "runRight" + haveGun;
+                        direction = "Right";
+                        break;
+                    case constants.KEYCODE_W:
+                        dy = 2;
+                        animation = "runUp" + haveGun;
+                        direction = "Up";
+                        break;
+                    case constants.KEYCODE_S:
+                        dy = -2;
+                        animation = "runDown" + haveGun;
+                        direction = "Down";
+                        break;
+                    case 32:
+                        if (currentWeapon == "punch") {
+                            animation = "punch" + direction;
+                        }
+                        else {
+                            animation = "idle" + direction + haveGun;
+                            useProjectile = true;
+                        }
                         useProjectile = true;
-                    }
-                    useProjectile = true;
-                    break;
+                        break;
+                }
             }
         };
         //when the player resleases a key
@@ -224,7 +230,9 @@ var states;
                     animation = "idleDown" + haveGun;
                     break;
                 case 32:
-                    animation = "idle" + direction + haveGun;
+                    if (dx == 0 && dy == 0) {
+                        animation = "idle" + direction + haveGun;
+                    }
                     break;
             }
         };

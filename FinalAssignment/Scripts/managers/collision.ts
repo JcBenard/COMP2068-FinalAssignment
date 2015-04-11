@@ -11,46 +11,6 @@
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         }
 
-        ////check if two elements collided
-        //public checkCollision(collider: objects.GameObject, colliding) {
-        //    //make points using the player charater and the selected element
-        //    var p1: createjs.Point = new createjs.Point();
-        //    var p2: createjs.Point = new createjs.Point();
-
-        //    p1.x = colliding.x;
-        //    p1.y = colliding.y;
-        //    p2.x = collider.x;
-        //    p2.y = collider.y;
-
-        //    //check if the elements have collided using the distance method and if they are
-        //    if (this.distance(p1, p2) < ((colliding.width * .5) + (collider.width * .5))) {
-        //        //if they aren't already colliding
-        //        if (!collider.isColliding) {
-        //            createjs.Sound.play(collider.soundString);//play the sound that would be made on collision
-        //            collider.isColliding = true;//set this varriables to true so they don't trigger collision again
-        //            collider.y = constants.SCREEN_HEIGHT;//move the element off the stage
-
-        //            //if the element that collided was harmful
-        //            if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
-        //                this.health--;//remove 1 health from the players health variable
-        //                //this.game.removeChild(this.healthBar[this.health]);//remove one of the parts of the players health bar from the game
-
-        //                //if the player collided with something helpful and their health isn't full
-        //            } else if (collider.name == "ration" && this.health != 3) {
-        //                //this.game.addChild(this.healthBar[this.health]);//give the player a part of the health bar
-        //                this.health++;//add 1 to the player's health variable
-        //            } else if (collider.name == "antiTank") {
-        //                this.tankHealth--;
-        //                if (this.tankHealth % 2 == 0) {
-        //                    this.ration.reset();
-        //                }
-        //            }
-        //        }
-        //    } else {//if the elements aren't colliding
-        //        collider.isColliding = false;//set the variable to false so they can collide again
-        //    }
-        //}//end of collider
-
         //collision for objects moving into the player objects
         public objectsCollision(collider: objects.GameObject, collide, game, healthBar) {
 
@@ -69,6 +29,7 @@
                 if (!collider.isColliding) {
                     //play the sound associated with the collider and move it off the stage
                     createjs.Sound.play(collider.soundString);
+
                     collider.x = -1000;
                     collider.y = -1000;
 
@@ -89,7 +50,14 @@
                             game.addChild(healthBar[playerHealth + 1]);
                             playerHealth += 2;
                         }
+                    } else if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
+                        playerHealth -= 2;//remove 1 health from the players health variable
+                        game.removeChild(healthBar[playerHealth + 1]);
+                        game.removeChild(healthBar[playerHealth]);
+                    } else if (collider.name == "antiTank") {
+                        return true;                    
                     }
+                    collider.isColliding = true;
                 }
             } else {//if the elements aren't colliding
                 collider.isColliding = false;//set the variable to false so they can collide again
