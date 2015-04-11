@@ -162,7 +162,10 @@ module states {
                 //check what weapon the player is using and do what's in the case
                 switch (currentWeapon) {
                     case ("pistol"):
-                        this.bullet.reset(this.snake, direction);
+                        if (ammo > 0) {
+                            this.bullet.reset(this.snake, direction);
+                            ammo--;
+                        }
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {

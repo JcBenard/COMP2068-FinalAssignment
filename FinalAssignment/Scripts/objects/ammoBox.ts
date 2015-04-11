@@ -24,5 +24,10 @@
             this.x = constants.SCREEN_WIDTH;
             this.y = Math.floor(Math.random() * 430);
         }
+
+        public resetBoss() {
+            this.x = constants.SCRREN_CENTER_WIDTH;
+            this.y = 400;
+        }
     }
 }  

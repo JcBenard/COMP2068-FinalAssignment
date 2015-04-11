@@ -10,9 +10,9 @@ var objects;
     var Mine = (function (_super) {
         __extends(Mine, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function Mine() {
+        function Mine(dx) {
             _super.call(this, "mine");
-            this._dx = 4;
+            this._dx = dx;
             this.soundString = "explosion";
             this.name = "mines";
             //set the island to start at a random x and an out of bounds y

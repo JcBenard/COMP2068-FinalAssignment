@@ -46,6 +46,12 @@ var states;
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.game.addChild(this.wallCollisionShapes[index]);
             }
+            this.doorCollision = new objects.WallShapes(285, 10, 60, 80);
+            this.doorCollision.name = "door";
+            this.game.addChild(this.doorCollision);
+            //create and add a ammo box to the game
+            this.ammoBox = new objects.AmmoBox(0);
+            this.game.addChild(this.ammoBox);
             //create and add th player to the game
             this.snake = new objects.Snake();
             this.game.addChild(this.snake);
@@ -92,10 +98,15 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
+            var random = Math.floor((Math.random() * 500) + 1);
+            if (random == 500) {
+                this.ammoBox.resetBoss();
+            }
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
+            this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             this.collision.playerObjectsCollision(this.bullet, this.gunner, null, null, this.game, this.healthBar);
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
@@ -107,6 +118,12 @@ var states;
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);
                 this.collision.wallObjectsCollision(this.bullet, this.game, this.wallCollisionShapes[index]);
+            }
+            if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
+                this.game.removeAllChildren();
+                stage.removeChild(this.game);
+                currentState = constants.STAGE2_STATE;
+                stateChanged = true;
             }
         }; //end of update
         //if the player presses a key

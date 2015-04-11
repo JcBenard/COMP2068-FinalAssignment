@@ -5,11 +5,11 @@ module objects {
     export class Mine extends GameObject {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor() {
+        constructor(dx) {
 
             super("mine");
 
-            this._dx = 4;
+            this._dx = dx;
             this.soundString = "explosion";
             this.name = "mines";
             //set the island to start at a random x and an out of bounds y

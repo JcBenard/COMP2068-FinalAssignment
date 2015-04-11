@@ -29,9 +29,12 @@ var states;
             this.background = new objects.MovingBackgroud();
             this.game.addChild(this.background);
             for (var index = 0; index < constants.MINE_NUM; index++) {
-                this.mines[index] = new objects.Mine();
+                this.mines[index] = new objects.Mine(4);
                 this.game.addChild(this.mines[index]);
             }
+            //create and add a ammo box to the game
+            this.ammoBox = new objects.AmmoBox(4);
+            this.game.addChild(this.ammoBox);
             //create and add the ration to the game
             this.ration = new objects.Ration(4);
             this.game.addChild(this.ration);
@@ -116,8 +119,15 @@ var states;
                 this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
             }
             if (useProjectile == true) {
-                this.antiTank.reset(this.snake);
-                useProjectile = false;
+                if (ammo > 0) {
+                    this.antiTank.reset(this.snake);
+                    useProjectile = false;
+                    ammo--;
+                }
+            }
+            var random = Math.floor((Math.random() * 500) + 1);
+            if (this.ammoBox.x < 0 && random == 500) {
+                this.ammoBox.reset();
             }
             //update and check collision for the moving elements
             this.snake.update();
@@ -129,6 +139,8 @@ var states;
             }
             this.ration.update();
             this.checkCollision(this.ration, this.snake);
+            this.ammoBox.update();
+            //this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
             this.tankBullet.update();
             this.checkCollision(this.tankBullet, this.snake);
             this.shell.update();
