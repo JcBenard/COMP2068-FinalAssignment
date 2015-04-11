@@ -30,6 +30,7 @@
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
 
+/// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -41,6 +42,7 @@ var stage: createjs.Stage;
 var assetLoader: createjs.LoadQueue;
 
 //game objects
+var start: states.Start;
 var stage1: states.Stage1;
 var stage1Boss: states.Stage1Boss;
 var stage2: states.Stage2;
@@ -51,10 +53,6 @@ var currentStateFunction: any;
 var stateChanged: boolean = false;
 
 //game stats
-var finalScore: number = 0;
-var finalDifficulty: number = 1;
-var finalAvaterY: number = 0;
-var finalHealth: number = 0;
 
 var animation: string = "idleUp";
 var useProjectile: Boolean = false;
@@ -89,7 +87,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE2_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 
 }
@@ -123,7 +121,10 @@ function gameLoop() {
 function changeState(state: number) {
 
     switch (state) {
-        case constants.MENU_STATE://if its menu state
+        case constants.START_STATE://if its menu state
+            stateChanged = false;
+            start = new states.Start();
+            currentStateFunction = start;
             break;
         case constants.INSTRUCTIONS_STATE://if its instructions state
             break;

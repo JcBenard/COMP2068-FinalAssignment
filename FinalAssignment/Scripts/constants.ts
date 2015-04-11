@@ -16,7 +16,7 @@
     export var MINE_NUM: number = 10;
 
     //game state constants
-    export var MENU_STATE: number = 0;
+    export var START_STATE: number = 0;
     export var INSTRUCTIONS_STATE: number = 1;
     export var STAGE1_STATE: number = 2;
     export var STAGE1BOSS_STATE: number = 3;

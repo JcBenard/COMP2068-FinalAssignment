@@ -15,6 +15,7 @@
 /// <reference path="../objects/wallshapes.ts" />
 /// <reference path="../managers/collision.ts" />
 /// <reference path="../objects/gunner.ts" />
+/// <reference path="../objects/mine.ts" />
 var states;
 (function (states) {
     var Stage1Boss = (function () {
@@ -24,12 +25,16 @@ var states;
             this.verticalBoxes = [];
             this.healthBar = [];
             this.wallCollisionShapes = [];
+            this.mines = [];
+            this.bossHealth = 6;
             this.boxesX = [120, 280, 440];
             this.boxesY = 124;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
             this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
             this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
             this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
+            this.minesX = [78, 88, 98, 108, 225, 235, 245, 255, 265, 380, 390, 400, 410, 420, 540, 550, 560, 570, 580];
+            this.minesY = constants.SCRREN_CENTER_HEIGHT;
             playerHealth = constants.PLAYER_HEALTH;
             //create a game container to store all elements
             this.game = new createjs.Container();
@@ -46,6 +51,11 @@ var states;
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.game.addChild(this.wallCollisionShapes[index]);
+            }
+            for (var index = 0; index < this.minesX.length; index++) {
+                this.mines[index] = new objects.Mine(0);
+                this.mines[index].setMines(this.minesX[index], this.minesY);
+                this.game.addChild(this.mines[index]);
             }
             this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
             this.doorCollision.name = "door";
@@ -93,6 +103,16 @@ var states;
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //updates the game based on the elements
         Stage1Boss.prototype.update = function () {
+            if (this.bossHealth < 1) {
+                this.gunner.x = -1000;
+                for (var index = 0; index < this.mines.length; index++) {
+                    this.game.removeChild(this.mines[index]);
+                    this.mines[index].x = -1000;
+                }
+                for (var index = 0; index < this.enemyBullets.length; index++) {
+                    this.game.removeChild(this.enemyBullets[index]);
+                }
+            }
             //if the flag to use a weapon is true
             if (useProjectile == true) {
                 this.bullet.reset(this.snake, direction);
@@ -108,7 +128,13 @@ var states;
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
-            this.collision.playerObjectsCollision(this.bullet, this.gunner, null, null, this.game, this.healthBar);
+            if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {
+                this.bossHealth--;
+            }
+            for (var index = 0; index < this.mines.length; index++) {
+                this.mines[index].update();
+                this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
+            }
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
                 this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake, null, null, this.game, this.healthBar);

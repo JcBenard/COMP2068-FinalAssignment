@@ -28,6 +28,7 @@
 /// <reference path="objects/gunner.ts" />
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
+/// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
@@ -37,6 +38,7 @@ var canvas;
 var stage;
 var assetLoader;
 //game objects
+var start;
 var stage1;
 var stage1Boss;
 var stage2;
@@ -45,10 +47,6 @@ var currentState;
 var currentStateFunction;
 var stateChanged = false;
 //game stats
-var finalScore = 0;
-var finalDifficulty = 1;
-var finalAvaterY = 0;
-var finalHealth = 0;
 var animation = "idleUp";
 var useProjectile = false;
 var currentWeapon = "punch";
@@ -78,7 +76,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE2_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -103,7 +101,10 @@ function gameLoop() {
 //this function runs when a state is changed and runs the corresponding functions in the objects
 function changeState(state) {
     switch (state) {
-        case constants.MENU_STATE:
+        case constants.START_STATE:
+            stateChanged = false;
+            start = new states.Start();
+            currentStateFunction = start;
             break;
         case constants.INSTRUCTIONS_STATE:
             break;

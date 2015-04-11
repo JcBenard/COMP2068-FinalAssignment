@@ -114,6 +114,7 @@
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />
+    <TypeScriptCompile Include="Scripts\states\start.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\preloadjs\preloadjs.d.ts" />

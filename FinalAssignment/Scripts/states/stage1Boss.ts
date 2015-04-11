@@ -15,6 +15,7 @@
 /// <reference path="../objects/wallshapes.ts" />
 /// <reference path="../managers/collision.ts" />
 /// <reference path="../objects/gunner.ts" />
+/// <reference path="../objects/mine.ts" />
 
 
 module states {
@@ -36,15 +37,19 @@ module states {
         public wallCollisionShapes: objects.WallShapes[] = [];
         public doorCollision: objects.WallShapes;
         public ammoBox: objects.AmmoBox;
+        public mines: objects.Mine[] = [];
 
         public collision: managers.Collision;
 
+        private bossHealth = 6;
         private boxesX: number[] = [120, 280, 440];
         private boxesY: number = 124;
         private wallX: number[] = [0, 0, constants.SCREEN_WIDTH - 40, 0];
         private wallY: number[] = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
         private wallWidth: number[] = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
         private wallHeight: number[] = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
+        private minesX: number[] = [78, 88, 98, 108, 225, 235, 245, 255, 265, 380, 390, 400, 410, 420, 540, 550, 560, 570, 580];
+        private minesY: number = constants.SCRREN_CENTER_HEIGHT;
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -71,6 +76,12 @@ module states {
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.game.addChild(this.wallCollisionShapes[index]);
+            }
+
+            for (var index = 0; index < this.minesX.length; index++) {
+                this.mines[index] = new objects.Mine(0);
+                this.mines[index].setMines(this.minesX[index], this.minesY);
+                this.game.addChild(this.mines[index]);
             }
 
             this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
@@ -137,6 +148,17 @@ module states {
         //updates the game based on the elements
         public update() {
 
+            if (this.bossHealth < 1) {
+                this.gunner.x = -1000;
+                for (var index = 0; index < this.mines.length; index++) {
+                    this.game.removeChild(this.mines[index]);
+                    this.mines[index].x = -1000;
+                }
+                for (var index = 0; index < this.enemyBullets.length; index++) {
+                    this.game.removeChild(this.enemyBullets[index]);
+                }
+            }
+
             //if the flag to use a weapon is true
             if (useProjectile == true) {
                 this.bullet.reset(this.snake, direction);
@@ -157,7 +179,14 @@ module states {
 
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
 
-            this.collision.playerObjectsCollision(this.bullet, this.gunner, null, null, this.game, this.healthBar);
+            if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {
+                this.bossHealth--;
+            }
+
+            for (var index = 0; index < this.mines.length; index++) {
+                this.mines[index].update();
+                this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
+            }
 
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();

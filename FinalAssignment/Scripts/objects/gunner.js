@@ -19,6 +19,7 @@ var objects;
             this.regY = this.height * 0.5;
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = 90;
+            this.name = "gunner";
         }
         Gunner.prototype.update = function (bullets) {
             if (this.counter == 0) {

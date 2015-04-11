@@ -9,6 +9,7 @@ module objects {
         private xPositions: number[] = [100, 250, 400, 560];
         private positionToMove: number;
         private dx: number;
+        public name;
 
         constructor() {
 
@@ -22,6 +23,8 @@ module objects {
 
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = 90;
+
+            this.name = "gunner";
         }
 
         public update(bullets: objects.Bullet []) {

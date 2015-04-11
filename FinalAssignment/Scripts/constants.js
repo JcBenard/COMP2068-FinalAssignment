@@ -14,7 +14,7 @@ var constants;
     constants.PLAYER_HEALTH = 6;
     constants.MINE_NUM = 10;
     //game state constants
-    constants.MENU_STATE = 0;
+    constants.START_STATE = 0;
     constants.INSTRUCTIONS_STATE = 1;
     constants.STAGE1_STATE = 2;
     constants.STAGE1BOSS_STATE = 3;

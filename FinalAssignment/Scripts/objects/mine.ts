@@ -23,6 +23,11 @@ module objects {
             this._checkBounds();
         }
 
+        public setMines(x: number, y: number) {
+            this.x = x;
+            this.y = y;
+        }
+
         //set the mine to a random y pos and a random x pos out of screen
         private _reset() {
             this.x = constants.SCREEN_WIDTH + Math.floor(Math.random() * constants.SCREEN_WIDTH);

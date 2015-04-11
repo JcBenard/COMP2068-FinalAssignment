@@ -55,6 +55,10 @@ var managers;
                     else if (collider.name == "antiTank") {
                         return true;
                     }
+                    if (collide.name == "gunner") {
+                        console.log("Worked");
+                        return true;
+                    }
                     collider.isColliding = true;
                 }
             }
