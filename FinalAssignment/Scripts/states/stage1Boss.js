@@ -113,6 +113,14 @@ var states;
                     this.game.removeChild(this.enemyBullets[index]);
                 }
             }
+            if (playerHealth < 1) {
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.GAME_OVER_STATE;
+                stateChanged = true;
+            }
             //if the flag to use a weapon is true
             if (useProjectile == true) {
                 this.bullet.reset(this.snake, direction);
@@ -141,6 +149,7 @@ var states;
             }
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.game, this.verticalBoxes[index]);
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);
@@ -178,7 +187,7 @@ var states;
                     animation = "runDown" + haveGun;
                     direction = "Down";
                     break;
-                case 32:
+                case constants.KEYCODE_SPACE:
                     if (currentWeapon == "punch") {
                         animation = "punch" + direction;
                     }
@@ -209,7 +218,7 @@ var states;
                     dy = 0;
                     animation = "idleDown" + haveGun;
                     break;
-                case 32:
+                case constants.KEYCODE_SPACE:
                     animation = "idle" + direction + haveGun;
                     break;
             }

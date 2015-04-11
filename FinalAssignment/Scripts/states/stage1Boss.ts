@@ -159,6 +159,15 @@ module states {
                 }
             }
 
+            if (playerHealth < 1) {
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.GAME_OVER_STATE;
+                stateChanged = true;
+            }
+
             //if the flag to use a weapon is true
             if (useProjectile == true) {
                 this.bullet.reset(this.snake, direction);
@@ -196,6 +205,7 @@ module states {
             //check collision for the vertical boxes using the collision manager
             for (var index = 0; index < this.verticalBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.verticalBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.bullet, this.game, this.verticalBoxes[index]);
             }
 
             //check collision for the walls using the collision manager
@@ -240,7 +250,7 @@ module states {
                     direction = "Down";
                     break;
                 //if they used space go to the weapon animation and set the use weapon flag to true
-                case 32:
+                case constants.KEYCODE_SPACE:
                     if (currentWeapon == "punch") {
                         animation = "punch" + direction;
                     } else {
@@ -273,7 +283,7 @@ module states {
                     animation = "idleDown" + haveGun;
                     break;
                 //if they released space set the animation to idle
-                case 32:
+                case constants.KEYCODE_SPACE:
                     animation = "idle" + direction + haveGun;
                     break;
             }

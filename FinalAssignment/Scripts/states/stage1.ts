@@ -260,7 +260,7 @@ module states {
                         direction = "Down";
                         break;
                     //if they used space go to the weapon animation and set the use weapon flag to true
-                    case 32:
+                    case constants.KEYCODE_SPACE:
                         if (currentWeapon == "punch") {
                             animation = "punch" + direction;
                         } else {
@@ -294,7 +294,7 @@ module states {
                     animation = "idleDown" + haveGun;
                     break;
                 //if they released space set the animation to idle
-                case 32:
+                case constants.KEYCODE_SPACE:
                     if (dx == 0 && dy == 0) {
                         animation = "idle" + direction + haveGun;
                     }

@@ -28,10 +28,12 @@
 /// <reference path="objects/gunner.ts" />
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
+/// <reference path="objects/snakedeath.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
+/// <reference path="states/gameover.ts" />
 //game variables
 var stats = new Stats();
 var canvas;
@@ -42,6 +44,7 @@ var start;
 var stage1;
 var stage1Boss;
 var stage2;
+var gameOver;
 //game states
 var currentState;
 var currentStateFunction;
@@ -61,6 +64,7 @@ var collidingRight = false;
 var snakeColl = false;
 var ammo = 5;
 var playerHealth = constants.PLAYER_HEALTH;
+var currentStage;
 // Game Objects 
 function preload() {
     managers.Assets.init();
@@ -76,7 +80,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.START_STATE;
+    currentState = constants.GAME_OVER_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -124,6 +128,9 @@ function changeState(state) {
             currentStateFunction = stage2;
             break;
         case constants.GAME_OVER_STATE:
+            stateChanged = false;
+            gameOver = new states.GameOver();
+            currentStateFunction = gameOver;
             break;
         case constants.WIN_STATE:
             break;

@@ -96,6 +96,7 @@
     <TypeScriptCompile Include="Scripts\objects\gunner.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />
+    <TypeScriptCompile Include="Scripts\objects\snakeDeath.ts" />
     <TypeScriptCompile Include="Scripts\objects\tankBullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\mine.ts" />
     <TypeScriptCompile Include="Scripts\objects\movingBackground.ts" />
@@ -111,9 +112,12 @@
     <TypeScriptCompile Include="Scripts\objects\transitionBackground.ts" />
     <TypeScriptCompile Include="Scripts\objects\wallShapes.ts" />
     <TypeScriptCompile Include="Scripts\objects\worldContainer.ts" />
+    <TypeScriptCompile Include="Scripts\states\gameOver.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />
+    <TypeScriptCompile Include="Scripts\states\stage3.ts" />
+    <TypeScriptCompile Include="Scripts\states\stage3Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\start.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />

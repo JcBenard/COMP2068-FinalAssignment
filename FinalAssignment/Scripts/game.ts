@@ -29,11 +29,13 @@
 /// <reference path="objects/gunner.ts" />
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
+/// <reference path="objects/snakedeath.ts" />
 
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
 /// <reference path="states/stage1boss.ts" />
+/// <reference path="states/gameover.ts" />
 
 //game variables
 var stats: Stats = new Stats();
@@ -46,6 +48,7 @@ var start: states.Start;
 var stage1: states.Stage1;
 var stage1Boss: states.Stage1Boss;
 var stage2: states.Stage2;
+var gameOver: states.GameOver;
 
 //game states
 var currentState: number;
@@ -68,6 +71,7 @@ var collidingRight: Boolean = false;
 var snakeColl: Boolean = false;
 var ammo: number = 5;
 var playerHealth: number = constants.PLAYER_HEALTH;
+var currentStage;
 
 // Game Objects 
 function preload() {
@@ -87,7 +91,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.START_STATE;
+    currentState = constants.GAME_OVER_STATE;
     changeState(currentState);
 
 }
@@ -143,7 +147,10 @@ function changeState(state: number) {
             stage2 = new states.Stage2();
             currentStateFunction = stage2;
             break;
-        case constants.GAME_OVER_STATE://if its game over state         
+        case constants.GAME_OVER_STATE://if its game over state  
+            stateChanged = false;
+            gameOver = new states.GameOver();
+            currentStateFunction = gameOver;       
             break;
         case constants.WIN_STATE://if its the win state
             break;

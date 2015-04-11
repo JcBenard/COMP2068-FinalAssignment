@@ -197,7 +197,7 @@ var states;
                         animation = "runDown" + haveGun;
                         direction = "Down";
                         break;
-                    case 32:
+                    case constants.KEYCODE_SPACE:
                         if (currentWeapon == "punch") {
                             animation = "punch" + direction;
                         }
@@ -229,7 +229,7 @@ var states;
                     dy = 0;
                     animation = "idleDown" + haveGun;
                     break;
-                case 32:
+                case constants.KEYCODE_SPACE:
                     if (dx == 0 && dy == 0) {
                         animation = "idle" + direction + haveGun;
                     }

@@ -107,6 +107,15 @@ module states {
         //updates the game based on the elements
         public update() {
 
+            if (this.tankHealth < 1) {
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.STAGE3_STATE;
+                stateChanged = true;
+            }
+
             //if 90 frams have passed and the difficulty is greater then 1
             if (this.ticks % 90 == 0 && this.tankHealth < 7) {
                 this.tankBullet.reset(this.snake.y, this.tank.y);//shoot a bullet
@@ -119,10 +128,10 @@ module states {
 
             if (useProjectile == true) {
                 if (ammo > 0) {
-                    this.antiTank.reset(this.snake);
-                    useProjectile = false;
+                    this.antiTank.reset(this.snake);                   
                     ammo--;
                 }
+                useProjectile = false;
             }
 
             var random = Math.floor((Math.random() * 500) + 1);
@@ -179,7 +188,7 @@ module states {
                 case constants.KEYCODE_S:
                     dy = -2;
                     break;
-                case 32:
+                case constants.KEYCODE_SPACE:
                     useProjectile = true;
                     break;
             }

@@ -121,7 +121,8 @@
             "missle": [50],
             "missleFire": [51],
             "shell": [52],
-            "tank": [53]
+            "tank": [53],
+            "die": { frames: [9, 3, 7, 13, 8], speed: 0.025 }
         }
     }
 

@@ -10,7 +10,7 @@ var objects;
         __extends(TransitionBackground, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function TransitionBackground(backgroundName, dx, buffer) {
-            _super.call(this, assetLoader.getResult(backgroundName));
+            _super.call(this, managers.Assets.loader.getResult(backgroundName));
             this._dx = dx;
             this._buffer = buffer;
             this.width = this.getBounds().width;

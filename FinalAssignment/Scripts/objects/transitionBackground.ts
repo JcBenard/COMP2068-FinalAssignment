@@ -12,7 +12,7 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(backgroundName: string, dx: number, buffer: number) {
 
-            super(assetLoader.getResult(backgroundName));
+            super(managers.Assets.loader.getResult(backgroundName));
 
             this._dx = dx;
             this._buffer = buffer;

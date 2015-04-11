@@ -19,11 +19,14 @@ var constants;
     constants.STAGE1_STATE = 2;
     constants.STAGE1BOSS_STATE = 3;
     constants.STAGE2_STATE = 4;
-    constants.GAME_OVER_STATE = 3;
-    constants.WIN_STATE = 5;
+    constants.STAGE3_STATE = 5;
+    constants.STAGE3BOSS_STATE = 6;
+    constants.GAME_OVER_STATE = 8;
+    constants.WIN_STATE = 9;
     constants.KEYCODE_W = 87;
     constants.KEYCODE_A = 65;
     constants.KEYCODE_D = 68;
     constants.KEYCODE_S = 83;
+    constants.KEYCODE_SPACE = 32;
 })(constants || (constants = {}));
 //# sourceMappingURL=constants.js.map
