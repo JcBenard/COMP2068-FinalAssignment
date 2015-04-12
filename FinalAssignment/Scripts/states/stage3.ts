@@ -50,9 +50,9 @@ module states {
         private vBoxesY: number[] = [-1560, -1159, -919, -679, -439, -199];
         private hBoxesX: number[] = [26, 26];
         private hBoxesY: number[] = [-160, -360];
-        private guardX: number[] = [];
-        private guardY: number[] = [];
-        private guardDirection: string[] = [];
+        private guardX: number[] = [50, 230, 610, 630, 630, 415, 415, 250, -110, -175, 230];
+        private guardY: number[] = [-1590, -1280, -1585, -870, -200, -1100, -250, -410, -670, -1035, -1035];
+        private guardDirection: string[] = ["Down", "Right", "Left", "Down", "Up", "Down", "Up", "Left", "Right", "Down", "Left"];
         private wallX: number[] = [];
         private wallY: number[] = [];
         private wallWidth: number[] = [];
