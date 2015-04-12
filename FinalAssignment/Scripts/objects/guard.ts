@@ -80,24 +80,36 @@ module objects {
                 this.gotoAndPlay("guardMoveRight");
                 this.diffX = 0;
                 this.direction = "Right";
-                this.losCheckers = [];             
+                for (var index = 0; index < this.losCheckers.length; index++) {
+                    world.removeChild(this.losCheckers[index]); 
+                }  
+                this.losCheckers = [];         
              } else if(this.direction == "Right" && this.diffX > 300) {
                 this._dx = -this._dx;
                 this.gotoAndPlay("guardMoveLeft");
                 this.diffX = 0;
                 this.direction = "Left";
+                for (var index = 0; index < this.losCheckers.length; index++) {
+                    world.removeChild(this.losCheckers[index]);
+                } 
                 this.losCheckers = [];
             } else if (this.direction == "Up" && this.diffY < -300) {
                 this._dy = -this._dy;
                 this.gotoAndPlay("guardMoveDown");
                 this.diffY = 0;
                 this.direction = "Down";
+                for (var index = 0; index < this.losCheckers.length; index++) {
+                    world.removeChild(this.losCheckers[index]);
+                } 
                 this.losCheckers = [];
             } else if (this.direction == "Down" && this.diffY > 300) {
                 this._dy = -this._dy;
                 this.gotoAndPlay("guardMoveUp");
                 this.diffY = 0;
                 this.direction = "Up";
+                for (var index = 0; index < this.losCheckers.length; index++) {
+                    world.removeChild(this.losCheckers[index]);
+                } 
                 this.losCheckers = [];
             }
 

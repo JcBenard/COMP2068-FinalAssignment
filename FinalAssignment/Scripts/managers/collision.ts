@@ -142,15 +142,17 @@
 
             var pt = guard.globalToLocal(collide.x, collide.y); 
 
-            console.log(pt + "/" + collider.x + " " + collider.y);
+            //console.log(pt + "/" + collider.x + " " + collider.y);
 
             if (pt.x >= collider.x + collider.width
-                || pt.x + collide.width<= collider.x
-                || pt.y - collide.height>= collider.y + collider.height
-                || pt.y <= collider.y) {
+                || pt.x + collide.width <= collider.x
+                || pt.y >= collider.y + collider.height
+                || pt.y + collide.height <= collider.y) {
 
             } else {
-                return true;
+                console.log("Worked");
+                collider.x = -10000;
+                collider.y = -10000;
             }
         }
 

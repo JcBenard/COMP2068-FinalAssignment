@@ -94,16 +94,16 @@ module states {
             }
          
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
-            for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
-                this.world.addChild(this.guards[index]);
-            }
+            //for (var index = 0; index < this.guardX.length; index++) {
+                this.guards[0] = new objects.Guard(this.guardX[0], this.guardY[0], this.guardDirection[0], this.world);
+                this.world.addChild(this.guards[0]);
+            //}
 
             //create and add all the walls to the game, using the vales in the array for location and size
-            for (var index = 0; index < this.wallX.length; index++) {
-                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
-                this.world.addChild(this.wallCollisionShapes[index]);
-            }
+            //for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[0] = new objects.WallShapes(this.wallX[0], this.wallY[0], this.wallHeight[0], this.wallWidth[0]);
+                this.world.addChild(this.wallCollisionShapes[0]);
+            //}
 
             this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
             this.doorCollision.name = "door";
@@ -209,32 +209,33 @@ module states {
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
 
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
-                    for (var index3 = 0; index3 < this.tanks.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.tanks[index3], this.guards[index])) {
-                            this.world.removeChild(this.guards[index].losCheckers[index2]);
-                        }
-                    }
-                    for (var index3 = 0; index3 < this.verticalBoxes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.verticalBoxes[index3], this.guards[index])) {
-                            this.world.removeChild(this.guards[index].losCheckers[index2]);
-                        }
-                    }
-                    for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[index3], this.guards[index])) {
-                            this.world.removeChild(this.guards[index].losCheckers[index2]);
-                        }
-                    }
-                    for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index])) {
-                            this.world.removeChild(this.guards[index].losCheckers[index2]);
-                        }
-                    }
-                    //if (this.collision.losCollision(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
-                    //    this.world.removeAllChildren();
-                    //    this.game.removeAllChildren();
-                    //    window.removeEventListener("keydown", this.keyPressed, true);
-                    //    window.removeEventListener("keyup", this.keyRelease, true);
-                    //    stage.removeChild(this.game);
+                    //for (var index3 = 0; index3 < this.tanks.length; index3++) {
+                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.tanks[index3], this.guards[index])) {
+                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    //    }
+                    //}
+                    //for (var index3 = 0; index3 < this.verticalBoxes.length; index3++) {
+                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.verticalBoxes[index3], this.guards[index])) {
+                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    //    }
+                    //}
+                    //for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
+                    //    if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.horizontalBoxes[index3], this.guards[index])) {
+                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    //    }
+                    //}
+                    //for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
+                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index])) {
+                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    //    }
+                    //}
+                    //if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
+                    //    //this.world.removeAllChildren();
+                    //    //this.game.removeAllChildren();
+                    //    //window.removeEventListener("keydown", this.keyPressed, true);
+                    //    //window.removeEventListener("keyup", this.keyRelease, true);
+                    //    //stage.removeChild(this.game);
+                    //    this.world.removeChild(this.guards[index].losCheckers[index2]);
                     //}                    
                 }
             }
