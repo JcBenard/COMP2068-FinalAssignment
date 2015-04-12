@@ -56,7 +56,6 @@ var managers;
                         return true;
                     }
                     if (collide.name == "gunner") {
-                        console.log("Worked");
                         return true;
                     }
                     collider.isColliding = true;
@@ -104,12 +103,37 @@ var managers;
                         collider.x = -10000;
                         collider.y = -10000;
                     } //end of if
+                    if (collider.name == "los") {
+                        console.log("lost");
+                    }
                 } //end of if
             }
             else {
                 collider.isColliding = false; //set the variable to false so they can collide again
             }
         }; //end of player objects collision
+        Collision.prototype.losCollisionPlayer = function (collider, collide, guard) {
+            var p1 = new createjs.Point();
+            var p2 = new createjs.Point();
+            //make the two point on the same grid
+            var pt = guard.globalToLocal(collide.x, collide.y);
+            p1.x = pt.x;
+            p1.y = pt.y;
+            p2.x = collider.x;
+            p2.y = collider.y;
+            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
+                return true;
+            }
+        };
+        Collision.prototype.losCollisionObjects = function (collider, collide, guard) {
+            var pt = guard.globalToLocal(collide.x, collide.y);
+            console.log(pt + "/" + collider.x + " " + collider.y);
+            if (pt.x >= collider.x + collider.width || pt.x + collide.width <= collider.x || pt.y - collide.height >= collider.y + collider.height || pt.y <= collider.y) {
+            }
+            else {
+                return true;
+            }
+        };
         //collision for walls
         Collision.prototype.wallCollision = function (world, player) {
             if (world.x >= constants.SCRREN_CENTER_WIDTH || player.x < constants.SCRREN_CENTER_WIDTH - 5) {

@@ -91,7 +91,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.GAME_OVER_STATE;
+    currentState = constants.STAGE1_STATE;
     changeState(currentState);
 
 }

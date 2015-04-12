@@ -59,21 +59,21 @@ module objects {
         //public methods/////////////////////////////////////////////////////////////////////////////
         public update(player, world: createjs.Container) {
 
-            //for (var index = 0; index < this.losCheckers.length; index++) {
-            //    this.losCheckers[index].update();
+            for (var index = 0; index < this.losCheckers.length; index++) {
+                this.losCheckers[index].update();
 
-            //    if (this.losCheckers[index].remove == true) {
-            //        world.removeChild(this.losCheckers[index]);
-            //        this.losCheckers.splice(index, 1);                   
-            //    }
-            //}
+                if (this.losCheckers[index].remove == true) {
+                    world.removeChild(this.losCheckers[index]);
+                    this.losCheckers.splice(index, 1);                   
+                }
+            }
 
-            //if (this.counter % 50 == 0) {
-            //    var losChecker = new objects.GuardLosChecker(this);
-            //    this.losCheckers.push(losChecker);
-            //    world.addChild(losChecker);
-            //}
-            //this.counter++;
+            if (this.counter % 40 == 0) {
+                var losChecker = new objects.GuardLosChecker(this);
+                this.losCheckers.push(losChecker);
+                world.addChild(losChecker);
+            }
+            this.counter++;
 
             if (this.direction == "Left" && this.diffX < -300) {
                 this._dx = -this._dx;

@@ -40,7 +40,7 @@ var states;
             //if the gameover background has stopped transtioning add the restart button
             if (this.overBackground.x <= 0) {
                 this.cursor.x = 235;
-                this.cursor.y = 273;
+                this.cursor.y = 272;
                 if (useProjectile == true) {
                     this.selectState();
                 }

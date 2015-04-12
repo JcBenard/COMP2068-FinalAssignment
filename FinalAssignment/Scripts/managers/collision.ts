@@ -12,7 +12,7 @@
         }
 
         //collision for objects moving into the player objects
-        public objectsCollision(collider: objects.GameObject, collide, game, healthBar) {
+        public objectsCollision(collider, collide, game, healthBar) {
 
             var p1: createjs.Point = new createjs.Point();
             var p2: createjs.Point = new createjs.Point();
@@ -55,11 +55,10 @@
                         game.removeChild(healthBar[playerHealth + 1]);
                         game.removeChild(healthBar[playerHealth]);
                     } else if (collider.name == "antiTank") {
-                        return true;                    
+                        return true;
                     }
 
                     if (collide.name == "gunner") {
-                        console.log("Worked");
                         return true;
                     }
                     collider.isColliding = true;
@@ -70,7 +69,7 @@
         }//end of objects collision
 
         //collision for the player objects moving into objects
-        public playerObjectsCollision(collider: objects.GameObject, collide, ration, ammoBox, game, healthBar) {
+        public playerObjectsCollision(collider, collide, ration, ammoBox, game, healthBar) {
 
             var p1: createjs.Point = new createjs.Point();
             var p2: createjs.Point = new createjs.Point();
@@ -113,11 +112,47 @@
                         collider.x = -10000;
                         collider.y = -10000;
                     }//end of if
+
+                    if (collider.name == "los") {
+                        console.log("lost");
+                    }
                 }//end of if
             }else {//if the elements aren't colliding
                 collider.isColliding = false;//set the variable to false so they can collide again
             }
         }//end of player objects collision
+
+        public losCollisionPlayer(collider, collide, guard) {
+            var p1: createjs.Point = new createjs.Point();
+            var p2: createjs.Point = new createjs.Point();
+            //make the two point on the same grid
+            var pt = guard.globalToLocal(collide.x, collide.y);
+
+            p1.x = pt.x;
+            p1.y = pt.y;
+            p2.x = collider.x;
+            p2.y = collider.y;
+
+            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
+                return true;
+            }
+        }
+
+        public losCollisionObjects(collider, collide, guard) {
+
+            var pt = guard.globalToLocal(collide.x, collide.y); 
+
+            console.log(pt + "/" + collider.x + " " + collider.y);
+
+            if (pt.x >= collider.x + collider.width
+                || pt.x + collide.width<= collider.x
+                || pt.y - collide.height>= collider.y + collider.height
+                || pt.y <= collider.y) {
+
+            } else {
+                return true;
+            }
+        }
 
         //collision for walls
         public wallCollision(world, player) {
