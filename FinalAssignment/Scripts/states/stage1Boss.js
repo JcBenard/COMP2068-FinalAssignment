@@ -64,9 +64,8 @@ var states;
             this.ammoBox = new objects.AmmoBox(0);
             this.game.addChild(this.ammoBox);
             //create and add th player to the game
-            this.snake = new objects.Snake();
+            this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
-            this.snake.y = 390;
             this.gunner = new objects.Gunner();
             this.game.addChild(this.gunner);
             for (var index = 0; index < 4; index++) {

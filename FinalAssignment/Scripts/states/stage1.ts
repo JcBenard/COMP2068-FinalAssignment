@@ -43,6 +43,7 @@ module states {
 
         public healthBar: objects.HealthBar[] = [];
 
+        //location vrraibles for obejcts
         private tankX: number[] = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
         private tankY: number[] = [-161, -161, -100, -100, -865, - 685, -865, - 685, -865, - 685];
         private vBoxesX: number[] = [-200, 260, 760, 1260];
@@ -60,6 +61,7 @@ module states {
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
 
+            //set the player health to max
             playerHealth = constants.PLAYER_HEALTH;
 
             //create a game container to store all elements
@@ -95,7 +97,7 @@ module states {
          
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
             //for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[0] = new objects.Guard(this.guardX[0], this.guardY[0], this.guardDirection[0], this.world);
+            this.guards[0] = new objects.Guard(this.guardX[7], this.guardY[7], this.guardDirection[7], this.world);
                 this.world.addChild(this.guards[0]);
             //}
 
@@ -105,6 +107,7 @@ module states {
                 this.world.addChild(this.wallCollisionShapes[0]);
             //}
 
+            //create and add a door collider
             this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
             this.doorCollision.name = "door";
             this.world.addChild(this.doorCollision);
@@ -118,7 +121,7 @@ module states {
             this.world.addChild(this.ammoBox);
 
             //create and add th player to the game
-            this.snake = new objects.Snake();
+            this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 400);
             this.game.addChild(this.snake);
 
             //create and add the info bar to the bottom of the screen
@@ -180,6 +183,8 @@ module states {
                 useProjectile = false;
             }
 
+            console.log(this.world.x + " " + this.world.y);
+
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
@@ -219,14 +224,14 @@ module states {
                     //        this.world.removeChild(this.guards[index].losCheckers[index2]);
                     //    }
                     //}
-                    //for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                    //    if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.horizontalBoxes[index3], this.guards[index])) {
-                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
-                    //    }
-                    //}
+                    for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
+                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[1], this.guards[index])) {
+                            this.world.removeChild(this.guards[index].losCheckers[index2]);
+                        }
+                    }
                     //for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
                     //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index])) {
-                    //        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    //        this.guards[index].losCheckers[index2].remove = true;
                     //    }
                     //}
                     //if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
@@ -245,6 +250,7 @@ module states {
                 this.collision.wallObjectsCollision(this.bullet, this.world, this.wallCollisionShapes[index]);
             }
 
+            //if the player collides with the door move to the next level
             if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
                 this.world.removeAllChildren();
                 this.game.removeAllChildren();
@@ -260,7 +266,7 @@ module states {
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar); 
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
             //check collision for snake and the outer walls          
-            this.collision.wallCollision(this.world, this.snake);
+            this.collision.wallCollision(this.world, this.snake, this.walls);
             //check collision for snakes bullet and the objects
 
         }//end of update

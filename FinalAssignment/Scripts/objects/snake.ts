@@ -10,15 +10,15 @@ module objects {
         private _counter: number = 0;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
-        constructor() {
+        constructor(xPos: number, yPos:number) {
 
             super(animation);
 
             this.name = "snake";
             this.soundString = "explosion";
 
-            this.x = constants.SCRREN_CENTER_WIDTH;  
-            this.y = constants.SCRREN_CENTER_HEIGHT;          
+            this.x = xPos;  
+            this.y = yPos;          
             
         }
 

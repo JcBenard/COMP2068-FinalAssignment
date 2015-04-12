@@ -16,8 +16,8 @@
 
             this.graphics.beginFill("blue").drawRect(guard.x, guard.y, 10, 10);
 
-            this._dx = guard._dx * 3 + .01;
-            this._dy = guard._dy * 3 + .01;
+            this._dx = guard._dx * 3;
+            this._dy = guard._dy * 3;
 
             this.width = 10;
             this.height = 10;

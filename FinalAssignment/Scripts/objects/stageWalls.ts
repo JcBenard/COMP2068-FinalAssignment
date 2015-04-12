@@ -16,8 +16,7 @@
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
-            if (stageNumber == "1Boss") {
-            } else {
+            if (stageNumber == "1" || stageNumber == "3") {
                 this.x = -constants.SCRREN_CENTER_WIDTH;
                 this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
             }

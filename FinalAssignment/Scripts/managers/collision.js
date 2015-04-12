@@ -126,18 +126,21 @@ var managers;
             }
         };
         Collision.prototype.losCollisionObjects = function (collider, collide, guard) {
-            var pt = guard.globalToLocal(collide.x, collide.y);
-            //console.log(pt + "/" + collider.x + " " + collider.y);
-            if (pt.x >= collider.x + collider.width || pt.x + collide.width <= collider.x || pt.y >= collider.y + collider.height || pt.y + collide.height <= collider.y) {
-            }
-            else {
-                console.log("Worked");
-                collider.x = -10000;
-                collider.y = -10000;
-            }
+            var tempx = collider.x + collider.startX;
+            var tempy = collider.y + collider.startY;
+            //console.log(tempx + " " + tempy + "/" + collide.x + " " + collide.y);
+            //if (pt.x >= pt2.x + collide.width
+            //    || pt.x + collider.width <= pt2.x
+            //    || pt.y >= pt2.y + collide.height
+            //    || pt.y + collider.height <= pt2.y) {
+            //} else {
+            //    console.log("Worked");
+            //    collider.x = -10000;
+            //    collider.y = -10000;
+            //}
         };
         //collision for walls
-        Collision.prototype.wallCollision = function (world, player) {
+        Collision.prototype.wallCollision = function (world, player, walls) {
             if (world.x >= constants.SCRREN_CENTER_WIDTH || player.x < constants.SCRREN_CENTER_WIDTH - 5) {
                 collidingLeft = true;
                 world.x = constants.SCRREN_CENTER_WIDTH;
@@ -154,18 +157,18 @@ var managers;
             else {
                 collidingBottom = false;
             } //end of if
-            if (world.x <= -870 || player.x > constants.SCRREN_CENTER_WIDTH + 5) {
+            if (world.x <= constants.SCREEN_WIDTH + constants.SCRREN_CENTER_WIDTH - walls.width || player.x > constants.SCRREN_CENTER_WIDTH + 5) {
                 collidingRight = true;
                 snakeColl = true;
-                world.x = -870;
+                world.x = constants.SCREEN_WIDTH + constants.SCRREN_CENTER_WIDTH - walls.width;
             }
             else {
                 collidingRight = false;
             } //end of if
-            if (world.y >= 1085 || player.y < constants.SCRREN_CENTER_HEIGHT - 5) {
+            if (world.y >= walls.height - constants.SCRREN_CENTER_HEIGHT_WITH_BAR || player.y < constants.SCRREN_CENTER_HEIGHT - 5) {
                 collidingTop = true;
                 snakeColl = true;
-                world.y = 1085;
+                world.y = walls.height - constants.SCRREN_CENTER_HEIGHT_WITH_BAR;
             }
             else {
                 collidingTop = false;

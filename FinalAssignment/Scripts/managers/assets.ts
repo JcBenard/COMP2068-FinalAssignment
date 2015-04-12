@@ -3,7 +3,9 @@
     var assetManifest = [
         { id: "gameBackground1", src: "assets/images/stage1Background.png" },
         { id: "gameWalls1", src: "assets/images/stage1Walls.png" },
+        { id: "gameWalls3", src: "assets/images/stageWalls3.png" },
         { id: "gameBackground2", src: "assets/images/stage2Background.png" },
+        { id: "gameBackground3", src: "assets/images/stage3Background.png" },
         { id: "gameWalls1Boss", src: "assets/images/stage1WallsBoss.png" },
         { id: "gameBackground1Boss", src: "assets/images/stage1Background.png" },
         { id: "info", src: "assets/images/infoBar.png" },

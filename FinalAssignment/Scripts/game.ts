@@ -34,6 +34,7 @@
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
+/// <reference path="states/stage3.ts" />
 /// <reference path="states/stage1boss.ts" />
 /// <reference path="states/gameover.ts" />
 
@@ -48,6 +49,7 @@ var start: states.Start;
 var stage1: states.Stage1;
 var stage1Boss: states.Stage1Boss;
 var stage2: states.Stage2;
+var stage3: states.Stage3;
 var gameOver: states.GameOver;
 
 //game states
@@ -91,7 +93,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE3_STATE;
     changeState(currentState);
 
 }
@@ -146,6 +148,11 @@ function changeState(state: number) {
             stateChanged = false;
             stage2 = new states.Stage2();
             currentStateFunction = stage2;
+            break;
+        case constants.STAGE3_STATE://if its play state
+            stateChanged = false;
+            stage3 = new states.Stage3();
+            currentStateFunction = stage3;
             break;
         case constants.GAME_OVER_STATE://if its game over state  
             stateChanged = false;

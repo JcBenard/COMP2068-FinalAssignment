@@ -72,9 +72,8 @@ module states {
             this.game.addChild(this.tank);
 
             //create and add th player to the game
-            this.snake = new objects.Snake();
+            this.snake = new objects.Snake(225, constants.SCRREN_CENTER_HEIGHT_WITH_BAR);
             this.game.addChild(this.snake);
-            this.snake.x = 225;
 
             //create and add the bullet to the game
             this.tankBullet = new objects.TankBullet();

@@ -11,15 +11,15 @@ var objects;
     var Snake = (function (_super) {
         __extends(Snake, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
-        function Snake() {
+        function Snake(xPos, yPos) {
             _super.call(this, animation);
             //instanced variables///////////////////////////////////////////////////////////////////////
             this.numbe = 0;
             this._counter = 0;
             this.name = "snake";
             this.soundString = "explosion";
-            this.x = constants.SCRREN_CENTER_WIDTH;
-            this.y = constants.SCRREN_CENTER_HEIGHT;
+            this.x = xPos;
+            this.y = yPos;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Snake.prototype.update = function () {

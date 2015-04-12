@@ -32,6 +32,7 @@
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
+/// <reference path="states/stage3.ts" />
 /// <reference path="states/stage1boss.ts" />
 /// <reference path="states/gameover.ts" />
 //game variables
@@ -44,6 +45,7 @@ var start;
 var stage1;
 var stage1Boss;
 var stage2;
+var stage3;
 var gameOver;
 //game states
 var currentState;
@@ -80,7 +82,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE1_STATE;
+    currentState = constants.STAGE3_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -126,6 +128,11 @@ function changeState(state) {
             stateChanged = false;
             stage2 = new states.Stage2();
             currentStateFunction = stage2;
+            break;
+        case constants.STAGE3_STATE:
+            stateChanged = false;
+            stage3 = new states.Stage3();
+            currentStateFunction = stage3;
             break;
         case constants.GAME_OVER_STATE:
             stateChanged = false;
