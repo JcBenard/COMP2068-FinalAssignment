@@ -30,9 +30,11 @@
 /// <reference path="objects/ammobox.ts" />
 /// <reference path="objects/snakedeath.ts" />
 /// <reference path="objects/weaponicon.ts" />
+/// <reference path="objects/missle.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
+/// <reference path="states/stage3boss.ts" />
 /// <reference path="states/stage3.ts" />
 /// <reference path="states/stage1boss.ts" />
 /// <reference path="states/gameover.ts" />
@@ -47,6 +49,7 @@ var stage1;
 var stage1Boss;
 var stage2;
 var stage3;
+var stage3Boss;
 var gameOver;
 //game states
 var currentState;
@@ -84,7 +87,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.START_STATE;
+    currentState = constants.STAGE3BOSS_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -135,6 +138,11 @@ function changeState(state) {
             stateChanged = false;
             stage3 = new states.Stage3();
             currentStateFunction = stage3;
+            break;
+        case constants.STAGE3BOSS_STATE:
+            stateChanged = false;
+            stage3Boss = new states.Stage3Boss();
+            currentStateFunction = stage3Boss;
             break;
         case constants.GAME_OVER_STATE:
             stateChanged = false;

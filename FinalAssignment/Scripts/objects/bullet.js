@@ -20,9 +20,6 @@ var objects;
         Bullet.prototype.update = function () {
             this.x += this._dx;
             this.y += this._dy;
-            if (this.y >= 440) {
-                this.y = 500;
-            }
         };
         Bullet.prototype.reset = function (player, playerDirection) {
             this.x = player.x;
@@ -43,7 +40,6 @@ var objects;
                     this._dy = 6;
                     break;
             }
-            console.log("direction: " + playerDirection + " Speed: " + this._dx + ", " + this._dy);
         };
         return Bullet;
     })(objects.GameObject);

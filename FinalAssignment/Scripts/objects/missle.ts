@@ -1,14 +1,14 @@
 ﻿module objects {
 
-    export class Bullet extends GameObject {
+    export class Missle extends GameObject {
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
-            super("bullet");
+            super("missleFire");
 
             this.soundString = "explosion";
-            this.name = "bullet";
+            this.name = "missle";
             this.x = -10000;
             this.y = 10000;
         }
@@ -19,7 +19,7 @@
             this.y += this._dy;
         }
 
-        public reset(player , playerDirection: string) {
+        public reset(player, playerDirection: string) {
 
             this.x = player.x;
             this.y = player.y;
@@ -27,20 +27,24 @@
             this._dx = 0;
             this._dy = 0;
 
-            switch(playerDirection){
+            switch (playerDirection) {
                 case ("Left"):
-                    this._dx = -6;
+                    this.rotation = 270;
+                    this._dx = -8;
                     break;
                 case ("Right"):
-                    this._dx = 6;
+                    this.rotation = 90;
+                    this._dx = 8;
                     break;
                 case ("Up"):
-                    this._dy = -6;
+                    this.rotation = 0;
+                    this._dy = -8;
                     break;
                 case ("Down"):
-                    this._dy = 6;
+                    this.rotation = 180;
+                    this._dy = 8;
                     break;
-                
+
             }
         }
     }
