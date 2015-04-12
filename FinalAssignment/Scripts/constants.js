@@ -27,6 +27,7 @@ var constants;
     constants.KEYCODE_A = 65;
     constants.KEYCODE_D = 68;
     constants.KEYCODE_S = 83;
+    constants.KEYCODE_E = 69;
     constants.KEYCODE_SPACE = 32;
 })(constants || (constants = {}));
 //# sourceMappingURL=constants.js.map

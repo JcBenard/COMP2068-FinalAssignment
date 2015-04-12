@@ -30,6 +30,7 @@
     export var KEYCODE_A = 65;
     export var KEYCODE_D = 68;
     export var KEYCODE_S = 83; 
+    export var KEYCODE_E = 69; 
     export var KEYCODE_SPACE = 32; 
 }
  

@@ -17,8 +17,8 @@ var objects;
             this.textBaseline = "alphabetic";
         }
         //public methods////////////////////////////////////////////////////////////////////
-        Label.prototype.update = function (score) {
-            this.text = "" + score;
+        Label.prototype.update = function (ammo) {
+            this.text = "" + ammo;
         };
         return Label;
     })(createjs.Text);

@@ -30,6 +30,7 @@
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
 /// <reference path="objects/snakedeath.ts" />
+/// <reference path="objects/weaponicon.ts" />
 
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
@@ -74,6 +75,7 @@ var snakeColl: Boolean = false;
 var ammo: number = 5;
 var playerHealth: number = constants.PLAYER_HEALTH;
 var currentStage;
+var haveWeapon: Boolean[] = [false, false, false];
 
 // Game Objects 
 function preload() {
@@ -93,7 +95,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE3_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 
 }

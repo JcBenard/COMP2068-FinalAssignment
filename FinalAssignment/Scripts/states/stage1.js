@@ -16,6 +16,7 @@
 /// <reference path="../managers/collision.ts" />
 /// <reference path="../objects/guardloschecker.ts" />
 /// <reference path="../objects/ammobox.ts" />
+/// <reference path="../objects/weaponicon.ts" />
 var states;
 (function (states) {
     var Stage1 = (function () {
@@ -91,6 +92,9 @@ var states;
             //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            //create and add a ration to the game
+            this.weaponIcon = new objects.WeaponIcon("pistol");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
             //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
@@ -134,7 +138,15 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
-            console.log(this.world.x + " " + this.world.y);
+            if (currentWeapon == "pistol") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            }
+            else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
+            }
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
@@ -220,6 +232,18 @@ var states;
                             useProjectile = true;
                         }
                         useProjectile = true;
+                        break;
+                    case constants.KEYCODE_E:
+                        if (haveWeapon[0] == true) {
+                            if (currentWeapon == "punch") {
+                                currentWeapon = "pistol";
+                                haveGun = "Gun";
+                            }
+                            else {
+                                currentWeapon = "punch";
+                                haveGun = "";
+                            }
+                        }
                         break;
                 }
             }

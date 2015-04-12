@@ -30,6 +30,8 @@ module states {
         public tankBullet: objects.TankBullet;
         public shell: objects.Shell;
         public antiTank: objects.AntiTank;
+        public weaponIcon: objects.WeaponIcon;
+        public ammoText: objects.Label;
 
         public collision: managers.Collision;
 
@@ -43,6 +45,8 @@ module states {
 
             animation = "runRight";
             collidingBottom = true;
+            currentWeapon = "antiTank";
+            ammo = 2;
 
             this.game = new createjs.Container();
 
@@ -87,6 +91,9 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
+            this.weaponIcon = new objects.WeaponIcon("antiTank");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
+
             //create and add the parts of the health bar to the game
             for (var index2 = 0; index2 < playerHealth; index2++) {
                 this.healthBar[index2] = new objects.HealthBar(index2);
@@ -126,15 +133,33 @@ module states {
             }
 
             if (useProjectile == true) {
-                if (ammo > 0) {
-                    this.antiTank.reset(this.snake);                   
-                    ammo--;
+                //check what weapon the player is using and do what's in the case
+                switch (currentWeapon) {
+                    case ("antiTank"):
+                        if (ammo > 0) {
+                            this.antiTank.reset(this.snake); 
+                            ammo--;
+                        }
+                        break;
+                    case ("punch"):
+                        this.collision.playerObjectsCollision(this.snake, this.tank, this.ration, this.ammoBox, this.game, this.healthBar);
+                        break;
                 }
+                //set the use weapon flag to false;
                 useProjectile = false;
             }
 
-            var random = Math.floor((Math.random() * 500) + 1);
-            if (this.ammoBox.x < 0 && random == 500) {
+            if (currentWeapon == "antiTank") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            } else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
+            }
+
+            var random = Math.floor((Math.random() * 250) + 1);
+            if (this.ammoBox.x < 0 && random == 250) {
                 this.ammoBox.reset();
             }
 
@@ -189,6 +214,15 @@ module states {
                     break;
                 case constants.KEYCODE_SPACE:
                     useProjectile = true;
+                    break;
+                case constants.KEYCODE_E:
+                    if (currentWeapon == "punch") {
+                        currentWeapon = "antiTank";
+                        haveGun = "";
+                    } else {
+                        currentWeapon = "punch";
+                        haveGun = "";
+                    }
                     break;
             }
         }

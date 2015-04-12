@@ -16,6 +16,7 @@
 /// <reference path="../managers/collision.ts" />
 /// <reference path="../objects/gunner.ts" />
 /// <reference path="../objects/mine.ts" />
+/// <reference path="../objects/antitank.ts" />
 var states;
 (function (states) {
     var Stage1Boss = (function () {
@@ -26,7 +27,7 @@ var states;
             this.healthBar = [];
             this.wallCollisionShapes = [];
             this.mines = [];
-            this.bossHealth = 6;
+            this.bossHealth = 1;
             this.boxesX = [120, 280, 440];
             this.boxesY = 124;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
@@ -36,6 +37,8 @@ var states;
             this.minesX = [78, 88, 98, 108, 225, 235, 245, 255, 265, 380, 390, 400, 410, 420, 540, 550, 560, 570, 580];
             this.minesY = constants.SCRREN_CENTER_HEIGHT;
             playerHealth = constants.PLAYER_HEALTH;
+            currentWeapon = "pistol";
+            ammo = 6;
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create and add the background to the game
@@ -63,6 +66,8 @@ var states;
             //create and add a ammo box to the game
             this.ammoBox = new objects.AmmoBox(0);
             this.game.addChild(this.ammoBox);
+            this.antiTank = new objects.AntiTank(0);
+            this.game.addChild(this.antiTank);
             //create and add th player to the game
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
@@ -75,6 +80,8 @@ var states;
             //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            this.weaponIcon = new objects.WeaponIcon("pistol");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
             //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
@@ -103,6 +110,8 @@ var states;
         //updates the game based on the elements
         Stage1Boss.prototype.update = function () {
             if (this.bossHealth < 1) {
+                this.antiTank.x = constants.SCRREN_CENTER_WIDTH;
+                this.antiTank.y = 100;
                 this.gunner.x = -1000;
                 for (var index = 0; index < this.mines.length; index++) {
                     this.game.removeChild(this.mines[index]);
@@ -120,9 +129,28 @@ var states;
                 currentState = constants.GAME_OVER_STATE;
                 stateChanged = true;
             }
+            if (currentWeapon == "pistol") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            }
+            else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
+            }
             //if the flag to use a weapon is true
             if (useProjectile == true) {
-                this.bullet.reset(this.snake, direction);
+                switch (currentWeapon) {
+                    case ("pistol"):
+                        if (ammo > 0) {
+                            this.bullet.reset(this.snake, direction);
+                            ammo--;
+                        }
+                        break;
+                    case ("punch"):
+                        this.collision.playerObjectsCollision(this.snake, this.gunner, this.ration, this.ammoBox, this.game, this.healthBar);
+                        break;
+                }
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
@@ -134,7 +162,9 @@ var states;
             this.snake.update();
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
+            this.antiTank.update();
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
+            this.collision.objectsCollision(this.antiTank, this.snake, null, null);
             if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {
                 this.bossHealth--;
             }
@@ -195,6 +225,18 @@ var states;
                         useProjectile = true;
                     }
                     useProjectile = true;
+                    break;
+                case constants.KEYCODE_E:
+                    if (haveWeapon[0] == true) {
+                        if (currentWeapon == "punch") {
+                            currentWeapon = "pistol";
+                            haveGun = "Gun";
+                        }
+                        else {
+                            currentWeapon = "punch";
+                            haveGun = "";
+                        }
+                    }
                     break;
             }
         };

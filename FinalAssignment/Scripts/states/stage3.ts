@@ -38,6 +38,8 @@ module states {
         public wallCollisionShapes: objects.WallShapes[] = [];
         public doorCollision: objects.WallShapes;
         public ammoBox: objects.AmmoBox;
+        public weaponIcon: objects.WeaponIcon;
+        public ammoText: objects.Label;
 
         public collision: managers.Collision;
 
@@ -63,6 +65,8 @@ module states {
 
             //set the player health to max
             playerHealth = constants.PLAYER_HEALTH;
+            currentWeapon = "pistol";
+            ammo = 5;
 
             //create a game container to store all elements
             this.game = new createjs.Container();
@@ -128,6 +132,9 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
+            this.weaponIcon = new objects.WeaponIcon("pistol");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
+
             //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
@@ -181,6 +188,15 @@ module states {
                 }
                 //set the use weapon flag to false;
                 useProjectile = false;
+            }
+
+            if (currentWeapon == "pistol") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            } else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
             }
 
             //call the function to update the player, the bullet and the world

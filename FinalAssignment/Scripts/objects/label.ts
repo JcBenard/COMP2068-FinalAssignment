@@ -13,8 +13,8 @@
         }
 
         //public methods////////////////////////////////////////////////////////////////////
-        public update(score: number) {
-            this.text = "" + score;
+        public update(ammo: number) {
+            this.text = "" + ammo;
         }
     }
 } 

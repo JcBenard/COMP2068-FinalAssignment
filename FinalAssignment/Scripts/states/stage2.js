@@ -25,6 +25,8 @@ var states;
             playerHealth = constants.PLAYER_HEALTH;
             animation = "runRight";
             collidingBottom = true;
+            currentWeapon = "antiTank";
+            ammo = 2;
             this.game = new createjs.Container();
             //create and add the background to the game
             this.background = new objects.MovingBackgroud();
@@ -57,6 +59,8 @@ var states;
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            this.weaponIcon = new objects.WeaponIcon("antiTank");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
             for (var index2 = 0; index2 < playerHealth; index2++) {
                 this.healthBar[index2] = new objects.HealthBar(index2);
                 this.game.addChild(this.healthBar[index2]);
@@ -86,14 +90,31 @@ var states;
                 this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
             }
             if (useProjectile == true) {
-                if (ammo > 0) {
-                    this.antiTank.reset(this.snake);
-                    ammo--;
+                switch (currentWeapon) {
+                    case ("antiTank"):
+                        if (ammo > 0) {
+                            this.antiTank.reset(this.snake);
+                            ammo--;
+                        }
+                        break;
+                    case ("punch"):
+                        this.collision.playerObjectsCollision(this.snake, this.tank, this.ration, this.ammoBox, this.game, this.healthBar);
+                        break;
                 }
+                //set the use weapon flag to false;
                 useProjectile = false;
             }
-            var random = Math.floor((Math.random() * 500) + 1);
-            if (this.ammoBox.x < 0 && random == 500) {
+            if (currentWeapon == "antiTank") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            }
+            else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
+            }
+            var random = Math.floor((Math.random() * 250) + 1);
+            if (this.ammoBox.x < 0 && random == 250) {
                 this.ammoBox.reset();
             }
             //update and check collision for the moving elements
@@ -136,6 +157,16 @@ var states;
                     break;
                 case constants.KEYCODE_SPACE:
                     useProjectile = true;
+                    break;
+                case constants.KEYCODE_E:
+                    if (currentWeapon == "punch") {
+                        currentWeapon = "antiTank";
+                        haveGun = "";
+                    }
+                    else {
+                        currentWeapon = "punch";
+                        haveGun = "";
+                    }
                     break;
             }
         };

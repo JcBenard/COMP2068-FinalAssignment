@@ -29,6 +29,7 @@
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
 /// <reference path="objects/snakedeath.ts" />
+/// <reference path="objects/weaponicon.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -67,6 +68,7 @@ var snakeColl = false;
 var ammo = 5;
 var playerHealth = constants.PLAYER_HEALTH;
 var currentStage;
+var haveWeapon = [false, false, false];
 // Game Objects 
 function preload() {
     managers.Assets.init();
@@ -82,7 +84,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE3_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////

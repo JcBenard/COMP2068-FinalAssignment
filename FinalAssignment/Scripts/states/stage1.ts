@@ -16,6 +16,7 @@
 /// <reference path="../managers/collision.ts" />
 /// <reference path="../objects/guardloschecker.ts" />
 /// <reference path="../objects/ammobox.ts" />
+/// <reference path="../objects/weaponicon.ts" />
 
 
 module states {
@@ -38,6 +39,8 @@ module states {
         public wallCollisionShapes: objects.WallShapes[] = [];
         public doorCollision: objects.WallShapes;
         public ammoBox: objects.AmmoBox;
+        public weaponIcon: objects.WeaponIcon;
+        public ammoText: objects.Label;
 
         public collision: managers.Collision;
 
@@ -128,6 +131,10 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
+            //create and add a ration to the game
+            this.weaponIcon = new objects.WeaponIcon("pistol");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
+
             //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
@@ -183,7 +190,14 @@ module states {
                 useProjectile = false;
             }
 
-            console.log(this.world.x + " " + this.world.y);
+            if (currentWeapon == "pistol") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            } else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
+            }
 
             //call the function to update the player, the bullet and the world
             this.snake.update();
@@ -191,7 +205,7 @@ module states {
             this.world.update();
             this.ration.update();
             this.ammoBox.update();
-            
+
             //check collision for the tanks using the collision manager
             for (var index = 0; index < this.tanks.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.world, this.tanks[index]);
@@ -305,6 +319,17 @@ module states {
                             useProjectile = true;
                         }
                         useProjectile = true;
+                        break;
+                    case constants.KEYCODE_E:
+                        if (haveWeapon[0] == true) {
+                            if (currentWeapon == "punch") {
+                                currentWeapon = "pistol";
+                                haveGun = "Gun";
+                            } else {
+                                currentWeapon = "punch";
+                                haveGun = "";
+                            }
+                        }
                         break;
                 }
             }

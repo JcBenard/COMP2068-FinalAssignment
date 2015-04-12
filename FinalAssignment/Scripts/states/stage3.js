@@ -43,6 +43,8 @@ var states;
             this.wallHeight = [95, 410, 90, 225, 405, 250, 375, 1940, 60, 1940, 20];
             //set the player health to max
             playerHealth = constants.PLAYER_HEALTH;
+            currentWeapon = "pistol";
+            ammo = 5;
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create a world container to hold all background elements
@@ -89,6 +91,8 @@ var states;
             //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            this.weaponIcon = new objects.WeaponIcon("pistol");
+            this.ammoText = new objects.Label(ammo + "", 480, 470);
             //create and add the stationary pistol to the game
             this.pistol = new objects.Items("pistol", 1390, -945);
             this.world.addChild(this.pistol);
@@ -131,6 +135,15 @@ var states;
                 }
                 //set the use weapon flag to false;
                 useProjectile = false;
+            }
+            if (currentWeapon == "pistol") {
+                this.game.addChild(this.weaponIcon);
+                this.game.addChild(this.ammoText);
+                this.ammoText.update(ammo);
+            }
+            else {
+                this.game.removeChild(this.weaponIcon);
+                this.game.removeChild(this.ammoText);
             }
             //call the function to update the player, the bullet and the world
             this.snake.update();

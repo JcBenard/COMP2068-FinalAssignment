@@ -29,6 +29,7 @@ var managers;
                     if (collider.name == "pistol") {
                         currentWeapon = "pistol";
                         haveGun = "Gun";
+                        haveWeapon[0] = true;
                         ammo = 5;
                     }
                     else if (collider.name == "ammo") {
