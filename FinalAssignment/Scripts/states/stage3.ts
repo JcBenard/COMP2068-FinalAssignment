@@ -53,10 +53,10 @@ module states {
         private guardX: number[] = [50, 230, 610, 630, 630, 415, 415, 250, -110, -175, 230];
         private guardY: number[] = [-1590, -1280, -1585, -870, -200, -1100, -250, -410, -670, -1035, -1035];
         private guardDirection: string[] = ["Down", "Right", "Left", "Down", "Up", "Down", "Up", "Left", "Right", "Down", "Left"];
-        private wallX: number[] = [];
-        private wallY: number[] = [];
-        private wallWidth: number[] = [];
-        private wallHeight: number[] = [];     
+        private wallX: number[] = [-300, 285, -80, -85, 780, 700, 780, -320, -320, 935, -320];
+        private wallY: number[] = [-1210, -1160, -800, -970, -1350, -945, -750, -1720, -1720, -1720, 190];
+        private wallWidth: number[] = [655, 95, 440, 220, 190, 300, 220, 65, 1285, 30, 1285];
+        private wallHeight: number[] = [95, 410, 90, 225, 405, 250, 375, 1940, 60, 1940, 20];     
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {

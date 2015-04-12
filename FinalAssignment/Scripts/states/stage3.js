@@ -37,10 +37,10 @@ var states;
             this.guardX = [50, 230, 610, 630, 630, 415, 415, 250, -110, -175, 230];
             this.guardY = [-1590, -1280, -1585, -870, -200, -1100, -250, -410, -670, -1035, -1035];
             this.guardDirection = ["Down", "Right", "Left", "Down", "Up", "Down", "Up", "Left", "Right", "Down", "Left"];
-            this.wallX = [];
-            this.wallY = [];
-            this.wallWidth = [];
-            this.wallHeight = [];
+            this.wallX = [-300, 285, -80, -85, 780, 700, 780, -320, -320, 935, -320];
+            this.wallY = [-1210, -1160, -800, -970, -1350, -945, -750, -1720, -1720, -1720, 190];
+            this.wallWidth = [655, 95, 440, 220, 190, 300, 220, 65, 1285, 30, 1285];
+            this.wallHeight = [95, 410, 90, 225, 405, 250, 375, 1940, 60, 1940, 20];
             //set the player health to max
             playerHealth = constants.PLAYER_HEALTH;
             //create a game container to store all elements
