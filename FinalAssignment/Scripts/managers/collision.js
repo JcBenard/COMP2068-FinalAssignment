@@ -5,7 +5,6 @@ var managers;
         function Collision() {
         }
         Collision.prototype.distance = function (p1, p2) {
-            //console.log(Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2))));
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         };
         //collision for objects moving into the player objects
@@ -13,7 +12,12 @@ var managers;
             var p1 = new createjs.Point();
             var p2 = new createjs.Point();
             //make the two point on the same grid
-            var pt = collider.localToLocal(collide.x, collide.y, collide);
+            if (collide.name == "snake") {
+                var pt = collider.localToLocal(collide.x, collide.y, collide);
+            }
+            else {
+                var pt = collider;
+            }
             p1.x = pt.x;
             p1.y = pt.y;
             p2.x = collide.x;
@@ -66,6 +70,9 @@ var managers;
                         }
                     }
                     else if (collider.name == "antiTank") {
+                        return true;
+                    }
+                    else if (collider.name == "missles") {
                         return true;
                     }
                     if (collide.name == "gunner") {
@@ -215,7 +222,7 @@ var managers;
                         world.x -= dx; //move the screen away from the object
                     } //end of if
                 }
-                else if (object.name == "bullet") {
+                else if (object.name == "bullet" || object.name == "missle") {
                     object.x = -2000;
                     object.y = -2000;
                 }

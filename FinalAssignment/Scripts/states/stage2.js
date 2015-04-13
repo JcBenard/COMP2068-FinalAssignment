@@ -27,6 +27,8 @@ var states;
             collidingBottom = true;
             currentWeapon = "antiTank";
             ammo = 2;
+            dx = 0;
+            dy = 0;
             this.game = new createjs.Container();
             //create and add the background to the game
             this.background = new objects.MovingBackgroud();

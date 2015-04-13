@@ -14,8 +14,8 @@ var objects;
             this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ration";
-            this.x = 700;
-            this.y = 700;
+            this.x = -700;
+            this.y = -700;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Ration.prototype.update = function () {
@@ -25,6 +25,10 @@ var objects;
         Ration.prototype.reset = function () {
             this.x = constants.SCREEN_WIDTH;
             this.y = Math.floor(Math.random() * 430);
+        };
+        Ration.prototype.resetBoss3 = function (x, y) {
+            this.x = x;
+            this.y = y;
         };
         return Ration;
     })(objects.GameObject);

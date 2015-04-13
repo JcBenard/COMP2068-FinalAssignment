@@ -229,6 +229,16 @@ var states;
                         }
                         useProjectile = true;
                         break;
+                    case constants.KEYCODE_E:
+                        if (currentWeapon == "punch") {
+                            currentWeapon = "pistol";
+                            haveGun = "Gun";
+                        }
+                        else {
+                            currentWeapon = "punch";
+                            haveGun = "";
+                        }
+                        break;
                 }
             }
         };

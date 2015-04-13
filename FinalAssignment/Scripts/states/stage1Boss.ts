@@ -39,7 +39,7 @@ module states {
         public doorCollision: objects.WallShapes;
         public ammoBox: objects.AmmoBox;
         public mines: objects.Mine[] = [];
-        public antiTank: objects.AntiTank;
+        public antiTank: objects.Items;
         public weaponIcon: objects.WeaponIcon;
         public ammoText: objects.Label;
 
@@ -99,9 +99,7 @@ module states {
             this.ammoBox = new objects.AmmoBox(0);
             this.game.addChild(this.ammoBox);
 
-            this.antiTank = new objects.AntiTank(0);
-            this.game.addChild(this.antiTank);
-
+            this.antiTank = new objects.Items("antiTank", constants.SCRREN_CENTER_WIDTH, 100);      
 
             //create and add th player to the game
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
@@ -162,9 +160,8 @@ module states {
 
 
             if (this.bossHealth < 1) {    
-                this.antiTank.x = constants.SCRREN_CENTER_WIDTH;
-                this.antiTank.y = 100;  
-                this.gunner.x = -1000;                        
+                this.gunner.x = -1000;      
+                this.game.addChild(this.antiTank);                  
                 for (var index = 0; index < this.mines.length; index++) {
                     this.game.removeChild(this.mines[index]);
                     this.mines[index].x = -1000;                    
@@ -213,7 +210,7 @@ module states {
             var random = Math.floor((Math.random() * 500) + 1);
 
             if (random == 500) {
-                this.ammoBox.resetBoss();
+                this.ammoBox.resetBoss1();
             }
 
             //call the function to update the player, the bullet and the world

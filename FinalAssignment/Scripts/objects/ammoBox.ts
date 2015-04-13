@@ -10,8 +10,8 @@
             this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ammo";
-            this.x = 700;
-            this.y = 700;
+            this.x = -700;
+            this.y = -700;
         }
 
         //public methods/////////////////////////////////////////////////////////////////////////////
@@ -25,9 +25,13 @@
             this.y = Math.floor(Math.random() * 430);
         }
 
-        public resetBoss() {
+        public resetBoss1() {
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = 400;
+        }
+        public resetBoss3(x: number, y: number) {
+            this.x = x;
+            this.y = y;
         }
     }
 }  

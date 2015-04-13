@@ -49,6 +49,8 @@ module states {
         private wallHeight: number[] = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
         private boxesX: number[] = [440, 120];
         private boxesY: number = 246;
+        private pickUpsX: number[] = [165, constants.SCRREN_CENTER_WIDTH, 475];
+        private pickUpsY: number[] = [200, 300, 200];
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -181,11 +183,18 @@ module states {
                 useProjectile = false;
             }
 
-            //var random = Math.floor((Math.random() * 500) + 1);
+            var random = Math.floor((Math.random() * 750) + 1);
 
-            //if (random == 500) {
-            //    this.ammoBox.resetBoss();
-            //}
+            if (random == 750) {
+                var random = Math.floor((Math.random() * 2));
+                if (random == 0 && this.ammoBox.x < 0) {
+                    var random = Math.floor((Math.random() * 3));
+                    this.ammoBox.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
+                } else if (random == 1 && this.ration.x < 0) {
+                    var random = Math.floor((Math.random() * 3));
+                    this.ration.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
+                }
+            }
 
             //call the function to update the player, the bullet and the world
             this.snake.update();
@@ -193,6 +202,7 @@ module states {
             this.metalGear.update(this.enemyBullets, this.snake);
 
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
+            this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
 
             if (this.collision.objectsCollision(this.missle, this.metalGear, this.game, this.healthBar)) {
                 this.bossHealth--;
@@ -206,6 +216,9 @@ module states {
             for (var index = 0; index < this.smallBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.smallBoxes[index]);
                 this.collision.backgroundObjectsCollision(this.missle, this.game, this.smallBoxes[index]);
+                for (var index2 = 0; index2 < this.enemyBullets.length; index2++){
+                    this.collision.backgroundObjectsCollision(this.enemyBullets[index2], this.game, this.smallBoxes[index]);
+                }
             }
 
             //check collision for the walls using the collision manager

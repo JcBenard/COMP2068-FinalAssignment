@@ -10,8 +10,8 @@
             this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ration";
-            this.x = 700;
-            this.y = 700;
+            this.x = -700;
+            this.y = -700;
         }
 
         //public methods/////////////////////////////////////////////////////////////////////////////
@@ -23,6 +23,10 @@
         public reset() {
             this.x = constants.SCREEN_WIDTH;
             this.y = Math.floor(Math.random() * 430);
+        }
+        public resetBoss3(x: number, y: number) {
+            this.x = x;
+            this.y = y;
         }
     }
 } 

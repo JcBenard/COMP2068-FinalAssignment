@@ -14,8 +14,8 @@ var objects;
             this._dx = dx;
             this.soundString = "difficulty";
             this.name = "ammo";
-            this.x = 700;
-            this.y = 700;
+            this.x = -700;
+            this.y = -700;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         AmmoBox.prototype.update = function () {
@@ -26,9 +26,13 @@ var objects;
             this.x = constants.SCREEN_WIDTH;
             this.y = Math.floor(Math.random() * 430);
         };
-        AmmoBox.prototype.resetBoss = function () {
+        AmmoBox.prototype.resetBoss1 = function () {
             this.x = constants.SCRREN_CENTER_WIDTH;
             this.y = 400;
+        };
+        AmmoBox.prototype.resetBoss3 = function (x, y) {
+            this.x = x;
+            this.y = y;
         };
         return AmmoBox;
     })(objects.GameObject);

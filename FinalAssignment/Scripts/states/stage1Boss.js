@@ -67,8 +67,7 @@ var states;
             //create and add a ammo box to the game
             this.ammoBox = new objects.AmmoBox(0);
             this.game.addChild(this.ammoBox);
-            this.antiTank = new objects.AntiTank(0);
-            this.game.addChild(this.antiTank);
+            this.antiTank = new objects.Items("antiTank", constants.SCRREN_CENTER_WIDTH, 100);
             //create and add th player to the game
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
@@ -111,9 +110,8 @@ var states;
         //updates the game based on the elements
         Stage1Boss.prototype.update = function () {
             if (this.bossHealth < 1) {
-                this.antiTank.x = constants.SCRREN_CENTER_WIDTH;
-                this.antiTank.y = 100;
                 this.gunner.x = -1000;
+                this.game.addChild(this.antiTank);
                 for (var index = 0; index < this.mines.length; index++) {
                     this.game.removeChild(this.mines[index]);
                     this.mines[index].x = -1000;
@@ -157,7 +155,7 @@ var states;
             }
             var random = Math.floor((Math.random() * 500) + 1);
             if (random == 500) {
-                this.ammoBox.resetBoss();
+                this.ammoBox.resetBoss1();
             }
             //call the function to update the player, the bullet and the world
             this.snake.update();

@@ -34,6 +34,8 @@ var states;
             this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
             this.boxesX = [440, 120];
             this.boxesY = 246;
+            this.pickUpsX = [165, constants.SCRREN_CENTER_WIDTH, 475];
+            this.pickUpsY = [200, 300, 200];
             playerHealth = constants.PLAYER_HEALTH;
             currentWeapon = "missle";
             haveGun = "Gun";
@@ -127,15 +129,24 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
-            //var random = Math.floor((Math.random() * 500) + 1);
-            //if (random == 500) {
-            //    this.ammoBox.resetBoss();
-            //}
+            var random = Math.floor((Math.random() * 750) + 1);
+            if (random == 750) {
+                var random = Math.floor((Math.random() * 2));
+                if (random == 0 && this.ammoBox.x < 0) {
+                    var random = Math.floor((Math.random() * 3));
+                    this.ammoBox.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
+                }
+                else if (random == 1 && this.ration.x < 0) {
+                    var random = Math.floor((Math.random() * 3));
+                    this.ration.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
+                }
+            }
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.missle.update();
             this.metalGear.update(this.enemyBullets, this.snake);
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
+            this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
             if (this.collision.objectsCollision(this.missle, this.metalGear, this.game, this.healthBar)) {
                 this.bossHealth--;
             }
@@ -146,6 +157,9 @@ var states;
             for (var index = 0; index < this.smallBoxes.length; index++) {
                 this.collision.backgroundObjectsCollision(this.snake, this.game, this.smallBoxes[index]);
                 this.collision.backgroundObjectsCollision(this.missle, this.game, this.smallBoxes[index]);
+                for (var index2 = 0; index2 < this.enemyBullets.length; index2++) {
+                    this.collision.backgroundObjectsCollision(this.enemyBullets[index2], this.game, this.smallBoxes[index]);
+                }
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);

@@ -7,7 +7,6 @@
         }
 
         public distance(p1: createjs.Point, p2: createjs.Point): number {
-            //console.log(Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2))));
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         }
 
@@ -17,7 +16,11 @@
             var p1: createjs.Point = new createjs.Point();
             var p2: createjs.Point = new createjs.Point();
             //make the two point on the same grid
-            var pt = collider.localToLocal(collide.x, collide.y, collide);
+            if (collide.name == "snake") {
+                var pt = collider.localToLocal(collide.x, collide.y, collide);
+            } else {
+                var pt = collider;
+            }
 
             p1.x = pt.x;
             p1.y = pt.y;
@@ -43,7 +46,7 @@
                         haveWeapon[2] = true;
                     } else if (collider.name == "armor") {
                         haveArmor = true;
-                    }else if (collider.name == "ammo") {
+                    } else if (collider.name == "ammo") {
                         ammo += 2;
                     } else if (collider.name == "ration") {
                         if (playerHealth == constants.PLAYER_HEALTH) {
@@ -57,7 +60,7 @@
                         }
                     } else if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
                         if (haveArmor) {
-                            playerHealth --;//remove 1 health from the players health variable
+                            playerHealth--;//remove 1 health from the players health variable
                             game.removeChild(healthBar[playerHealth]);
                         } else {
                             playerHealth -= 2;//remove 1 health from the players health variable
@@ -65,6 +68,8 @@
                             game.removeChild(healthBar[playerHealth]);
                         }
                     } else if (collider.name == "antiTank") {
+                        return true;
+                    } else if (collider.name == "missles") {
                         return true;
                     }
 
@@ -77,7 +82,6 @@
                 collider.isColliding = false;//set the variable to false so they can collide again
             }
         }//end of objects collision
-
         //collision for the player objects moving into objects
         public playerObjectsCollision(collider, collide, ration, ammoBox, game, healthBar) {
 
@@ -232,7 +236,7 @@
                     } else {
                         world.x -= dx;//move the screen away from the object
                     }//end of if
-                } else if (object.name == "bullet") {
+                } else if (object.name == "bullet" || object.name == "missle") {
                     object.x = -2000;
                     object.y = -2000;
                 }

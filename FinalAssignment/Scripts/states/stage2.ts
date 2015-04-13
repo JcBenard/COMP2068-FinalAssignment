@@ -47,6 +47,8 @@ module states {
             collidingBottom = true;
             currentWeapon = "antiTank";
             ammo = 2;
+            dx = 0;
+            dy = 0;
 
             this.game = new createjs.Container();
 
