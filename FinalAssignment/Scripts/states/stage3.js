@@ -44,6 +44,7 @@ var states;
             //set the player health to max
             playerHealth = constants.PLAYER_HEALTH;
             currentWeapon = "pistol";
+            haveGun = "Gun";
             ammo = 5;
             //create a game container to store all elements
             this.game = new createjs.Container();
@@ -76,7 +77,7 @@ var states;
                 this.world.addChild(this.wallCollisionShapes[index]);
             }
             //create and add a door collider
-            this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
+            this.doorCollision = new objects.WallShapes(-280, -115, 145, 35);
             this.doorCollision.name = "door";
             this.world.addChild(this.doorCollision);
             //create and add a ration to the game
@@ -94,8 +95,10 @@ var states;
             this.weaponIcon = new objects.WeaponIcon("pistol");
             this.ammoText = new objects.Label(ammo + "", 480, 470);
             //create and add the stationary pistol to the game
-            this.pistol = new objects.Items("pistol", 1390, -945);
-            this.world.addChild(this.pistol);
+            this.missleLauncher = new objects.Items("missle", -190, 90);
+            this.world.addChild(this.missleLauncher);
+            this.bodyArmor = new objects.Items("armor", 205, -880);
+            this.world.addChild(this.bodyArmor);
             //create a bullet objects that is used if the player uses the pistol
             this.bullet = new objects.Bullet();
             this.game.addChild(this.bullet);
@@ -173,17 +176,18 @@ var states;
                 this.collision.wallObjectsCollision(this.bullet, this.world, this.wallCollisionShapes[index]);
             }
             //if the player collides with the door move to the next level
-            //if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
-            //    this.world.removeAllChildren();
-            //    this.game.removeAllChildren();
-            //    window.removeEventListener("keydown", this.keyPressed, true);
-            //    window.removeEventListener("keyup", this.keyRelease, true);
-            //    stage.removeChild(this.game);
-            //    currentState = constants.STAGE1BOSS_STATE;
-            //    stateChanged = true;
-            //}
+            if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
+                this.world.removeAllChildren();
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.STAGE3BOSS_STATE;
+                stateChanged = true;
+            }
             //check collision for snake and the stationary pickups
-            this.collision.objectsCollision(this.pistol, this.snake, null, null);
+            this.collision.objectsCollision(this.missleLauncher, this.snake, null, null);
+            this.collision.objectsCollision(this.bodyArmor, this.snake, null, null);
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             //check collision for snake and the outer walls          

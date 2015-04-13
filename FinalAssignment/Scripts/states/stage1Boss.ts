@@ -60,6 +60,7 @@ module states {
 
             playerHealth = constants.PLAYER_HEALTH;
             currentWeapon = "pistol";
+            haveGun = "Gun";
             ammo = 6;
 
             //create a game container to store all elements

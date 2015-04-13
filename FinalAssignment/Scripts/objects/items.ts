@@ -4,8 +4,6 @@ module objects {
 
     export class Items extends GameObject {
 
-        private startLocationX: number;
-        private startLocationY: number;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(name: string, xLocation: number, yLocation: number) {
@@ -14,12 +12,9 @@ module objects {
 
             this.soundString = "difficulty";
             this.name = name;
-            
-            this.startLocationX = xLocation;
-            this.startLocationY = yLocation;
 
-            this.x = this.startLocationX;
-            this.y = this.startLocationY;
+            this.x = xLocation;
+            this.y = yLocation;
         }
 
         update() {

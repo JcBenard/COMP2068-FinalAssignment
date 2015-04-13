@@ -32,6 +32,12 @@ var managers;
                         haveWeapon[0] = true;
                         ammo = 5;
                     }
+                    else if (collider.name == "missle") {
+                        haveWeapon[2] = true;
+                    }
+                    else if (collider.name == "armor") {
+                        haveArmor = true;
+                    }
                     else if (collider.name == "ammo") {
                         ammo += 2;
                     }
@@ -49,9 +55,15 @@ var managers;
                         }
                     }
                     else if (collider.name == "mines" || collider.name == "tankBullet" || collider.name == "shell") {
-                        playerHealth -= 2; //remove 1 health from the players health variable
-                        game.removeChild(healthBar[playerHealth + 1]);
-                        game.removeChild(healthBar[playerHealth]);
+                        if (haveArmor) {
+                            playerHealth--; //remove 1 health from the players health variable
+                            game.removeChild(healthBar[playerHealth]);
+                        }
+                        else {
+                            playerHealth -= 2; //remove 1 health from the players health variable
+                            game.removeChild(healthBar[playerHealth + 1]);
+                            game.removeChild(healthBar[playerHealth]);
+                        }
                     }
                     else if (collider.name == "antiTank") {
                         return true;
@@ -95,9 +107,15 @@ var managers;
                         collide.y = -1000;
                     } //end of if
                     if (collide.name == "snake") {
-                        playerHealth -= 2;
-                        game.removeChild(healthBar[playerHealth + 1]);
-                        game.removeChild(healthBar[playerHealth]);
+                        if (haveArmor) {
+                            playerHealth--;
+                            game.removeChild(healthBar[playerHealth]);
+                        }
+                        else {
+                            playerHealth -= 2;
+                            game.removeChild(healthBar[playerHealth + 1]);
+                            game.removeChild(healthBar[playerHealth]);
+                        }
                     }
                     //if the collider is a bullet move it off the stage
                     if (collider.name == "bullet") {

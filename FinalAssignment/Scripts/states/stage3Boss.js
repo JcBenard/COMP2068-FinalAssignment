@@ -17,6 +17,7 @@
 /// <reference path="../objects/gunner.ts" />
 /// <reference path="../objects/mine.ts" />
 /// <reference path="../objects/antitank.ts" />
+/// <reference path="../objects/metalgear.ts" />
 var states;
 (function (states) {
     var Stage3Boss = (function () {
@@ -25,13 +26,17 @@ var states;
             this.enemyBullets = [];
             this.healthBar = [];
             this.wallCollisionShapes = [];
+            this.smallBoxes = [];
             this.bossHealth = 1;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
             this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
             this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
             this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
+            this.boxesX = [440, 120];
+            this.boxesY = 246;
             playerHealth = constants.PLAYER_HEALTH;
             currentWeapon = "missle";
+            haveGun = "Gun";
             ammo = 3;
             //create a game container to store all elements
             this.game = new createjs.Container();
@@ -45,18 +50,24 @@ var states;
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.game.addChild(this.wallCollisionShapes[index]);
             }
+            for (var index = 0; index < this.boxesX.length; index++) {
+                this.smallBoxes[index] = new objects.BackgroundObjects(this.boxesX[index], this.boxesY, "boxesSmall");
+                this.game.addChild(this.smallBoxes[index]);
+            }
             //create and add a ammo box to the game
             this.ammoBox = new objects.AmmoBox(0);
             this.game.addChild(this.ammoBox);
             //create and add th player to the game
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
-            for (var index = 0; index < 4; index++) {
+            for (var index = 0; index < 20; index++) {
                 this.enemyBullets[index] = new objects.Bullet();
                 this.game.addChild(this.enemyBullets[index]);
             }
             this.missle = new objects.Missle();
             this.game.addChild(this.missle);
+            this.metalGear = new objects.MetalGear();
+            this.game.addChild(this.metalGear);
             //create and add the info bar to the bottom of the screen
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
@@ -110,7 +121,7 @@ var states;
                         }
                         break;
                     case ("punch"):
-                        this.collision.playerObjectsCollision(this.snake, this.gunner, this.ration, this.ammoBox, this.game, this.healthBar);
+                        this.collision.playerObjectsCollision(this.snake, this.metalGear, this.ration, this.ammoBox, this.game, this.healthBar);
                         break;
                 }
                 //set the use weapon flag to false;
@@ -123,10 +134,18 @@ var states;
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.missle.update();
+            this.metalGear.update(this.enemyBullets, this.snake);
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
+            if (this.collision.objectsCollision(this.missle, this.metalGear, this.game, this.healthBar)) {
+                this.bossHealth--;
+            }
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
                 this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake, null, null, this.game, this.healthBar);
+            }
+            for (var index = 0; index < this.smallBoxes.length; index++) {
+                this.collision.backgroundObjectsCollision(this.snake, this.game, this.smallBoxes[index]);
+                this.collision.backgroundObjectsCollision(this.missle, this.game, this.smallBoxes[index]);
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);

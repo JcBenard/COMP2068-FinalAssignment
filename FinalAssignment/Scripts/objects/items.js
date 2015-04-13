@@ -14,10 +14,8 @@ var objects;
             _super.call(this, name);
             this.soundString = "difficulty";
             this.name = name;
-            this.startLocationX = xLocation;
-            this.startLocationY = yLocation;
-            this.x = this.startLocationX;
-            this.y = this.startLocationY;
+            this.x = xLocation;
+            this.y = yLocation;
         }
         Items.prototype.update = function () {
         };

@@ -38,6 +38,7 @@ var states;
             this.minesY = constants.SCRREN_CENTER_HEIGHT;
             playerHealth = constants.PLAYER_HEALTH;
             currentWeapon = "pistol";
+            haveGun = "Gun";
             ammo = 6;
             //create a game container to store all elements
             this.game = new createjs.Container();

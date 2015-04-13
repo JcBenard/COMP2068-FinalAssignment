@@ -31,6 +31,7 @@
 /// <reference path="objects/snakedeath.ts" />
 /// <reference path="objects/weaponicon.ts" />
 /// <reference path="objects/missle.ts" />
+/// <reference path="objects/metalgear.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -69,6 +70,7 @@ var collidingTop = false;
 var collidingRight = false;
 var snakeColl = false;
 var ammo = 5;
+var haveArmor = false;
 var playerHealth = constants.PLAYER_HEALTH;
 var currentStage;
 var haveWeapon = [false, false, false];

@@ -95,6 +95,7 @@
     <TypeScriptCompile Include="Scripts\objects\guardLosChecker.ts" />
     <TypeScriptCompile Include="Scripts\objects\gunner.ts" />
     <TypeScriptCompile Include="Scripts\objects\items.ts" />
+    <TypeScriptCompile Include="Scripts\objects\metalGear.ts" />
     <TypeScriptCompile Include="Scripts\objects\missle.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />
     <TypeScriptCompile Include="Scripts\objects\snakeDeath.ts" />

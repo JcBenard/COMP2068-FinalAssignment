@@ -9,8 +9,8 @@
         public name: string;
 
         //private instanced variables
-        protected _dx;
-        protected _dy;
+        public _dx;
+        public _dy;
 
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(assetString:string) {
