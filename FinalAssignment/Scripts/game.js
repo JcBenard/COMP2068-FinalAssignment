@@ -32,6 +32,7 @@
 /// <reference path="objects/weaponicon.ts" />
 /// <reference path="objects/missle.ts" />
 /// <reference path="objects/metalgear.ts" />
+/// <reference path="states/instructions.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -46,6 +47,7 @@ var stage;
 var assetLoader;
 //game objects
 var start;
+var instructions;
 var stage1;
 var stage1Boss;
 var stage2;
@@ -89,7 +91,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE3BOSS_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -120,6 +122,9 @@ function changeState(state) {
             currentStateFunction = start;
             break;
         case constants.INSTRUCTIONS_STATE:
+            stateChanged = false;
+            instructions = new states.Instructions();
+            currentStateFunction = instructions;
             break;
         case constants.STAGE1_STATE:
             stateChanged = false;

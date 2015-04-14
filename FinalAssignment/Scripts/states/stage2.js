@@ -72,10 +72,12 @@ var states;
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
             this.collision = new managers.Collision();
+            createjs.Sound.play("stage2", { loop: -1 });
         } //end of constructor
         //updates the game based on the elements
         Stage2.prototype.update = function () {
             if (this.tankHealth < 1) {
+                createjs.Sound.stop();
                 this.game.removeAllChildren();
                 window.removeEventListener("keydown", this.keyPressed, true);
                 window.removeEventListener("keyup", this.keyRelease, true);

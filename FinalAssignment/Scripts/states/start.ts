@@ -32,6 +32,7 @@ module states {
         public update() {
             if (useProjectile == true) {
                 this.selectState();
+                useProjectile = false;
             }
 
             this.cursor.x = dx;

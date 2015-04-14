@@ -116,6 +116,7 @@
     <TypeScriptCompile Include="Scripts\objects\weaponIcon.ts" />
     <TypeScriptCompile Include="Scripts\objects\worldContainer.ts" />
     <TypeScriptCompile Include="Scripts\states\gameOver.ts" />
+    <TypeScriptCompile Include="Scripts\states\instructions.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />

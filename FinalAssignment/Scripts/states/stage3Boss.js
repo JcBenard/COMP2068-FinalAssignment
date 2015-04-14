@@ -94,7 +94,7 @@ var states;
             collidingRight = true;
             collidingTop = true;
             //start the background music
-            //createjs.Sound.play("backgroundMusic", { loop: -1 });
+            createjs.Sound.play("finalBoss", { loop: -1 });
         } //end of constructor
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //updates the game based on the elements
@@ -129,8 +129,8 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
-            var random = Math.floor((Math.random() * 750) + 1);
-            if (random == 750) {
+            var random = Math.floor((Math.random() * 500) + 1);
+            if (random == 500) {
                 var random = Math.floor((Math.random() * 2));
                 if (random == 0 && this.ammoBox.x < 0) {
                     var random = Math.floor((Math.random() * 3));

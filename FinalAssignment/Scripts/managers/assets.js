@@ -20,9 +20,13 @@ var managers;
         { id: "overBackground", src: "assets/images/overBackground.png" },
         { id: "instructionsBackground", src: "assets/images/instructionBackground.png" },
         { id: "winBackground", src: "assets/images/winBackground.png" },
-        { id: "backgroundMusic", src: "assets/audio/backgroundMusic.ogg" },
+        { id: "finalBoss", src: "assets/audio/backgroundMusic.ogg" },
         { id: "difficulty", src: "assets/audio/difficultyUp.ogg" },
         { id: "gameOver", src: "assets/audio/gameOver.ogg" },
+        { id: "main", src: "assets/audio/mainTheme.ogg" },
+        { id: "spotted", src: "assets/audio/caught.ogg" },
+        { id: "gunnerTheme", src: "assets/audio/bossGunner.ogg" },
+        { id: "stage2", src: "assets/audio/stage2.ogg" },
         { id: "win", src: "assets/audio/win.mp3" },
         { id: "explosion", src: "assets/audio/Explosion.wav" }
     ];

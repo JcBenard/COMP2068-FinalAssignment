@@ -20,6 +20,7 @@ var states;
         Start.prototype.update = function () {
             if (useProjectile == true) {
                 this.selectState();
+                useProjectile = false;
             }
             this.cursor.x = dx;
             this.cursor.y = dy;

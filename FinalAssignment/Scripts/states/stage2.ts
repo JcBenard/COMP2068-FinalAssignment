@@ -110,12 +110,15 @@ module states {
 
             this.collision = new managers.Collision();
 
+            createjs.Sound.play("stage2", { loop: -1 });
+
         }//end of constructor
 
         //updates the game based on the elements
         public update() {
 
             if (this.tankHealth < 1) {
+                createjs.Sound.stop();
                 this.game.removeAllChildren();
                 window.removeEventListener("keydown", this.keyPressed, true);
                 window.removeEventListener("keyup", this.keyRelease, true);

@@ -150,7 +150,7 @@ module states {
             collidingTop = true;
 
             //start the background music
-            //createjs.Sound.play("backgroundMusic", { loop: -1 });
+            createjs.Sound.play("gunnerTheme", { loop: -1 });
         }//end of constructor
 
         //public methods//////////////////////////////////////////////////////////////////////////////////
@@ -172,6 +172,7 @@ module states {
             }
 
             if (playerHealth < 1) {
+                createjs.Sound.stop();
                 this.game.removeAllChildren();
                 window.removeEventListener("keydown", this.keyPressed, true);
                 window.removeEventListener("keyup", this.keyRelease, true);
@@ -249,6 +250,7 @@ module states {
             }
 
             if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
+                createjs.Sound.stop();
                 this.game.removeAllChildren();
                 window.removeEventListener("keydown", this.keyPressed, true);
                 window.removeEventListener("keyup", this.keyRelease, true);

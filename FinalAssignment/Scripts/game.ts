@@ -34,6 +34,7 @@
 /// <reference path="objects/missle.ts" />
 /// <reference path="objects/metalgear.ts" />
 
+/// <reference path="states/instructions.ts" />
 /// <reference path="states/start.ts" />
 /// <reference path="states/stage1.ts" />
 /// <reference path="states/stage2.ts" />
@@ -50,6 +51,7 @@ var assetLoader: createjs.LoadQueue;
 
 //game objects
 var start: states.Start;
+var instructions: states.Instructions;
 var stage1: states.Stage1;
 var stage1Boss: states.Stage1Boss;
 var stage2: states.Stage2;
@@ -100,7 +102,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE3BOSS_STATE;
+    currentState = constants.START_STATE;
     changeState(currentState);
 
 }
@@ -140,6 +142,9 @@ function changeState(state: number) {
             currentStateFunction = start;
             break;
         case constants.INSTRUCTIONS_STATE://if its instructions state
+            stateChanged = false;
+            instructions = new states.Instructions();
+            currentStateFunction = instructions;
             break;
         case constants.STAGE1_STATE://if its play state
             stateChanged = false;

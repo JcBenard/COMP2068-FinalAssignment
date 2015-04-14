@@ -162,7 +162,7 @@ module states {
             this.collision = new managers.Collision();
 
             //start the background music
-            //createjs.Sound.play("backgroundMusic", { loop: -1 });
+            createjs.Sound.play("main", { loop: -1 });
         }//end of constructor
 
         //public methods//////////////////////////////////////////////////////////////////////////////////
@@ -266,6 +266,7 @@ module states {
 
             //if the player collides with the door move to the next level
             if (this.collision.wallObjectsCollision(this.snake, this.world, this.doorCollision)) {
+                createjs.Sound.stop();
                 this.world.removeAllChildren();
                 this.game.removeAllChildren();
                 window.removeEventListener("keydown", this.keyPressed, true);
