@@ -157,9 +157,9 @@
             }
         }
 
-        public losCollisionObjects(collider, collide, guard, world) {
+        public losCollisionWalls(collider, collide, guard, world) {
 
-            var pt = world.globalToLocal(collider.x, collider.y);
+            var pt = guard.localToLocal(collider.x, collider.y, world);
 
             console.log(pt+ "/" + collide.xLocation + " " + collide.yLocation);
 
@@ -170,8 +170,26 @@
 
             } else {
                 console.log("Worked");
-                //collider.x = -10000;
-                //collider.y = -10000;
+                collider.x = -10000;
+                collider.y = -10000;
+            }
+        }
+
+        public losCollisionObjects(collider, collide, guard, world) {
+
+            var pt = guard.localToLocal(collider.x, collider.y, world);
+
+            console.log(pt + "/" + collide.x + " " + collide.y);
+
+            if (pt.x >= collide.x + collide.width
+                || pt.x + collider.width <= collide.x
+                || pt.y >= collide.y + collide.height
+                || pt.y + collider.height <= collide.y) {
+
+            } else {
+                console.log("Worked");
+                collider.x = -10000;
+                collider.y = -10000;
             }
         }
 

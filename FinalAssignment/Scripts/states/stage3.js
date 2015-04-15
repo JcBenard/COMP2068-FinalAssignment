@@ -170,6 +170,21 @@ var states;
             for (var index = 0; index < this.guards.length; index++) {
                 this.guards[index].update(this.snake, this.world);
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
+                for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
+                    for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
+                        if (this.collision.losCollisionWalls(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
+                            this.guards[index].losCheckers[index2].remove = true;
+                        }
+                    }
+                    if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
+                        //this.world.removeAllChildren();
+                        //this.game.removeAllChildren();
+                        //window.removeEventListener("keydown", this.keyPressed, true);
+                        //window.removeEventListener("keyup", this.keyRelease, true);
+                        //stage.removeChild(this.game);
+                        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    }
+                }
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
                 this.collision.wallObjectsCollision(this.snake, this.world, this.wallCollisionShapes[index]);

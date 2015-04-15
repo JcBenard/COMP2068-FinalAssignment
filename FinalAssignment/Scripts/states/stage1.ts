@@ -93,16 +93,16 @@ module states {
             }//end of for
 
             //create and add all the horizontal boxes, using the vaules in the arrays for location
-            for (var index = 0; index < this.hBoxesX.length; index++) {
-                this.horizontalBoxes[index] = new objects.BackgroundObjects(this.hBoxesX[index], this.hBoxesY[index], "boxesH");
-                this.world.addChild(this.horizontalBoxes[index]);
-            }//end of for
+            //for (var index = 0; index < this.hBoxesX.length; index++) {
+                this.horizontalBoxes[0] = new objects.BackgroundObjects(this.hBoxesX[1], this.hBoxesY[1], "boxesH");
+                this.world.addChild(this.horizontalBoxes[0]);
+            //}//end of for
          
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
-            for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
-                this.world.addChild(this.guards[index]);
-            }//end of for
+            //for (var index = 0; index < this.guardX.length; index++) {
+                this.guards[0] = new objects.Guard(this.guardX[7], this.guardY[7], this.guardDirection[7], this.world);
+                this.world.addChild(this.guards[0]);
+            //}//end of for
 
             //create and add all the walls to the game, using the vales in the array for location and size
             for (var index = 0; index < this.wallX.length; index++) {
@@ -230,15 +230,15 @@ module states {
 
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
                     for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[1], this.guards[index], this.world)) {
+                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[index], this.guards[index], this.world)) {
                             this.guards[index].losCheckers[index2].remove = true;
                         }
                     }//end of for
-                    for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
-                            this.guards[index].losCheckers[index2].remove = true;
-                        }
-                    }//end of for
+                    //for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
+                    //    if (this.collision.losCollisionWalls(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
+                    //        this.guards[index].losCheckers[index2].remove = true;
+                    //    }
+                    //}//end of for
                     if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {//if the player hits a guard los checker change state
                         deathX = this.snake.x;
                         deathY = this.snake.y;

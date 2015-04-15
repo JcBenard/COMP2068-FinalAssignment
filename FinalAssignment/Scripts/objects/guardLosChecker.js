@@ -11,7 +11,7 @@ var objects;
         function GuardLosChecker(guard) {
             _super.call(this);
             this.number = 1;
-            this.graphics.beginFill("blue").drawRect(guard.x, guard.y, 10, 10);
+            this.graphics.drawRect(guard.x, guard.y, 20, 20);
             this._dx = guard._dx * 3;
             this._dy = guard._dy * 3;
             this.width = 10;

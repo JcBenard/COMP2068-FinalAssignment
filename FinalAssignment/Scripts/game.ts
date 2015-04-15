@@ -111,7 +111,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.STAGE3BOSS_STATE;
+    currentState = constants.STAGE3_STATE;
     changeState(currentState);
 
 }

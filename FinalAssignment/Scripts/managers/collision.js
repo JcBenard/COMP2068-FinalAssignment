@@ -151,13 +151,26 @@ var managers;
                 return true;
             }
         };
-        Collision.prototype.losCollisionObjects = function (collider, collide, guard, world) {
-            var pt = world.globalToLocal(collider.x, collider.y);
+        Collision.prototype.losCollisionWalls = function (collider, collide, guard, world) {
+            var pt = guard.localToLocal(collider.x, collider.y, world);
             console.log(pt + "/" + collide.xLocation + " " + collide.yLocation);
             if (pt.x >= collide.xLocation + collide.width || pt.x + collider.width <= collide.xLocation || pt.y >= collide.yLocation + collide.height || pt.y + collider.height <= collide.yLocation) {
             }
             else {
                 console.log("Worked");
+                collider.x = -10000;
+                collider.y = -10000;
+            }
+        };
+        Collision.prototype.losCollisionObjects = function (collider, collide, guard, world) {
+            var pt = guard.localToLocal(collider.x, collider.y, world);
+            console.log(pt + "/" + collide.x + " " + collide.y);
+            if (pt.x >= collide.x + collide.width || pt.x + collider.width <= collide.x || pt.y >= collide.y + collide.height || pt.y + collider.height <= collide.y) {
+            }
+            else {
+                console.log("Worked");
+                collider.x = -10000;
+                collider.y = -10000;
             }
         };
         //collision for walls

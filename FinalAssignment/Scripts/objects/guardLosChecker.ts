@@ -14,7 +14,7 @@
         constructor(guard) {
             super();
 
-            this.graphics.beginFill("blue").drawRect(guard.x, guard.y, 10, 10);
+            this.graphics.drawRect(guard.x, guard.y, 20, 20);
 
             this._dx = guard._dx * 3;
             this._dy = guard._dy * 3;
