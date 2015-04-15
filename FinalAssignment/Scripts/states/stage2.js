@@ -22,7 +22,7 @@ var states;
             this.healthBar = [];
             //private instanced variables
             this.ticks = 0;
-            this.tankHealth = 10;
+            this.tankHealth = 7;
             //set the deafult values
             playerHealth = constants.PLAYER_HEALTH;
             animation = "runRight";
@@ -93,7 +93,7 @@ var states;
                 stateChanged = true;
             }
             //if 90 frams have passed and the difficulty is greater then 1
-            if (this.ticks % 90 == 0 && this.tankHealth < 7) {
+            if (this.ticks % 90 == 0 && this.tankHealth < 6) {
                 this.tankBullet.reset(this.snake.y, this.tank.y); //shoot a bullet
             }
             //if 180 frams have passed and the difficulty is greater then 2

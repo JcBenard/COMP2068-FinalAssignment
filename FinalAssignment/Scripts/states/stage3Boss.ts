@@ -144,16 +144,25 @@ module states {
 
 
             if (this.bossHealth < 1) {
-                console.log("Win");
+                deathX = this.snake.x;
+                deathY = this.snake.y;
+                createjs.Sound.stop();
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.WIN_STATE;
+                stateChanged = true;
             }
 
             if (playerHealth < 1) {
-                //this.game.removeAllChildren();
-                //window.removeEventListener("keydown", this.keyPressed, true);
-                //window.removeEventListener("keyup", this.keyRelease, true);
-                //stage.removeChild(this.game);
-                //currentState = constants.GAME_OVER_STATE;
-                //stateChanged = true;
+                createjs.Sound.stop();
+                this.game.removeAllChildren();
+                window.removeEventListener("keydown", this.keyPressed, true);
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game);
+                currentState = constants.WIN_STATE;
+                stateChanged = true;
             }
 
             if (currentWeapon == "missle") {

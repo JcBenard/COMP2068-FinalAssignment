@@ -20,7 +20,7 @@ var managers;
         { id: "overBackground", src: "assets/images/overBackground.png" },
         { id: "instructionsBackground", src: "assets/images/instructionBackground.png" },
         { id: "winBackground", src: "assets/images/winBackground.png" },
-        { id: "finalBoss", src: "assets/audio/backgroundMusic.ogg" },
+        { id: "finalBoss", src: "assets/audio/finalBoss.ogg" },
         { id: "difficulty", src: "assets/audio/difficultyUp.ogg" },
         { id: "gameOver", src: "assets/audio/gameOver.ogg" },
         { id: "main", src: "assets/audio/mainTheme.ogg" },

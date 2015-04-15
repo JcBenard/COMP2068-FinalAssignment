@@ -16,27 +16,27 @@ var objects;
             this.soundString = "explosion";
             this.name = "tankBullet";
             this.y = -10;
-        }
+        } //end of constructor
         //public methods/////////////////////////////////////////////////////////////////////////////
         TankBullet.prototype.update = function () {
+            //move the object based on dx and dy
             this.x += this._dx;
             this.y += this._dy;
-            if (this.y >= 440) {
-                this.y = 500;
-            }
-        };
+        }; //end of update
         TankBullet.prototype.reset = function (playerY, tankY) {
-            this.x = 70;
+            this.x = 70; //set the x position
+            //get a random number between 1 and 2
             if (Math.floor((Math.random() * 2) + 1) == 1) {
-                this.y = tankY + 50;
+                this.y = tankY + 50; //set the y position to the tank y + 50
             }
             else {
-                this.y = tankY - 50;
-            }
+                this.y = tankY - 50; //set the y position to the tank y - 50
+            } //end of if
+            //set the dy to make the object move towards the player
             this._dy = ((playerY - this.y) / ((Math.random() * 10) + 25));
-        };
+        }; //end ofreset
         return TankBullet;
     })(objects.GameObject);
-    objects.TankBullet = TankBullet;
-})(objects || (objects = {}));
+    objects.TankBullet = TankBullet; //end of tankBullet
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=tankbullet.js.map

@@ -99,16 +99,16 @@ module states {
             }//end of for
          
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
-            //for (var index = 0; index < this.guardX.length; index++) {
-                this.guards[0] = new objects.Guard(this.guardX[0], this.guardY[0], this.guardDirection[0], this.world);
-                this.world.addChild(this.guards[0]);
-            //}//end of for
+            for (var index = 0; index < this.guardX.length; index++) {
+                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
+                this.world.addChild(this.guards[index]);
+            }//end of for
 
             //create and add all the walls to the game, using the vales in the array for location and size
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
-                }//end of for
+            }//end of for
 
             //create and add a door collider
             this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
@@ -229,33 +229,27 @@ module states {
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
 
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
-                    //for (var index3 = 0; index3 < this.tanks.length; index3++) {
-                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.tanks[index3], this.guards[index], this.world)) {
-                    //        this.guards[index].losCheckers[index2].remove = true;
-                    //    }
-                    //}//end of for
-                    //for (var index3 = 0; index3 < this.verticalBoxes.length; index3++) {
-                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.verticalBoxes[index3], this.guards[index], this.world)) {
-                    //        this.guards[index].losCheckers[index2].remove = true;
-                    //    }
-                    //}//end of for
-                    //for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                    //    if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[1], this.guards[index], this.world)) {
-                    //        this.guards[index].losCheckers[index2].remove = true;
-                    //    }
-                    //}//end of for
+                    for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
+                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[1], this.guards[index], this.world)) {
+                            this.guards[index].losCheckers[index2].remove = true;
+                        }
+                    }//end of for
                     for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
                         if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
                             this.guards[index].losCheckers[index2].remove = true;
                         }
                     }//end of for
                     if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {//if the player hits a guard los checker change state
-                        this.world.removeAllChildren();
-                        this.game.removeAllChildren();
-                        window.removeEventListener("keydown", this.keyPressed, true);
+                        deathX = this.snake.x;
+                        deathY = this.snake.y;
+                        createjs.Sound.stop();//stop the background music
+                        this.game.removeAllChildren();//remove everything from the stage
+                        window.removeEventListener("keydown", this.keyPressed, true);//disable the eventlsitners
                         window.removeEventListener("keyup", this.keyRelease, true);
-                        stage.removeChild(this.game);
-                        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                        stage.removeChild(this.game);//remove the game contaner from the game just in case
+                        lastState = constants.STAGE1_STATE;//set the last state to the current state
+                        currentState = constants.GAME_OVER_SPOTTED_STATE;//set the current state to the game over state
+                        stateChanged = true;//set the state change varaible to true so the game object changes the stage
                     }//end of if                    
                 }//end of for
             }//end of for

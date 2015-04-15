@@ -39,6 +39,8 @@
 /// <reference path="states/stage3.ts" />
 /// <reference path="states/stage1boss.ts" />
 /// <reference path="states/gameover.ts" />
+/// <reference path="states/spottedgameover.ts" />
+/// <reference path="states/win.ts" />
 //game variables
 var stats = new Stats();
 var canvas;
@@ -54,6 +56,7 @@ var stage3;
 var stage3Boss;
 var gameOver;
 var spottedGameOver;
+var win;
 //game states
 var currentState;
 var currentStateFunction;
@@ -71,14 +74,16 @@ var collidingBottom = false;
 var collidingTop = false;
 var collidingRight = false;
 var snakeColl = false;
+var currentStage;
 var ammo = 5;
 var haveArmor = false;
 var playerHealth = constants.PLAYER_HEALTH;
-var currentStage;
 var haveWeapon = [false, false, false];
 var lastState;
 var deathX;
 var deathY;
+var kills = 0;
+var deaths = 0;
 //preloader, loads assets from the assets class
 function preload() {
     managers.Assets.init();
@@ -94,7 +99,7 @@ function init() {
     //set up the fps tracker
     setupStats();
     //set the current state to menu then run the change state function
-    currentState = constants.START_STATE;
+    currentState = constants.STAGE3BOSS_STATE;
     changeState(currentState);
 }
 //ultilites methods/////////////////////////////////////////////////////////////////////////
@@ -165,6 +170,9 @@ function changeState(state) {
             currentStateFunction = spottedGameOver;
             break;
         case constants.WIN_STATE:
+            stateChanged = false;
+            win = new states.Win();
+            currentStateFunction = win;
             break;
     }
 }

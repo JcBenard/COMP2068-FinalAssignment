@@ -40,4 +40,4 @@ var objects;
     })(objects.GameObject);
     objects.Ration = Ration; //end of ration
 })(objects || (objects = {})); //end of class
-//# sourceMappingURL=Ration.js.map
+//# sourceMappingURL=ration.js.map

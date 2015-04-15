@@ -28,8 +28,10 @@ var objects;
             this.regX = this.width * 0.5;
             this.regY = this.height * 0.5;
             //set the objects x and y co-ord to the given ones
-            this.x = setX;
-            this.y = setX;
+            this.startLocationX = setX;
+            this.startLocationY = setY;
+            this.x = this.startLocationX;
+            this.y = this.startLocationY;
             //set the direction to the given direction
             this.direction = direction;
             switch (this.direction) {
@@ -70,9 +72,9 @@ var objects;
                 this.gotoAndPlay("guardMoveRight"); //set the animation to the opposit one for the axis
                 this.diffX = 0; //set the distance moves variable to 0
                 this.direction = "Right"; //set the direction to the opposit one for the axis
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }
+                //for (var index = 0; index < this.losCheckers.length; index++) {// remove all los checkers
+                //    world.removeChild(this.losCheckers[index]); 
+                //}//end of for  
                 this.losCheckers = [];
             }
             else if (this.direction == "Right" && this.diffX > 300) {
@@ -80,9 +82,9 @@ var objects;
                 this.gotoAndPlay("guardMoveLeft");
                 this.diffX = 0;
                 this.direction = "Left";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //} //end of for  
                 this.losCheckers = [];
             }
             else if (this.direction == "Up" && this.diffY < -300) {
@@ -90,9 +92,9 @@ var objects;
                 this.gotoAndPlay("guardMoveDown");
                 this.diffY = 0;
                 this.direction = "Down";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //}  //end of for  
                 this.losCheckers = [];
             }
             else if (this.direction == "Down" && this.diffY > 300) {
@@ -100,9 +102,9 @@ var objects;
                 this.gotoAndPlay("guardMoveUp");
                 this.diffY = 0;
                 this.direction = "Up";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //}  //end of for  
                 this.losCheckers = [];
             } //end of if
             //increment the distance variables and the guard location by dx and dy

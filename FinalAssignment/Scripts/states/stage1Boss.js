@@ -27,7 +27,8 @@ var states;
             this.healthBar = [];
             this.wallCollisionShapes = [];
             this.mines = [];
-            this.bossHealth = 1;
+            //private variables and location varaibles for obejcts
+            this.bossHealth = 5;
             this.boxesX = [120, 280, 440];
             this.boxesY = 124;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
@@ -36,8 +37,11 @@ var states;
             this.wallHeight = [70, constants.SCREEN_HEIGHT, constants.SCREEN_HEIGHT, 20];
             this.minesX = [78, 88, 98, 108, 225, 235, 245, 255, 265, 380, 390, 400, 410, 420, 540, 550, 560, 570, 580];
             this.minesY = constants.SCRREN_CENTER_HEIGHT;
+            //set the default values 
             playerHealth = constants.PLAYER_HEALTH;
-            currentWeapon = "pistol";
+            if (haveWeapon[0]) {
+                currentWeapon = "pistol";
+            }
             haveGun = "Gun";
             ammo = 6;
             //create a game container to store all elements
@@ -61,6 +65,7 @@ var states;
                 this.mines[index].setMines(this.minesX[index], this.minesY);
                 this.game.addChild(this.mines[index]);
             }
+            //create and add the door collision object
             this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
             this.doorCollision.name = "door";
             this.game.addChild(this.doorCollision);
@@ -71,6 +76,7 @@ var states;
             //create and add th player to the game
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
+            //create and add the gunner to the game
             this.gunner = new objects.Gunner();
             this.game.addChild(this.gunner);
             for (var index = 0; index < 4; index++) {
@@ -99,6 +105,7 @@ var states;
             window.addEventListener("keyup", this.keyRelease, true);
             //create the collision manager
             this.collision = new managers.Collision();
+            //set all the colliding variables to true so the player can move
             collidingBottom = true;
             collidingLeft = true;
             collidingRight = true;
@@ -172,6 +179,7 @@ var states;
             //check collision for the objects
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             this.collision.objectsCollision(this.antiTank, this.snake, null, null);
+            //if the bullet object is colliding with the gunner remove 1 from the bossHealth variable
             if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {
                 this.bossHealth--;
             }
@@ -191,6 +199,7 @@ var states;
                 this.collision.wallObjectsCollision(this.snake, this.game, this.wallCollisionShapes[index]);
                 this.collision.wallObjectsCollision(this.bullet, this.game, this.wallCollisionShapes[index]);
             }
+            //if the player collides with the door object clear the stage then change the state to stage 2
             if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
                 createjs.Sound.stop();
                 this.game.removeAllChildren();

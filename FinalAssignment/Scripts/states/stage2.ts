@@ -38,7 +38,7 @@ module states {
 
         //private instanced variables
         private ticks: number = 0;
-        private tankHealth: number = 10;
+        private tankHealth: number = 7;
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
@@ -136,7 +136,7 @@ module states {
             }
 
             //if 90 frams have passed and the difficulty is greater then 1
-            if (this.ticks % 90 == 0 && this.tankHealth < 7) {
+            if (this.ticks % 90 == 0 && this.tankHealth < 6) {
                 this.tankBullet.reset(this.snake.y, this.tank.y);//shoot a bullet
             }
 

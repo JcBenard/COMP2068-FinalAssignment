@@ -18,7 +18,8 @@ module states {
         constructor() {
             this.game = new createjs.Container();
 
-            //this.currentLevel = currentLevel;
+            //increment the number of player deaths
+            deaths++;
 
             //create and add the normal game background to the game
             this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
@@ -27,6 +28,7 @@ module states {
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX,deathY);
             this.game.addChild(this.snake);
+            this.snake.gotoAndPlay("idle" + direction + haveGun);
 
             //create add add the gameover background to the game
             this.overBackground = new objects.TransitionBackground("overBackground", 1.75, 0);
@@ -55,6 +57,7 @@ module states {
             }
         }
 
+        //if a key is pressed and its space set the variable to change state to true
         public keyPressed(event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_SPACE:
@@ -63,8 +66,9 @@ module states {
             }
         }
 
+        //when called sets the game to the last state
         private selectState() {
-            //currentState = this.currentLevel;
+            currentState = lastState;
             window.removeEventListener("keydown", this.keyPressed, true);
             this.game.removeAllChildren();
             stage.removeChild(this.game);

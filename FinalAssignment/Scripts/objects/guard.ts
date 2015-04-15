@@ -12,6 +12,8 @@ module objects {
         private _counter: number = 0;
         private diffX: number = 0;
         private diffY: number = 0;
+        private startLocationX: number;
+        private startLocationY: number;
         private direction: String;
         public name = "guard";
         public losCheckers: objects.GuardLosChecker[] = [];
@@ -29,8 +31,11 @@ module objects {
             this.regY = this.height * 0.5;
 
             //set the objects x and y co-ord to the given ones
-            this.x = setX;
-            this.y = setX;
+            this.startLocationX = setX;
+            this.startLocationY = setY;
+
+            this.x = this.startLocationX;
+            this.y = this.startLocationY;
 
             //set the direction to the given direction
             this.direction = direction;
@@ -81,36 +86,36 @@ module objects {
                 this.gotoAndPlay("guardMoveRight");//set the animation to the opposit one for the axis
                 this.diffX = 0;//set the distance moves variable to 0
                 this.direction = "Right";//set the direction to the opposit one for the axis
-                for (var index = 0; index < this.losCheckers.length; index++) {// remove all los checkers
-                    world.removeChild(this.losCheckers[index]); 
-                }//end of for  
+                //for (var index = 0; index < this.losCheckers.length; index++) {// remove all los checkers
+                //    world.removeChild(this.losCheckers[index]); 
+                //}//end of for  
                 this.losCheckers = [];         
              } else if(this.direction == "Right" && this.diffX > 300) {
                 this._dx = -this._dx;
                 this.gotoAndPlay("guardMoveLeft");
                 this.diffX = 0;
                 this.direction = "Left";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                } //end of for  
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //} //end of for  
                 this.losCheckers = [];
             } else if (this.direction == "Up" && this.diffY < -300) {
                 this._dy = -this._dy;
                 this.gotoAndPlay("guardMoveDown");
                 this.diffY = 0;
                 this.direction = "Down";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }  //end of for  
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //}  //end of for  
                 this.losCheckers = [];
             } else if (this.direction == "Down" && this.diffY > 300) {
                 this._dy = -this._dy;
                 this.gotoAndPlay("guardMoveUp");
                 this.diffY = 0;
                 this.direction = "Up";
-                for (var index = 0; index < this.losCheckers.length; index++) {
-                    world.removeChild(this.losCheckers[index]);
-                }  //end of for  
+                //for (var index = 0; index < this.losCheckers.length; index++) {
+                //    world.removeChild(this.losCheckers[index]);
+                //}  //end of for  
                 this.losCheckers = [];
             }//end of if
 

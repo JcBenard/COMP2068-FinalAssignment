@@ -20,7 +20,8 @@ module states {
         constructor() {
             this.game = new createjs.Container();
 
-            //this.currentLevel = currentLevel;
+            //increment the number of player deaths
+            deaths++;
 
             //create and add the normal game background to the game
             this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));

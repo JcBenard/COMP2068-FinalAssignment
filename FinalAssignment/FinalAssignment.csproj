@@ -122,6 +122,7 @@
     <TypeScriptCompile Include="Scripts\states\stage3.ts" />
     <TypeScriptCompile Include="Scripts\states\stage3Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\start.ts" />
+    <TypeScriptCompile Include="Scripts\states\win.ts" />
     <TypeScriptCompile Include="Scripts\typings\createjs-lib\createjs-lib.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\easeljs\easeljs.d.ts" />
     <TypeScriptCompile Include="Scripts\typings\preloadjs\preloadjs.d.ts" />

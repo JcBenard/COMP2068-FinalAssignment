@@ -41,6 +41,8 @@
 /// <reference path="states/stage3.ts" />
 /// <reference path="states/stage1boss.ts" />
 /// <reference path="states/gameover.ts" />
+/// <reference path="states/spottedgameover.ts" />
+/// <reference path="states/win.ts" />
 
 //game variables
 var stats: Stats = new Stats();
@@ -58,6 +60,7 @@ var stage3: states.Stage3;
 var stage3Boss: states.Stage3Boss;
 var gameOver: states.GameOver;
 var spottedGameOver: states.SpottedGameOver;
+var win: states.Win;
 
 //game states
 var currentState: number;
@@ -77,14 +80,18 @@ var collidingBottom: Boolean = false;
 var collidingTop: Boolean = false;
 var collidingRight: Boolean = false;
 var snakeColl: Boolean = false;
+var currentStage;
+
 var ammo: number = 5;
 var haveArmor: Boolean = false;
 var playerHealth: number = constants.PLAYER_HEALTH;
-var currentStage;
 var haveWeapon: Boolean[] = [false, false, false];
 var lastState: number;
 var deathX: number;
 var deathY: number;
+var kills: number = 0;
+var deaths: number = 0;
+
 
 //preloader, loads assets from the assets class
 function preload() {
@@ -104,7 +111,7 @@ function init() {
     setupStats();
 
     //set the current state to menu then run the change state function
-    currentState = constants.START_STATE;
+    currentState = constants.STAGE3BOSS_STATE;
     changeState(currentState);
 
 }
@@ -184,6 +191,9 @@ function changeState(state: number) {
             currentStateFunction = spottedGameOver;
             break;
         case constants.WIN_STATE://if its the win state
+            stateChanged = false;
+            win = new states.Win();
+            currentStateFunction = win;
             break;
     }  
 }
