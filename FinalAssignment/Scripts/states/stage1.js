@@ -28,7 +28,7 @@ var states;
             this.horizontalBoxes = [];
             this.wallCollisionShapes = [];
             this.healthBar = [];
-            //location vrraibles for obejcts
+            //location varaibles for obejcts
             this.tankX = [-140, 38, 759, 940, -40, -40, 460, 460, 960, 960];
             this.tankY = [-161, -161, -100, -100, -865, -685, -865, -685, -865, -685];
             this.vBoxesX = [-200, 260, 760, 1260];
@@ -68,14 +68,12 @@ var states;
             }
             //create and add all the guards to the game, using the vaules in the arrays for location and the direction
             //for (var index = 0; index < this.guardX.length; index++) {
-            this.guards[0] = new objects.Guard(this.guardX[7], this.guardY[7], this.guardDirection[7], this.world);
+            this.guards[0] = new objects.Guard(this.guardX[0], this.guardY[0], this.guardDirection[0], this.world);
             this.world.addChild(this.guards[0]);
-            //}
-            //create and add all the walls to the game, using the vales in the array for location and size
-            //for (var index = 0; index < this.wallX.length; index++) {
-            this.wallCollisionShapes[0] = new objects.WallShapes(this.wallX[0], this.wallY[0], this.wallHeight[0], this.wallWidth[0]);
-            this.world.addChild(this.wallCollisionShapes[0]);
-            //}
+            for (var index = 0; index < this.wallX.length; index++) {
+                this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
+                this.world.addChild(this.wallCollisionShapes[index]);
+            }
             //create and add a door collider
             this.doorCollision = new objects.WallShapes(-70, -1045, 60, 80);
             this.doorCollision.name = "door";
@@ -127,7 +125,7 @@ var states;
                         if (ammo > 0) {
                             this.bullet.reset(this.snake, direction);
                             ammo--;
-                        }
+                        } //end of if
                         break;
                     case ("punch"):
                         for (var index = 0; index < this.guards.length; index++) {
@@ -137,7 +135,8 @@ var states;
                 }
                 //set the use weapon flag to false;
                 useProjectile = false;
-            }
+            } //end of if
+            //if the player has the pistol out set the pistol icon and show the ammo on the info bar 
             if (currentWeapon == "pistol") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -146,7 +145,7 @@ var states;
             else {
                 this.game.removeChild(this.weaponIcon);
                 this.game.removeChild(this.ammoText);
-            }
+            } //end of if
             //call the function to update the player, the bullet and the world
             this.snake.update();
             this.bullet.update();
@@ -169,11 +168,19 @@ var states;
                 this.guards[index].update(this.snake, this.world);
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
-                    for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[1], this.guards[index])) {
-                            this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
+                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
+                            this.guards[index].losCheckers[index2].remove = true;
                         }
                     }
+                    if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
+                        this.world.removeAllChildren();
+                        this.game.removeAllChildren();
+                        window.removeEventListener("keydown", this.keyPressed, true);
+                        window.removeEventListener("keyup", this.keyRelease, true);
+                        stage.removeChild(this.game);
+                        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                    } //end of if                    
                 }
             }
             for (var index = 0; index < this.wallCollisionShapes.length; index++) {
@@ -190,14 +197,13 @@ var states;
                 stage.removeChild(this.game);
                 currentState = constants.STAGE1BOSS_STATE;
                 stateChanged = true;
-            }
+            } //end of if
             //check collision for snake and the stationary pickups
             this.collision.objectsCollision(this.pistol, this.snake, null, null);
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             //check collision for snake and the outer walls          
             this.collision.wallCollision(this.world, this.snake, this.walls);
-            //check collision for snakes bullet and the objects
         }; //end of update
         //if the player presses a key
         Stage1.prototype.keyPressed = function (event) {
@@ -231,7 +237,7 @@ var states;
                         else {
                             animation = "idle" + direction + haveGun;
                             useProjectile = true;
-                        }
+                        } //end of if
                         useProjectile = true;
                         break;
                     case constants.KEYCODE_E:
@@ -243,12 +249,12 @@ var states;
                             else {
                                 currentWeapon = "punch";
                                 haveGun = "";
-                            }
-                        }
+                            } //end of if
+                        } //end of if
                         break;
                 }
-            }
-        };
+            } //end of if
+        }; //end of keypressed method
         //when the player resleases a key
         Stage1.prototype.keyRelease = function (evnt) {
             switch (evnt.keyCode) {
@@ -271,12 +277,12 @@ var states;
                 case constants.KEYCODE_SPACE:
                     if (dx == 0 && dy == 0) {
                         animation = "idle" + direction + haveGun;
-                    }
+                    } //end of if
                     break;
             }
-        };
+        }; //end of keyrelease
         return Stage1;
     })();
     states.Stage1 = Stage1; //end of play
-})(states || (states = {}));
+})(states || (states = {})); //end of class
 //# sourceMappingURL=stage1.js.map

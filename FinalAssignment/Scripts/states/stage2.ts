@@ -33,16 +33,18 @@ module states {
         public weaponIcon: objects.WeaponIcon;
         public ammoText: objects.Label;
 
+        //collision manager object
         public collision: managers.Collision;
 
+        //private instanced variables
         private ticks: number = 0;
         private tankHealth: number = 10;
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
 
+            //set the deafult values
             playerHealth = constants.PLAYER_HEALTH;
-
             animation = "runRight";
             collidingBottom = true;
             currentWeapon = "antiTank";
@@ -56,6 +58,7 @@ module states {
             this.background = new objects.MovingBackgroud();
             this.game.addChild(this.background);
 
+            //create and add the mines to the game
             for (var index = 0; index < constants.MINE_NUM; index++) {
                 this.mines[index] = new objects.Mine(4);
                 this.game.addChild(this.mines[index]);
@@ -93,6 +96,7 @@ module states {
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
 
+            //create and add the weapon icon to the game
             this.weaponIcon = new objects.WeaponIcon("antiTank");
             this.ammoText = new objects.Label(ammo + "", 480, 470);
 
@@ -105,11 +109,14 @@ module states {
             //add all the elements to the stage
             stage.addChild(this.game);
 
+            //add the eventlisner to the game
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
 
+            //create the collision manager
             this.collision = new managers.Collision();
 
+            //start the music for the state
             createjs.Sound.play("stage2", { loop: -1 });
 
         }//end of constructor
@@ -117,6 +124,7 @@ module states {
         //updates the game based on the elements
         public update() {
 
+            //if the tank has less then 1 health clear the stage then start the state for stage 2
             if (this.tankHealth < 1) {
                 createjs.Sound.stop();
                 this.game.removeAllChildren();
@@ -154,6 +162,7 @@ module states {
                 useProjectile = false;
             }
 
+            //if the player has the antiTank out set the pistol icon and show the ammo on the info bar 
             if (currentWeapon == "antiTank") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -163,6 +172,7 @@ module states {
                 this.game.removeChild(this.ammoText);
             }
 
+            //get a random number, if the number is 250 and the ammo box isn't already on the stage. add the ammo box to the stage
             var random = Math.floor((Math.random() * 250) + 1);
             if (this.ammoBox.x < 0 && random == 250) {
                 this.ammoBox.reset();
@@ -172,30 +182,39 @@ module states {
             this.snake.update();
             this.tank.update(this.snake.y);
 
+            //update the background
             this.background.update();
 
+            //update the mines and check if the mines are colliding with the player
             for (var index = 0; index < constants.MINE_NUM; index++) {
                 this.mines[index].update();
                 this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
             }
 
+            //update the ration and check if it's colliding with the player
             this.ration.update();
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
 
+            //update the ammoBox and check if it's colliding with the player
             this.ammoBox.update();
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
 
+            //update the tanks bullet and check if it's colliding with the player
             this.tankBullet.update();
             this.collision.objectsCollision(this.tankBullet, this.snake, this.game, this.healthBar);
 
+            //update the shell bullet and check if it's colliding with the player
             this.shell.update();
             this.collision.objectsCollision(this.shell, this.snake, this.game, this.healthBar);
 
+            //update the antiTank
             this.antiTank.update();
+            //if the antiTank is colliding with the tank
             if (this.collision.objectsCollision(this.antiTank, this.tank, this.game, this.healthBar)) {
+                //remove 1 from the tanks health
                 this.tankHealth--;
-                if (this.tankHealth % 2 == 0) {
-                    this.ration.reset();
+                if (this.tankHealth % 2 == 0) {//if the tanks health is divisible by 2
+                    this.ration.reset();//put the ration onto the stage
                 }
             }
 
@@ -209,18 +228,19 @@ module states {
             
         }//end of update
 
+        //when a key is pressed
         public keyPressed(event) {
             switch (event.keyCode) {
-                case constants.KEYCODE_W:
+                case constants.KEYCODE_W://if the key was W set the dy to 2
                     dy = 2;
                     break;
-                case constants.KEYCODE_S:
+                case constants.KEYCODE_S://if the key was W set the dy to -2
                     dy = -2;
                     break;
-                case constants.KEYCODE_SPACE:
+                case constants.KEYCODE_SPACE://if the key was space set the variable to use a weapon to true
                     useProjectile = true;
                     break;
-                case constants.KEYCODE_E:
+                case constants.KEYCODE_E://if it was E swap the players weapon between antiTank and fist
                     if (currentWeapon == "punch") {
                         currentWeapon = "antiTank";
                         haveGun = "";
@@ -231,6 +251,8 @@ module states {
                     break;
             }
         }
+
+        //when they release the key set the dy to 0
         public keyRelease(evnt) {
             switch (evnt.keyCode) {
                 case constants.KEYCODE_W:

@@ -5,27 +5,21 @@
         public width;
         public height;
 
-        //private instanced variables
-        private _dx = 4;
-
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor(stageNumber: string) {
 
+            //set the image to the given string
             super(managers.Assets.loader.getResult("gameBackground" + stageNumber));
 
+            //get the width and height of the image
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
-
-            if (stageNumber == "1Boss") {
-            } else {
+         
+            //if it's stage 1 or 3 set the background to the given point
+            if (stageNumber == "1" || stageNumber == "3") {
                 this.x = -constants.SCRREN_CENTER_WIDTH;
                 this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
-            }
-        }
-
-        //public methods/////////////////////////////////////////////////////////////////////////////
-        public update() {
-
-        }
-    }
-}  
+            }//end of if
+        }//end of costructor
+    }//end of stageBackground
+}  //end of class

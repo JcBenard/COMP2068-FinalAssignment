@@ -20,8 +20,10 @@ var states;
         function Stage2() {
             this.mines = [];
             this.healthBar = [];
+            //private instanced variables
             this.ticks = 0;
             this.tankHealth = 10;
+            //set the deafult values
             playerHealth = constants.PLAYER_HEALTH;
             animation = "runRight";
             collidingBottom = true;
@@ -61,6 +63,7 @@ var states;
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);
+            //create and add the weapon icon to the game
             this.weaponIcon = new objects.WeaponIcon("antiTank");
             this.ammoText = new objects.Label(ammo + "", 480, 470);
             for (var index2 = 0; index2 < playerHealth; index2++) {
@@ -69,13 +72,17 @@ var states;
             }
             //add all the elements to the stage
             stage.addChild(this.game);
+            //add the eventlisner to the game
             window.addEventListener("keydown", this.keyPressed, true);
             window.addEventListener("keyup", this.keyRelease, true);
+            //create the collision manager
             this.collision = new managers.Collision();
+            //start the music for the state
             createjs.Sound.play("stage2", { loop: -1 });
         } //end of constructor
         //updates the game based on the elements
         Stage2.prototype.update = function () {
+            //if the tank has less then 1 health clear the stage then start the state for stage 2
             if (this.tankHealth < 1) {
                 createjs.Sound.stop();
                 this.game.removeAllChildren();
@@ -108,6 +115,7 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
+            //if the player has the antiTank out set the pistol icon and show the ammo on the info bar 
             if (currentWeapon == "antiTank") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -117,6 +125,7 @@ var states;
                 this.game.removeChild(this.weaponIcon);
                 this.game.removeChild(this.ammoText);
             }
+            //get a random number, if the number is 250 and the ammo box isn't already on the stage. add the ammo box to the stage
             var random = Math.floor((Math.random() * 250) + 1);
             if (this.ammoBox.x < 0 && random == 250) {
                 this.ammoBox.reset();
@@ -124,24 +133,32 @@ var states;
             //update and check collision for the moving elements
             this.snake.update();
             this.tank.update(this.snake.y);
+            //update the background
             this.background.update();
             for (var index = 0; index < constants.MINE_NUM; index++) {
                 this.mines[index].update();
                 this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
             }
+            //update the ration and check if it's colliding with the player
             this.ration.update();
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
+            //update the ammoBox and check if it's colliding with the player
             this.ammoBox.update();
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
+            //update the tanks bullet and check if it's colliding with the player
             this.tankBullet.update();
             this.collision.objectsCollision(this.tankBullet, this.snake, this.game, this.healthBar);
+            //update the shell bullet and check if it's colliding with the player
             this.shell.update();
             this.collision.objectsCollision(this.shell, this.snake, this.game, this.healthBar);
+            //update the antiTank
             this.antiTank.update();
+            //if the antiTank is colliding with the tank
             if (this.collision.objectsCollision(this.antiTank, this.tank, this.game, this.healthBar)) {
+                //remove 1 from the tanks health
                 this.tankHealth--;
                 if (this.tankHealth % 2 == 0) {
-                    this.ration.reset();
+                    this.ration.reset(); //put the ration onto the stage
                 }
             }
             //if the ticker reaches 180 set it to 0
@@ -151,6 +168,7 @@ var states;
             //increment the ticker
             this.ticks++;
         }; //end of update
+        //when a key is pressed
         Stage2.prototype.keyPressed = function (event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_W:
@@ -174,6 +192,7 @@ var states;
                     break;
             }
         };
+        //when they release the key set the dy to 0
         Stage2.prototype.keyRelease = function (evnt) {
             switch (evnt.keyCode) {
                 case constants.KEYCODE_W:

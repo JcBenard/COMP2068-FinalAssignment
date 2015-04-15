@@ -10,9 +10,10 @@ var objects;
         __extends(Bullet, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function Bullet() {
-            _super.call(this, "bullet");
-            this.soundString = "explosion";
-            this.name = "bullet";
+            _super.call(this, "bullet"); //call the gameobject constructor using the ammoBox sprite
+            this.soundString = "explosion"; //this sound will be played on contact
+            this.name = "bullet"; //name so it can be referenced easier
+            //set the default postion for the object
             this.x = -10000;
             this.y = 10000;
         }
@@ -22,8 +23,10 @@ var objects;
             this.y += this._dy;
         };
         Bullet.prototype.reset = function (player, playerDirection) {
+            //set the object to location to that of the player
             this.x = player.x;
             this.y = player.y;
+            //set the dx and dy to 0
             this._dx = 0;
             this._dy = 0;
             switch (playerDirection) {
@@ -40,9 +43,9 @@ var objects;
                     this._dy = 6;
                     break;
             }
-        };
+        }; //end of reset
         return Bullet;
     })(objects.GameObject);
-    objects.Bullet = Bullet;
-})(objects || (objects = {}));
+    objects.Bullet = Bullet; //end of bullet
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=bullet.js.map

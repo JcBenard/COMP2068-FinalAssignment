@@ -10,12 +10,14 @@ var objects;
         __extends(HealthBar, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function HealthBar(barNumber) {
+            //set the sprite
             _super.call(this, managers.Assets.atlas, "health");
+            //set the location based on the number passed in
             this.x = 136 + (18.5 * barNumber);
             this.y = 444;
-        }
+        } //end of constructor
         return HealthBar;
     })(createjs.Sprite);
-    objects.HealthBar = HealthBar;
-})(objects || (objects = {}));
+    objects.HealthBar = HealthBar; //end of healthBar
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=healthbar.js.map

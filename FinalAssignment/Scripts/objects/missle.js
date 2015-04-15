@@ -10,9 +10,12 @@ var objects;
         __extends(Missle, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function Missle() {
+            //set the sprite to a missle using the gameObject constructor
             _super.call(this, "missleFire");
+            //set the sound played on hit
             this.soundString = "explosion";
             this.name = "missles";
+            //set the default location
             this.x = -10000;
             this.y = 10000;
         }
@@ -22,8 +25,10 @@ var objects;
             this.y += this._dy;
         };
         Missle.prototype.reset = function (player, playerDirection) {
+            //set the x and y to the players y and y
             this.x = player.x;
             this.y = player.y;
+            //set the dx and dy to 0
             this._dx = 0;
             this._dy = 0;
             switch (playerDirection) {
@@ -44,9 +49,9 @@ var objects;
                     this._dy = 8;
                     break;
             }
-        };
+        }; //end of reset
         return Missle;
     })(objects.GameObject);
-    objects.Missle = Missle;
-})(objects || (objects = {}));
+    objects.Missle = Missle; //end of missle
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=missle.js.map

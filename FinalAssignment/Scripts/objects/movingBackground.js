@@ -10,9 +10,11 @@ var objects;
         __extends(MovingBackgroud, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function MovingBackgroud() {
+            //set the image to given image
             _super.call(this, managers.Assets.loader.getResult("gameBackground2"));
             //private instanced variables
             this._dx = 4;
+            //get the width and height
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
             this._reset();
@@ -26,6 +28,7 @@ var objects;
         };
         //private methods//////////////////////////////////////////////////////////////////////////
         MovingBackgroud.prototype._reset = function () {
+            //set the x and y to 0
             this.x = 0;
             this.y = 0;
         };
@@ -33,10 +36,10 @@ var objects;
             //if the background's x point is less then - screen width reset it
             if (this.x < -constants.SCREEN_WIDTH) {
                 this._reset();
-            }
-        };
+            } //end of if
+        }; //end of checkBounds
         return MovingBackgroud;
     })(createjs.Bitmap);
-    objects.MovingBackgroud = MovingBackgroud;
-})(objects || (objects = {}));
+    objects.MovingBackgroud = MovingBackgroud; //end of moving background
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=movingbackground.js.map

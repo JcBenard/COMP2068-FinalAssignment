@@ -5,10 +5,13 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
+            //set the sprite to rank using the gameObject constructor
             super("tank");           
 
+            //set the dy
             this._dy = 1;
 
+            //set the starting position
             this.x = 35;
             this.y = 220;
         }

@@ -10,8 +10,11 @@ var objects;
         __extends(Tank, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function Tank() {
+            //set the sprite to rank using the gameObject constructor
             _super.call(this, "tank");
+            //set the dy
             this._dy = 1;
+            //set the starting position
             this.x = 35;
             this.y = 220;
         }

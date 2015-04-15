@@ -23,6 +23,8 @@ var constants;
     constants.STAGE3BOSS_STATE = 6;
     constants.GAME_OVER_STATE = 8;
     constants.WIN_STATE = 9;
+    constants.GAME_OVER_SPOTTED_STATE = 10;
+    //key values constants
     constants.KEYCODE_W = 87;
     constants.KEYCODE_A = 65;
     constants.KEYCODE_D = 68;

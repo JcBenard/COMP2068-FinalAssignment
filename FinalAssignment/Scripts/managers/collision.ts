@@ -157,23 +157,22 @@
             }
         }
 
-        public losCollisionObjects(collider, collide, guard) {
+        public losCollisionObjects(collider, collide, guard, world) {
 
-            var tempx = collider.x + collider.startX;
-            var tempy = collider.y + collider.startY;
+            var pt = world.globalToLocal(collider.x, collider.y);
 
-            //console.log(tempx + " " + tempy + "/" + collide.x + " " + collide.y);
+            console.log(pt+ "/" + collide.xLocation + " " + collide.yLocation);
 
-            //if (pt.x >= pt2.x + collide.width
-            //    || pt.x + collider.width <= pt2.x
-            //    || pt.y >= pt2.y + collide.height
-            //    || pt.y + collider.height <= pt2.y) {
+            if (pt.x >= collide.xLocation + collide.width
+                || pt.x +  collider.width <= collide.xLocation
+                || pt.y >= collide.yLocation + collide.height
+                || pt.y + collider.height <= collide.yLocation) {
 
-            //} else {
-            //    console.log("Worked");
-            //    collider.x = -10000;
-            //    collider.y = -10000;
-            //}
+            } else {
+                console.log("Worked");
+                //collider.x = -10000;
+                //collider.y = -10000;
+            }
         }
 
         //collision for walls

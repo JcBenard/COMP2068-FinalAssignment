@@ -10,23 +10,19 @@ var objects;
         __extends(StageBackground, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function StageBackground(stageNumber) {
+            //set the image to the given string
             _super.call(this, managers.Assets.loader.getResult("gameBackground" + stageNumber));
-            //private instanced variables
-            this._dx = 4;
+            //get the width and height of the image
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
-            if (stageNumber == "1Boss") {
-            }
-            else {
+            //if it's stage 1 or 3 set the background to the given point
+            if (stageNumber == "1" || stageNumber == "3") {
                 this.x = -constants.SCRREN_CENTER_WIDTH;
                 this.y = -this.height + constants.SCRREN_CENTER_HEIGHT - 40;
-            }
-        }
-        //public methods/////////////////////////////////////////////////////////////////////////////
-        StageBackground.prototype.update = function () {
-        };
+            } //end of if
+        } //end of costructor
         return StageBackground;
     })(createjs.Bitmap);
-    objects.StageBackground = StageBackground;
-})(objects || (objects = {}));
+    objects.StageBackground = StageBackground; //end of stageBackground
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=stagebackground.js.map

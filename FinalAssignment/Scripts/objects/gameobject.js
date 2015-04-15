@@ -10,15 +10,19 @@ var objects;
         __extends(GameObject, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function GameObject(assetString) {
+            //set the spirte to the given string
             _super.call(this, managers.Assets.atlas, assetString);
+            //get the width and height
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
+            //set the regestration point to the center
             this.regX = this.width * 0.5;
             this.regY = this.height * 0.5;
+            //set the variable that show if it's colliding to false;
             this.isColliding = false;
-        }
+        } //end of constructor
         return GameObject;
     })(createjs.Sprite);
-    objects.GameObject = GameObject;
-})(objects || (objects = {}));
+    objects.GameObject = GameObject; //end of gameobject
+})(objects || (objects = {})); //end of class   
 //# sourceMappingURL=gameobject.js.map

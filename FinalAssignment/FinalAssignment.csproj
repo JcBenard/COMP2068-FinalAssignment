@@ -90,7 +90,6 @@
     <TypeScriptCompile Include="Scripts\objects\antiTank.ts" />
     <TypeScriptCompile Include="Scripts\objects\backgroundObjects.ts" />
     <TypeScriptCompile Include="Scripts\objects\bullet.ts" />
-    <TypeScriptCompile Include="Scripts\objects\door.ts" />
     <TypeScriptCompile Include="Scripts\objects\guard.ts" />
     <TypeScriptCompile Include="Scripts\objects\guardLosChecker.ts" />
     <TypeScriptCompile Include="Scripts\objects\gunner.ts" />
@@ -98,7 +97,6 @@
     <TypeScriptCompile Include="Scripts\objects\metalGear.ts" />
     <TypeScriptCompile Include="Scripts\objects\missle.ts" />
     <TypeScriptCompile Include="Scripts\objects\shell.ts" />
-    <TypeScriptCompile Include="Scripts\objects\snakeDeath.ts" />
     <TypeScriptCompile Include="Scripts\objects\tankBullet.ts" />
     <TypeScriptCompile Include="Scripts\objects\mine.ts" />
     <TypeScriptCompile Include="Scripts\objects\movingBackground.ts" />
@@ -117,6 +115,7 @@
     <TypeScriptCompile Include="Scripts\objects\worldContainer.ts" />
     <TypeScriptCompile Include="Scripts\states\gameOver.ts" />
     <TypeScriptCompile Include="Scripts\states\instructions.ts" />
+    <TypeScriptCompile Include="Scripts\states\spottedGameOver.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1.ts" />
     <TypeScriptCompile Include="Scripts\states\stage1Boss.ts" />
     <TypeScriptCompile Include="Scripts\states\stage2.ts" />

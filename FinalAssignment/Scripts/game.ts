@@ -29,7 +29,6 @@
 /// <reference path="objects/gunner.ts" />
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
-/// <reference path="objects/snakedeath.ts" />
 /// <reference path="objects/weaponicon.ts" />
 /// <reference path="objects/missle.ts" />
 /// <reference path="objects/metalgear.ts" />
@@ -58,14 +57,14 @@ var stage2: states.Stage2;
 var stage3: states.Stage3;
 var stage3Boss: states.Stage3Boss;
 var gameOver: states.GameOver;
+var spottedGameOver: states.SpottedGameOver;
 
 //game states
 var currentState: number;
 var currentStateFunction: any;
 var stateChanged: boolean = false;
 
-//game stats
-
+//game variables
 var animation: string = "idleUp";
 var useProjectile: Boolean = false;
 var currentWeapon: string = "punch";
@@ -83,8 +82,11 @@ var haveArmor: Boolean = false;
 var playerHealth: number = constants.PLAYER_HEALTH;
 var currentStage;
 var haveWeapon: Boolean[] = [false, false, false];
+var lastState: number;
+var deathX: number;
+var deathY: number;
 
-// Game Objects 
+//preloader, loads assets from the assets class
 function preload() {
     managers.Assets.init();
     managers.Assets.loader.addEventListener("complete", init);
@@ -136,7 +138,7 @@ function gameLoop() {
 function changeState(state: number) {
 
     switch (state) {
-        case constants.START_STATE://if its menu state
+        case constants.START_STATE://if its start state
             stateChanged = false;
             start = new states.Start();
             currentStateFunction = start;
@@ -146,27 +148,27 @@ function changeState(state: number) {
             instructions = new states.Instructions();
             currentStateFunction = instructions;
             break;
-        case constants.STAGE1_STATE://if its play state
+        case constants.STAGE1_STATE://if its stage1 state
             stateChanged = false;
             stage1 = new states.Stage1();
             currentStateFunction = stage1;         
             break;
-        case constants.STAGE1BOSS_STATE:
+        case constants.STAGE1BOSS_STATE://if its stage1boss state
             stateChanged = false;
             stage1Boss = new states.Stage1Boss();
             currentStateFunction = stage1Boss;
             break;
-        case constants.STAGE2_STATE://if its play state
+        case constants.STAGE2_STATE://if its stage1 state
             stateChanged = false;
             stage2 = new states.Stage2();
             currentStateFunction = stage2;
             break;
-        case constants.STAGE3_STATE://if its play state
+        case constants.STAGE3_STATE://if its stage1 state
             stateChanged = false;
             stage3 = new states.Stage3();
             currentStateFunction = stage3;
             break;
-        case constants.STAGE3BOSS_STATE://if its play state
+        case constants.STAGE3BOSS_STATE://if its stage1 state
             stateChanged = false;
             stage3Boss = new states.Stage3Boss();
             currentStateFunction = stage3Boss;
@@ -175,6 +177,11 @@ function changeState(state: number) {
             stateChanged = false;
             gameOver = new states.GameOver();
             currentStateFunction = gameOver;       
+            break;
+        case constants.GAME_OVER_SPOTTED_STATE://if its game over state  
+            stateChanged = false;
+            spottedGameOver = new states.SpottedGameOver();
+            currentStateFunction = spottedGameOver;
             break;
         case constants.WIN_STATE://if its the win state
             break;

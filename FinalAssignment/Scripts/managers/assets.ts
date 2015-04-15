@@ -1,6 +1,6 @@
 ﻿module managers {
     // Image and Sound Manifest;
-    var assetManifest = [
+    var assetManifest = [//all the images and music that aren't in the sprite sheet that need to be loaded
         { id: "gameBackground1", src: "assets/images/stage1Background.png" },
         { id: "gameWalls1", src: "assets/images/stage1Walls.png" },
         { id: "gameWalls3", src: "assets/images/stageWalls3.png" },
@@ -33,7 +33,7 @@
     // SpriteSheet Data Object
     var spriteSheetData = {
         images: ["assets/images/sprite.png"],
-        "frames": [
+        "frames": [//all the different images in the spritesheet
             [2, 2, 35, 68],
             [39, 2, 37, 63],
             [78, 2, 39, 63],
@@ -89,7 +89,7 @@
             [221, 290, 35, 18],
             [258, 290, 160, 150]
         ],
-        animations: {
+        animations: {//all the different animations in the spritesheet
             "idleDown": [3],
             "idleLeft": [7],
             "idleRight": [9],
@@ -130,7 +130,7 @@
             "missleFire": [51],
             "shell": [52],
             "tank": [53],
-            "die": { frames: [9, 3, 7, 13, 8], speed: 0.025 }
+            "die": { frames: [9, 3, 7, 13, 8], speed: 0.02 }
         }
     }
 
@@ -145,6 +145,7 @@
         public static atlas: createjs.SpriteSheet;
 
         public static init() {
+            //load all the assets into the game
             createjs.Sound.initializeDefaultPlugins();
             this.loader = new createjs.LoadQueue();
             this.loader.installPlugin(createjs.Sound);

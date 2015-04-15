@@ -25,7 +25,9 @@
     export var STAGE3BOSS_STATE: number = 6;
     export var GAME_OVER_STATE: number = 8;
     export var WIN_STATE: number = 9;
+    export var GAME_OVER_SPOTTED_STATE: number = 10;
 
+    //key values constants
     export var KEYCODE_W = 87;
     export var KEYCODE_A = 65;
     export var KEYCODE_D = 68;

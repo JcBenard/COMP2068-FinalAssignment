@@ -11,8 +11,10 @@
         //constructor////////////////////////////////////////////////////////////////////////////////
         constructor() {
 
+            //set the image to given image
             super(managers.Assets.loader.getResult("gameBackground2"));
 
+            //get the width and height
             this.width = this.getBounds().width;
             this.height = this.getBounds().height;
 
@@ -31,6 +33,7 @@
 
         //private methods//////////////////////////////////////////////////////////////////////////
         private _reset() {
+            //set the x and y to 0
             this.x = 0;
             this.y = 0;
         }
@@ -39,7 +42,7 @@
             //if the background's x point is less then - screen width reset it
             if (this.x < -constants.SCREEN_WIDTH) {
                 this._reset();
-            }
-        }
-    }
-}  
+            }//end of if
+        }//end of checkBounds
+    }//end of moving background
+}  //end of class

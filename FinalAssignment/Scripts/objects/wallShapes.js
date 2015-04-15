@@ -11,14 +11,15 @@ var objects;
         //constructor////////////////////////////////////////////////////////////////////////////////
         function WallShapes(xLocation, yLocation, height, width) {
             _super.call(this);
+            //create the shape and set it location and demtions based on the given info
             this.graphics.drawRect(xLocation, yLocation, width, height);
             this.xLocation = xLocation;
             this.yLocation = yLocation;
             this.width = width;
             this.height = height;
-        }
+        } //end of constructor
         return WallShapes;
     })(createjs.Shape);
-    objects.WallShapes = WallShapes;
-})(objects || (objects = {}));
+    objects.WallShapes = WallShapes; //end of wallShapes
+})(objects || (objects = {})); //end of class
 //# sourceMappingURL=wallshapes.js.map

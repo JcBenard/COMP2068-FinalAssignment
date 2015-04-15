@@ -10,7 +10,9 @@ var objects;
         __extends(InfoBar, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function InfoBar() {
+            //set the image to the info image
             _super.call(this, managers.Assets.loader.getResult("info"));
+            //set the location
             this.y = 440;
             this.x = 0;
         }

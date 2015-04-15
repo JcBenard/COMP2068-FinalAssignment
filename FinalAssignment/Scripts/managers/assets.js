@@ -130,7 +130,7 @@ var managers;
             "missleFire": [51],
             "shell": [52],
             "tank": [53],
-            "die": { frames: [9, 3, 7, 13, 8], speed: 0.025 }
+            "die": { frames: [9, 3, 7, 13, 8], speed: 0.02 }
         }
     };
     //
@@ -139,6 +139,7 @@ var managers;
         function Assets() {
         }
         Assets.init = function () {
+            //load all the assets into the game
             createjs.Sound.initializeDefaultPlugins();
             this.loader = new createjs.LoadQueue();
             this.loader.installPlugin(createjs.Sound);

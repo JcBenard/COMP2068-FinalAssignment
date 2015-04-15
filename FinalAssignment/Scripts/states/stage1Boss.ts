@@ -43,8 +43,10 @@ module states {
         public weaponIcon: objects.WeaponIcon;
         public ammoText: objects.Label;
 
+        //collision manager object
         public collision: managers.Collision;
 
+        //private variables and location varaibles for obejcts
         private bossHealth = 1;
         private boxesX: number[] = [120, 280, 440];
         private boxesY: number = 124;
@@ -58,8 +60,11 @@ module states {
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {
 
+            //set the default values 
             playerHealth = constants.PLAYER_HEALTH;
-            currentWeapon = "pistol";
+            if (haveWeapon[0]) {
+                currentWeapon = "pistol";
+            }
             haveGun = "Gun";
             ammo = 6;
 
@@ -85,12 +90,14 @@ module states {
                 this.game.addChild(this.wallCollisionShapes[index]);
             }
 
+            //create and add the mines using  the arrays of locations
             for (var index = 0; index < this.minesX.length; index++) {
                 this.mines[index] = new objects.Mine(0);
                 this.mines[index].setMines(this.minesX[index], this.minesY);
                 this.game.addChild(this.mines[index]);
             }
 
+            //create and add the door collision object
             this.doorCollision = new objects.WallShapes(285, 15, 60, 80);
             this.doorCollision.name = "door";
             this.game.addChild(this.doorCollision);
@@ -105,6 +112,7 @@ module states {
             this.snake = new objects.Snake(constants.SCRREN_CENTER_WIDTH, 390);
             this.game.addChild(this.snake);
 
+            //create and add the gunner to the game
             this.gunner = new objects.Gunner();
             this.game.addChild(this.gunner);
 
@@ -144,6 +152,7 @@ module states {
             //create the collision manager
             this.collision = new managers.Collision();
 
+            //set all the colliding variables to true so the player can move
             collidingBottom = true;
             collidingLeft = true;
             collidingRight = true;
@@ -158,29 +167,34 @@ module states {
         //updates the game based on the elements
         public update() {
 
-
+            //if the boss health is less then 1
             if (this.bossHealth < 1) {    
-                this.gunner.x = -1000;      
-                this.game.addChild(this.antiTank);                  
-                for (var index = 0; index < this.mines.length; index++) {
+                this.gunner.x = -1000;//move the boss out of the game      
+                this.game.addChild(this.antiTank);//add the anti tank mine to pick up                  
+                for (var index = 0; index < this.mines.length; index++) {//remove the mines from the game
                     this.game.removeChild(this.mines[index]);
                     this.mines[index].x = -1000;                    
-                }
-                for (var index = 0; index < this.enemyBullets.length; index++) {
+                }//end of for
+                for (var index = 0; index < this.enemyBullets.length; index++) {//remove the enemy bullets from the game
                     this.game.removeChild(this.enemyBullets[index]);
-                }                
-            }
+                }   //end of for             
+            }//end of if
 
+            //if the player health is less then 1
             if (playerHealth < 1) {
-                createjs.Sound.stop();
-                this.game.removeAllChildren();
-                window.removeEventListener("keydown", this.keyPressed, true);
+                deathX = this.snake.x;
+                deathY = this.snake.y;
+                createjs.Sound.stop();//stop the background music
+                this.game.removeAllChildren();//remove everything from the stage
+                window.removeEventListener("keydown", this.keyPressed, true);//disable the eventlsitners
                 window.removeEventListener("keyup", this.keyRelease, true);
-                stage.removeChild(this.game);
-                currentState = constants.GAME_OVER_STATE;
-                stateChanged = true;
+                stage.removeChild(this.game);//remove the game contaner from the game just in case
+                lastState = constants.STAGE1BOSS_STATE;//set the last state to the current state
+                currentState = constants.GAME_OVER_STATE;//set the current state to the game over state
+                stateChanged = true;//set the state change varaible to true so the game object changes the stage
             }
 
+            //set the pistol image in the info bar if the pistol is the current weapon
             if (currentWeapon == "pistol") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -195,12 +209,12 @@ module states {
                 //check what weapon the player is using and do what's in the case
                 switch (currentWeapon) {
                     case ("pistol"):
-                        if (ammo > 0) {
+                        if (ammo > 0) {//if the player has ammo, reset the bullet and remove 1 ammo
                             this.bullet.reset(this.snake, direction);
                             ammo--;
                         }
                         break;
-                    case ("punch"):
+                    case ("punch")://check if the player is colliding with any guards when he punches
                         this.collision.playerObjectsCollision(this.snake, this.gunner, this.ration, this.ammoBox, this.game, this.healthBar);
                         break;
                 }
@@ -208,30 +222,33 @@ module states {
                 useProjectile = false;
             }
 
+            //get a random number, if it's 500 move the ammo box onto the game
             var random = Math.floor((Math.random() * 500) + 1);
-
             if (random == 500) {
                 this.ammoBox.resetBoss1();
             }
 
-            //call the function to update the player, the bullet and the world
+            //call the update functions for the objects
             this.snake.update();
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
-            this.antiTank.update();
 
+            //check collision for the objects
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null); 
             this.collision.objectsCollision(this.antiTank, this.snake, null, null);
 
+            //if the bullet object is colliding with the gunner remove 1 from the bossHealth variable
             if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {
                 this.bossHealth--;
             }
 
+            //loop through the mines checking if the player has collided with the player
             for (var index = 0; index < this.mines.length; index++) {
                 this.mines[index].update();
                 this.collision.objectsCollision(this.mines[index], this.snake, this.game, this.healthBar);
             }
 
+            //loop through the enemy bullets checking if they collided with the player
             for (var index = 0; index < this.enemyBullets.length; index++) {
                 this.enemyBullets[index].update();
                 this.collision.playerObjectsCollision(this.enemyBullets[index], this.snake, null, null, this.game, this.healthBar);
@@ -249,6 +266,7 @@ module states {
                 this.collision.wallObjectsCollision(this.bullet, this.game, this.wallCollisionShapes[index]);
             }
 
+            //if the player collides with the door object clear the stage then change the state to stage 2
             if (this.collision.wallObjectsCollision(this.snake, this.game, this.doorCollision)) {
                 createjs.Sound.stop();
                 this.game.removeAllChildren();

@@ -109,9 +109,10 @@ var states;
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //updates the game based on the elements
         Stage1Boss.prototype.update = function () {
+            //if the boss health is less then 1
             if (this.bossHealth < 1) {
-                this.gunner.x = -1000;
-                this.game.addChild(this.antiTank);
+                this.gunner.x = -1000; //move the boss out of the game      
+                this.game.addChild(this.antiTank); //add the anti tank mine to pick up                  
                 for (var index = 0; index < this.mines.length; index++) {
                     this.game.removeChild(this.mines[index]);
                     this.mines[index].x = -1000;
@@ -119,16 +120,21 @@ var states;
                 for (var index = 0; index < this.enemyBullets.length; index++) {
                     this.game.removeChild(this.enemyBullets[index]);
                 }
-            }
+            } //end of if
+            //if the player health is less then 1
             if (playerHealth < 1) {
-                createjs.Sound.stop();
-                this.game.removeAllChildren();
-                window.removeEventListener("keydown", this.keyPressed, true);
+                deathX = this.snake.x;
+                deathY = this.snake.y;
+                createjs.Sound.stop(); //stop the background music
+                this.game.removeAllChildren(); //remove everything from the stage
+                window.removeEventListener("keydown", this.keyPressed, true); //disable the eventlsitners
                 window.removeEventListener("keyup", this.keyRelease, true);
-                stage.removeChild(this.game);
-                currentState = constants.GAME_OVER_STATE;
-                stateChanged = true;
+                stage.removeChild(this.game); //remove the game contaner from the game just in case
+                lastState = constants.STAGE1BOSS_STATE; //set the last state to the current state
+                currentState = constants.GAME_OVER_STATE; //set the current state to the game over state
+                stateChanged = true; //set the state change varaible to true so the game object changes the stage
             }
+            //set the pistol image in the info bar if the pistol is the current weapon
             if (currentWeapon == "pistol") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -154,15 +160,16 @@ var states;
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
+            //get a random number, if it's 500 move the ammo box onto the game
             var random = Math.floor((Math.random() * 500) + 1);
             if (random == 500) {
                 this.ammoBox.resetBoss1();
             }
-            //call the function to update the player, the bullet and the world
+            //call the update functions for the objects
             this.snake.update();
             this.bullet.update();
             this.gunner.update(this.enemyBullets);
-            this.antiTank.update();
+            //check collision for the objects
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             this.collision.objectsCollision(this.antiTank, this.snake, null, null);
             if (this.collision.objectsCollision(this.bullet, this.gunner, this.game, this.healthBar)) {

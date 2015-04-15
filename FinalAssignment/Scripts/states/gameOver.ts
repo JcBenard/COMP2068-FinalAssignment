@@ -1,10 +1,8 @@
 ﻿/// <reference path="../constants.ts" />
 /// <reference path="../objects/gameobject.ts" />
 /// <reference path="../objects/infobar.ts" />
-/// <reference path="../objects/label.ts" />
-/// <reference path="../objects/snakedeath.ts" />
 /// <reference path="../objects/transitionbackground.ts" />
-/// <reference path="../objects/tank.ts" />
+/// <reference path="../objects/snake.ts" />
 
 module states {
     export class GameOver {
@@ -13,11 +11,8 @@ module states {
         public game: createjs.Container;
         public gamebackground: createjs.Bitmap;
         public overBackground: objects.TransitionBackground;
-        public snake: objects.SnakeDeath;
+        public snake: objects.Snake;
         public info: objects.InfoBar;
-        public scoreText: objects.Label;
-        public cursor: createjs.Bitmap;
-        //public currentLevel;
 
         private haveButton: boolean = false;
 
@@ -32,8 +27,9 @@ module states {
             this.game.addChild(this.gamebackground);
 
             //create and add the player charater with death animation to the game
-            this.snake = new objects.SnakeDeath();
+            this.snake = new objects.Snake(deathX, deathY);
             this.game.addChild(this.snake);
+            this.snake.gotoAndPlay("die");
 
             //create add add the gameover background to the game
             this.overBackground = new objects.TransitionBackground("overBackground", 1.75, 0);
@@ -42,9 +38,6 @@ module states {
             //create and add the bottom info bar to the game
             this.info = new objects.InfoBar();
             this.game.addChild(this.info);          
-
-            this.cursor = new createjs.Bitmap(managers.Assets.loader.getResult("cursor"));
-            this.game.addChild(this.cursor);
             
 
             stage.addChild(this.game);
@@ -60,16 +53,13 @@ module states {
             //update the gameover background so it can transition
             this.overBackground.update();
 
-            //if the gameover background has stopped transtioning add the restart button
-            if (this.overBackground.x <= 0) {
-                this.cursor.x = 235;
-                this.cursor.y = 272;
-                if (useProjectile == true) {
-                    this.selectState();
-                }
+            //if the user trigged the keypress event
+            if (useProjectile == true) {
+                this.selectState();
             }
         }
 
+        //if a key is pressed and its space set the variable to change state to true
         public keyPressed(event) {
             switch (event.keyCode) {
                 case constants.KEYCODE_SPACE:
@@ -78,8 +68,9 @@ module states {
             }
         }
 
+        //when called sets the game to the last state
         private selectState() {
-            //currentState = this.currentLevel;
+            currentState = lastState;
             window.removeEventListener("keydown", this.keyPressed, true);
             this.game.removeAllChildren();
             stage.removeChild(this.game);

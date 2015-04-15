@@ -28,7 +28,6 @@
 /// <reference path="objects/gunner.ts" />
 /// <reference path="objects/guardloschecker.ts" />
 /// <reference path="objects/ammobox.ts" />
-/// <reference path="objects/snakedeath.ts" />
 /// <reference path="objects/weaponicon.ts" />
 /// <reference path="objects/missle.ts" />
 /// <reference path="objects/metalgear.ts" />
@@ -54,11 +53,12 @@ var stage2;
 var stage3;
 var stage3Boss;
 var gameOver;
+var spottedGameOver;
 //game states
 var currentState;
 var currentStateFunction;
 var stateChanged = false;
-//game stats
+//game variables
 var animation = "idleUp";
 var useProjectile = false;
 var currentWeapon = "punch";
@@ -76,7 +76,10 @@ var haveArmor = false;
 var playerHealth = constants.PLAYER_HEALTH;
 var currentStage;
 var haveWeapon = [false, false, false];
-// Game Objects 
+var lastState;
+var deathX;
+var deathY;
+//preloader, loads assets from the assets class
 function preload() {
     managers.Assets.init();
     managers.Assets.loader.addEventListener("complete", init);
@@ -155,6 +158,11 @@ function changeState(state) {
             stateChanged = false;
             gameOver = new states.GameOver();
             currentStateFunction = gameOver;
+            break;
+        case constants.GAME_OVER_SPOTTED_STATE:
+            stateChanged = false;
+            spottedGameOver = new states.SpottedGameOver();
+            currentStateFunction = spottedGameOver;
             break;
         case constants.WIN_STATE:
             break;

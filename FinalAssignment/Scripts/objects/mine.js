@@ -11,8 +11,11 @@ var objects;
         __extends(Mine, _super);
         //constructor////////////////////////////////////////////////////////////////////////////////
         function Mine(dx) {
+            //set the sprite to the given name using the gameObject constructor
             _super.call(this, "mine");
+            //set the dx to the given dx
             this._dx = dx;
+            //set the sound played on hit
             this.soundString = "explosion";
             this.name = "mines";
             //set the island to start at a random x and an out of bounds y
@@ -20,9 +23,11 @@ var objects;
         }
         //public methods/////////////////////////////////////////////////////////////////////////////
         Mine.prototype.update = function () {
+            //move the object based on dx and check if the object is in bounds
             this.x -= this._dx;
             this._checkBounds();
         };
+        //set the objects locationn based on  the given x and y
         Mine.prototype.setMines = function (x, y) {
             this.x = x;
             this.y = y;
