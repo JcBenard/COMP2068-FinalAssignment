@@ -62,15 +62,14 @@ var states;
                 this.verticalBoxes[index] = new objects.BackgroundObjects(this.vBoxesX[index], this.vBoxesY[index], "boxesV");
                 this.world.addChild(this.verticalBoxes[index]);
             }
-            //create and add all the horizontal boxes, using the vaules in the arrays for location
-            //for (var index = 0; index < this.hBoxesX.length; index++) {
-            this.horizontalBoxes[0] = new objects.BackgroundObjects(this.hBoxesX[1], this.hBoxesY[1], "boxesH");
-            this.world.addChild(this.horizontalBoxes[0]);
-            //}//end of for
-            //create and add all the guards to the game, using the vaules in the arrays for location and the direction
-            //for (var index = 0; index < this.guardX.length; index++) {
-            this.guards[0] = new objects.Guard(this.guardX[7], this.guardY[7], this.guardDirection[7], this.world);
-            this.world.addChild(this.guards[0]);
+            for (var index = 0; index < this.hBoxesX.length; index++) {
+                this.horizontalBoxes[index] = new objects.BackgroundObjects(this.hBoxesX[index], this.hBoxesY[index], "boxesH");
+                this.world.addChild(this.horizontalBoxes[index]);
+            }
+            for (var index = 0; index < this.guardX.length; index++) {
+                this.guards[index] = new objects.Guard(this.guardX[index], this.guardY[index], this.guardDirection[index], this.world);
+                this.world.addChild(this.guards[index]);
+            }
             for (var index = 0; index < this.wallX.length; index++) {
                 this.wallCollisionShapes[index] = new objects.WallShapes(this.wallX[index], this.wallY[index], this.wallHeight[index], this.wallWidth[index]);
                 this.world.addChild(this.wallCollisionShapes[index]);
@@ -170,15 +169,15 @@ var states;
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
                     for (var index3 = 0; index3 < this.horizontalBoxes.length; index3++) {
-                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[index], this.guards[index], this.world)) {
+                        if (this.collision.losCollisionObjects(this.guards[index].losCheckers[index2], this.horizontalBoxes[index3], this.guards[index], this.world)) {
                             this.guards[index].losCheckers[index2].remove = true;
                         }
                     }
-                    //for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
-                    //    if (this.collision.losCollisionWalls(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
-                    //        this.guards[index].losCheckers[index2].remove = true;
-                    //    }
-                    //}//end of for
+                    for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
+                        if (this.collision.losCollisionWalls(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
+                            this.guards[index].losCheckers[index2].remove = true;
+                        }
+                    }
                     if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
                         deathX = this.snake.x;
                         deathY = this.snake.y;

@@ -210,8 +210,6 @@ module states {
             this.world.update();
             this.ration.update();
             this.ammoBox.update();
-            
-            //console.log(this.world.x + " " + this.world.y);
                
             //check collision for the tanks using the collision manager
             for (var index = 0; index < this.tanks.length; index++) {
@@ -235,20 +233,26 @@ module states {
                 this.guards[index].update(this.snake, this.world);
                 this.collision.playerObjectsCollision(this.bullet, this.guards[index], this.ration, this.ammoBox, this.game, this.healthBar);
 
+                //loop through the guards line of sight checkers
                 for (var index2 = 0; index2 < this.guards[index].losCheckers.length; index2++) {
-
+                    //check if any of the guards los checkers are colliding with a wall, if they are remove them from the game
                     for (var index3 = 0; index3 < this.wallCollisionShapes.length; index3++) {
                         if (this.collision.losCollisionWalls(this.guards[index].losCheckers[index2], this.wallCollisionShapes[index3], this.guards[index], this.world)) {
                             this.guards[index].losCheckers[index2].remove = true;
                         }
                     }
+                    //if the player collides with one of the guards los checkers close the current state and start the game over spotted state
                     if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
-                        //this.world.removeAllChildren();
-                        //this.game.removeAllChildren();
-                        //window.removeEventListener("keydown", this.keyPressed, true);
-                        //window.removeEventListener("keyup", this.keyRelease, true);
-                        //stage.removeChild(this.game);
-                        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                        deathX = this.snake.x;
+                        deathY = this.snake.y;
+                        createjs.Sound.stop();//stop the background music
+                        this.game.removeAllChildren();//remove everything from the stage
+                        window.removeEventListener("keydown", this.keyPressed, true);//disable the eventlsitners
+                        window.removeEventListener("keyup", this.keyRelease, true);
+                        stage.removeChild(this.game);//remove the game contaner from the game just in case
+                        lastState = constants.STAGE3_STATE;//set the last state to the current state
+                        currentState = constants.GAME_OVER_SPOTTED_STATE;//set the current state to the game over state
+                        stateChanged = true;//set the state change varaible to true so the game object changes the stage
                     }                    
                 }
             }

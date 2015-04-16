@@ -40,7 +40,7 @@ module states {
             this.game.addChild(this.info);  
 
             //create and add the score field to the game
-            this.rankText = new objects.Label("" + this.rank, 370, 250);
+            this.rankText = new objects.Label("" + this.rank, constants.SCRREN_CENTER_WIDTH + 10, 250);
 
             //add all the elements to the stage
             stage.addChild(this.game);

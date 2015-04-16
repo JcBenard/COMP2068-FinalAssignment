@@ -21,6 +21,11 @@ module states {
             //increment the number of player deaths
             deaths++;
 
+            //set the player stats to default
+            animation = "idleUp";
+            dx = 0;
+            dy = 0;
+
             //create and add the normal game background to the game
             this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
             this.game.addChild(this.gamebackground);
@@ -68,6 +73,7 @@ module states {
 
         //when called sets the game to the last state
         private selectState() {
+            createjs.Sound.stop();
             currentState = lastState;
             window.removeEventListener("keydown", this.keyPressed, true);
             this.game.removeAllChildren();

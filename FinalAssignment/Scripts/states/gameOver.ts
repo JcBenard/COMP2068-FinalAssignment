@@ -23,10 +23,19 @@ module states {
             //increment the number of player deaths
             deaths++;
 
-            //create and add the normal game background to the game
-            this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
-            this.game.addChild(this.gamebackground);
+            //set the player stats to default
+            animation = "idleUp";
+            dx = 0;
+            dy = 0;
 
+            //create and add the normal game background to the game
+            if (lastState != constants.STAGE2_STATE) {
+                this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
+                this.game.addChild(this.gamebackground);
+            } else {
+                this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground2"));
+                this.game.addChild(this.gamebackground);
+            }
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX, deathY);
             this.game.addChild(this.snake);
@@ -71,6 +80,7 @@ module states {
 
         //when called sets the game to the last state
         private selectState() {
+            createjs.Sound.stop();
             currentState = lastState;
             window.removeEventListener("keydown", this.keyPressed, true);
             this.game.removeAllChildren();

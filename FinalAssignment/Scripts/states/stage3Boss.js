@@ -27,7 +27,7 @@ var states;
             this.healthBar = [];
             this.wallCollisionShapes = [];
             this.smallBoxes = [];
-            this.bossHealth = 1;
+            this.bossHealth = 8;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
             this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
             this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
@@ -36,10 +36,14 @@ var states;
             this.boxesY = 246;
             this.pickUpsX = [165, constants.SCRREN_CENTER_WIDTH, 475];
             this.pickUpsY = [200, 300, 200];
+            //set up default values for the player
             playerHealth = constants.PLAYER_HEALTH;
-            currentWeapon = "missle";
-            haveGun = "Gun";
-            ammo = 3;
+            haveGun = "";
+            if (haveWeapon[2]) {
+                currentWeapon = "missle";
+                haveGun = "Gun";
+            }
+            ammo = 2;
             //create a game container to store all elements
             this.game = new createjs.Container();
             //create and add the background to the game
@@ -99,6 +103,7 @@ var states;
         //public methods//////////////////////////////////////////////////////////////////////////////////
         //updates the game based on the elements
         Stage3Boss.prototype.update = function () {
+            //if the bosses health is less then one clear the current state and switch to the victory state
             if (this.bossHealth < 1) {
                 deathX = this.snake.x;
                 deathY = this.snake.y;
@@ -110,15 +115,20 @@ var states;
                 currentState = constants.WIN_STATE;
                 stateChanged = true;
             }
+            //if the player health is less then 1
             if (playerHealth < 1) {
-                createjs.Sound.stop();
-                this.game.removeAllChildren();
-                window.removeEventListener("keydown", this.keyPressed, true);
+                deathX = this.snake.x;
+                deathY = this.snake.y;
+                createjs.Sound.stop(); //stop the background music
+                this.game.removeAllChildren(); //remove everything from the stage
+                window.removeEventListener("keydown", this.keyPressed, true); //disable the eventlsitners
                 window.removeEventListener("keyup", this.keyRelease, true);
-                stage.removeChild(this.game);
-                currentState = constants.WIN_STATE;
-                stateChanged = true;
+                stage.removeChild(this.game); //remove the game contaner from the game just in case
+                lastState = constants.STAGE3BOSS_STATE; //set the last state to the current state
+                currentState = constants.GAME_OVER_STATE; //set the current state to the game over state
+                stateChanged = true; //set the state change varaible to true so the game object changes the stage
             }
+            //if the missle launcher is out show it in the info bar along with the current ammo
             if (currentWeapon == "missle") {
                 this.game.addChild(this.weaponIcon);
                 this.game.addChild(this.ammoText);
@@ -138,21 +148,25 @@ var states;
                         }
                         break;
                     case ("punch"):
-                        this.collision.playerObjectsCollision(this.snake, this.metalGear, this.ration, this.ammoBox, this.game, this.healthBar);
+                        if (this.collision.playerObjectsCollision(this.snake, this.metalGear, this.ration, this.ammoBox, this.game, this.healthBar)) {
+                            this.bossHealth--;
+                        }
                         break;
                 }
                 //set the use weapon flag to false;
                 useProjectile = false;
             }
+            //get a random number
             var random = Math.floor((Math.random() * 500) + 1);
+            //if the random number is 500
             if (random == 500) {
-                var random = Math.floor((Math.random() * 2));
+                var random = Math.floor((Math.random() * 2)); //get another random number
                 if (random == 0 && this.ammoBox.x < 0) {
-                    var random = Math.floor((Math.random() * 3));
+                    var random = Math.floor((Math.random() * 3)); //put an ammo box on the stage at a position in the postion array
                     this.ammoBox.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
                 }
                 else if (random == 1 && this.ration.x < 0) {
-                    var random = Math.floor((Math.random() * 3));
+                    var random = Math.floor((Math.random() * 3)); //put an ration on the stage at a position in the postion array
                     this.ration.resetBoss3(this.pickUpsX[random], this.pickUpsY[random]);
                 }
             }
@@ -160,8 +174,10 @@ var states;
             this.snake.update();
             this.missle.update();
             this.metalGear.update(this.enemyBullets, this.snake);
+            //check if the player is colliding with a consuable
             this.collision.objectsCollision(this.ammoBox, this.snake, null, null);
             this.collision.objectsCollision(this.ration, this.snake, this.game, this.healthBar);
+            //check if the rocket is colliding with the boss
             if (this.collision.objectsCollision(this.missle, this.metalGear, this.game, this.healthBar)) {
                 this.bossHealth--;
             }

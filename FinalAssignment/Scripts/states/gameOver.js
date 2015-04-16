@@ -12,9 +12,19 @@ var states;
             this.game = new createjs.Container();
             //increment the number of player deaths
             deaths++;
+            //set the player stats to default
+            animation = "idleUp";
+            dx = 0;
+            dy = 0;
             //create and add the normal game background to the game
-            this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
-            this.game.addChild(this.gamebackground);
+            if (lastState != constants.STAGE2_STATE) {
+                this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground1"));
+                this.game.addChild(this.gamebackground);
+            }
+            else {
+                this.gamebackground = new createjs.Bitmap(managers.Assets.loader.getResult("gameBackground2"));
+                this.game.addChild(this.gamebackground);
+            }
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX, deathY);
             this.game.addChild(this.snake);
@@ -49,6 +59,7 @@ var states;
         };
         //when called sets the game to the last state
         GameOver.prototype.selectState = function () {
+            createjs.Sound.stop();
             currentState = lastState;
             window.removeEventListener("keydown", this.keyPressed, true);
             this.game.removeAllChildren();
@@ -59,4 +70,4 @@ var states;
     })();
     states.GameOver = GameOver;
 })(states || (states = {}));
-//# sourceMappingURL=gameover.js.map
+//# sourceMappingURL=gameOver.js.map

@@ -62,10 +62,11 @@ module states {
 
             //set the default values 
             playerHealth = constants.PLAYER_HEALTH;
+            haveGun = "";
             if (haveWeapon[0]) {
                 currentWeapon = "pistol";
+                haveGun = "Gun";
             }
-            haveGun = "Gun";
             ammo = 6;
 
             //create a game container to store all elements

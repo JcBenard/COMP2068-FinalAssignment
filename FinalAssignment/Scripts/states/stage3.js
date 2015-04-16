@@ -176,13 +176,18 @@ var states;
                             this.guards[index].losCheckers[index2].remove = true;
                         }
                     }
+                    //if the player collides with one of the guards los checkers close the current state and start the game over spotted state
                     if (this.collision.losCollisionPlayer(this.guards[index].losCheckers[index2], this.snake, this.guards[index])) {
-                        //this.world.removeAllChildren();
-                        //this.game.removeAllChildren();
-                        //window.removeEventListener("keydown", this.keyPressed, true);
-                        //window.removeEventListener("keyup", this.keyRelease, true);
-                        //stage.removeChild(this.game);
-                        this.world.removeChild(this.guards[index].losCheckers[index2]);
+                        deathX = this.snake.x;
+                        deathY = this.snake.y;
+                        createjs.Sound.stop(); //stop the background music
+                        this.game.removeAllChildren(); //remove everything from the stage
+                        window.removeEventListener("keydown", this.keyPressed, true); //disable the eventlsitners
+                        window.removeEventListener("keyup", this.keyRelease, true);
+                        stage.removeChild(this.game); //remove the game contaner from the game just in case
+                        lastState = constants.STAGE3_STATE; //set the last state to the current state
+                        currentState = constants.GAME_OVER_SPOTTED_STATE; //set the current state to the game over state
+                        stateChanged = true; //set the state change varaible to true so the game object changes the stage
                     }
                 }
             }

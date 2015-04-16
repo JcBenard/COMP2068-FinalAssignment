@@ -4,6 +4,7 @@ var managers;
     var Collision = (function () {
         function Collision() {
         }
+        //calculates the distance between the two points
         Collision.prototype.distance = function (p1, p2) {
             return Math.floor(Math.sqrt(Math.pow((p2.x - p1.x), 2) + Math.pow((p2.y - p1.y), 2)));
         };
@@ -18,15 +19,18 @@ var managers;
             else {
                 var pt = collider;
             }
+            //put the x and y of the objects into the points
             p1.x = pt.x;
             p1.y = pt.y;
             p2.x = collide.x;
             p2.y = collide.y;
+            //check if the objects are currently colliding
             if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
                 //if they aren't already colliding
                 if (!collider.isColliding) {
                     //play the sound associated with the collider and move it off the stage
                     createjs.Sound.play(collider.soundString);
+                    //move the collider off the stage
                     collider.x = -1000;
                     collider.y = -1000;
                     //if the collider's name is pistol set the players weapon to it and mark them as having a gun for animation purpose
@@ -37,13 +41,13 @@ var managers;
                         ammo = 5;
                     }
                     else if (collider.name == "missle") {
-                        haveWeapon[2] = true;
+                        haveWeapon[2] = true; //if they collide with the missle launcher set the variable to true
                     }
                     else if (collider.name == "armor") {
-                        haveArmor = true;
+                        haveArmor = true; //if they collide with armor set the variable to true
                     }
                     else if (collider.name == "ammo") {
-                        ammo += 2;
+                        ammo += 2; //if they collide with the ammo box add 2 to there total ammo
                     }
                     else if (collider.name == "ration") {
                         if (playerHealth == constants.PLAYER_HEALTH) {
@@ -75,10 +79,11 @@ var managers;
                     else if (collider.name == "missles") {
                         return true;
                     }
+                    //if the gunner is the one the collider is collidng with return true
                     if (collide.name == "gunner") {
                         return true;
                     }
-                    collider.isColliding = true;
+                    collider.isColliding = true; //set the is colliding to true so the collider dosen't collide again
                 }
             }
             else {
@@ -91,16 +96,19 @@ var managers;
             var p2 = new createjs.Point();
             //make the two point on the same grid
             var pt = collide.localToLocal(collider.x, collider.y, collider);
+            //put the x and y of the objects into the points
             p1.x = pt.x;
             p1.y = pt.y;
             p2.x = collider.x;
             p2.y = collider.y;
+            //check if the objects are currently colliding
             if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
                 if (!collider.isColliding) {
                     //play the sound associated with the collider
                     createjs.Sound.play(collider.soundString);
                     //if the collide is a guard move it off the stage
                     if (collide.name == "guard") {
+                        //roll a random number between 1 and 10
                         var random = Math.floor((Math.random() * 10) + 1);
                         if (random == 1) {
                             ammoBox.x = collide.x;
@@ -110,9 +118,17 @@ var managers;
                             ration.x = collide.x;
                             ration.y = collide.y;
                         }
+                        //move the guard off the stage
                         collide.x = -1000;
                         collide.y = -1000;
+                        //increment the number of kills the player has by 1
+                        kills++;
                     } //end of if
+                    //if the player is colliding with metal gear return true
+                    if (collide.name == "metalGear") {
+                        return true;
+                    }
+                    //if snake is being collided with remove 2 from his health
                     if (collide.name == "snake") {
                         if (haveArmor) {
                             playerHealth--;
@@ -129,56 +145,59 @@ var managers;
                         collider.x = -10000;
                         collider.y = -10000;
                     } //end of if
-                    if (collider.name == "los") {
-                        console.log("lost");
-                    }
                 } //end of if
             }
             else {
                 collider.isColliding = false; //set the variable to false so they can collide again
             }
         }; //end of player objects collision
+        //called when the game is checking if the guards los boxes are colliding with the player
         Collision.prototype.losCollisionPlayer = function (collider, collide, guard) {
             var p1 = new createjs.Point();
             var p2 = new createjs.Point();
             //make the two point on the same grid
             var pt = guard.globalToLocal(collide.x, collide.y);
+            //put the x and y of the objects into the points
             p1.x = pt.x;
             p1.y = pt.y;
             p2.x = collider.x;
             p2.y = collider.y;
+            //if the objects are colliding return true
             if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
                 return true;
             }
         };
+        //called when the game is checking if the guards los boxes are colliding with a wall
         Collision.prototype.losCollisionWalls = function (collider, collide, guard, world) {
+            //make the two point on the same grid
             var pt = guard.localToLocal(collider.x, collider.y, world);
-            console.log(pt + "/" + collide.xLocation + " " + collide.yLocation);
+            //if the objects aren't colliding do nothing
             if (pt.x >= collide.xLocation + collide.width || pt.x + collider.width <= collide.xLocation || pt.y >= collide.yLocation + collide.height || pt.y + collider.height <= collide.yLocation) {
             }
             else {
-                console.log("Worked");
                 collider.x = -10000;
                 collider.y = -10000;
             }
         };
+        //called when the game is checking if the guards los boxes are colliding with a background object
         Collision.prototype.losCollisionObjects = function (collider, collide, guard, world) {
+            //make the two point on the same grid
             var pt = guard.localToLocal(collider.x, collider.y, world);
-            console.log(pt + "/" + collide.x + " " + collide.y);
-            if (pt.x >= collide.x + collide.width || pt.x + collider.width <= collide.x || pt.y >= collide.y + collide.height || pt.y + collider.height <= collide.y) {
+            //if the objects aren't colliding do nothing
+            if (pt.x >= collide.x + collide.boxWidth || pt.x + collider.width <= collide.x || pt.y >= collide.y + collide.boxHeight || pt.y + collider.height <= collide.y) {
             }
             else {
-                console.log("Worked");
                 collider.x = -10000;
                 collider.y = -10000;
             }
         };
         //collision for walls
         Collision.prototype.wallCollision = function (world, player, walls) {
+            //if the camera is all the way to the left or the player is left of the middle
             if (world.x >= constants.SCRREN_CENTER_WIDTH || player.x < constants.SCRREN_CENTER_WIDTH - 5) {
-                collidingLeft = true;
-                world.x = constants.SCRREN_CENTER_WIDTH;
-                snakeColl = true;
+                collidingLeft = true; //make the left collision varable true
+                world.x = constants.SCRREN_CENTER_WIDTH; //lock the camera to the left
+                snakeColl = true; //set this variable to true so the player moves instead of the camera
             }
             else {
                 collidingLeft = false;
@@ -244,10 +263,10 @@ var managers;
             else {
                 if (object.name == "snake") {
                     if (collidingBottom == true || collidingTop == true) {
-                        object.y += dy;
+                        object.y += dy; //lock snakes vertical movement
                     }
                     else {
-                        world.y -= dy;
+                        world.y -= dy; //lock the screens vertical movement
                     }
                     if (collidingRight == true || collidingLeft == true) {
                         object.x += dx;
@@ -260,7 +279,7 @@ var managers;
                     object.x = -2000;
                     object.y = -2000;
                 }
-                if (wall.name == "door") {
+                if (wall.name == "door" && object.name == "snake") {
                     return true;
                 }
             }

@@ -92,12 +92,25 @@ var states;
                 currentState = constants.STAGE3_STATE;
                 stateChanged = true;
             }
+            //if the player health is less then 1
+            if (playerHealth < 1) {
+                deathX = this.snake.x;
+                deathY = this.snake.y;
+                createjs.Sound.stop(); //stop the background music
+                this.game.removeAllChildren(); //remove everything from the stage
+                window.removeEventListener("keydown", this.keyPressed, true); //disable the eventlsitners
+                window.removeEventListener("keyup", this.keyRelease, true);
+                stage.removeChild(this.game); //remove the game contaner from the game just in case
+                lastState = constants.STAGE2_STATE; //set the last state to the current state
+                currentState = constants.GAME_OVER_STATE; //set the current state to the game over state
+                stateChanged = true; //set the state change varaible to true so the game object changes the stage
+            }
             //if 90 frams have passed and the difficulty is greater then 1
             if (this.ticks % 90 == 0 && this.tankHealth < 6) {
                 this.tankBullet.reset(this.snake.y, this.tank.y); //shoot a bullet
             }
             //if 180 frams have passed and the difficulty is greater then 2
-            if (this.ticks % 180 == 0 && this.tankHealth < 4) {
+            if (this.ticks % 180 == 0 && this.tankHealth < 3) {
                 this.shell.reset(this.tank.y, this.tank.rotation); //fire 1 shell 
             }
             if (useProjectile == true) {

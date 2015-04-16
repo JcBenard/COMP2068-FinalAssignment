@@ -11,7 +11,7 @@
             this.y = y;
 
             //set how the text is set
-            this.textAlign = "right";
+            this.textAlign = "center";
             this.textBaseline = "alphabetic";
         }//end of constructor
 
