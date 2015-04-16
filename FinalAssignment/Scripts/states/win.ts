@@ -27,7 +27,7 @@ module states {
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX, deathY);
             this.game.addChild(this.snake);
-            this.snake.gotoAndPlay("idleDown");
+            animation = "idleDown";
 
             //create add add the gameover background to the game
             this.winBackground = new objects.TransitionBackground("winBackground", 1.75, 0);
@@ -70,9 +70,9 @@ module states {
             } else if (deaths < 4 && kills < 8) {
                 this.rank = "Fox"
             } else if (deaths < 7 && kills < 11) {
-                this.rank = "Doberman";
-            } else {
                 this.rank = "Hound";
+            } else {
+                this.rank = "Dog";
             }
         }
 

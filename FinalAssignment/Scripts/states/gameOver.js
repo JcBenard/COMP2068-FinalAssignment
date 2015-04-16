@@ -70,4 +70,4 @@ var states;
     })();
     states.GameOver = GameOver;
 })(states || (states = {}));
-//# sourceMappingURL=gameOver.js.map
+//# sourceMappingURL=gameover.js.map

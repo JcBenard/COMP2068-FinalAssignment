@@ -33,7 +33,7 @@ module states {
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX,deathY);
             this.game.addChild(this.snake);
-            this.snake.gotoAndPlay("idle" + direction + haveGun);
+            animation = "idle" + direction + haveGun;
 
             //create add add the gameover background to the game
             this.overBackground = new objects.TransitionBackground("overBackground", 1.75, 0);
