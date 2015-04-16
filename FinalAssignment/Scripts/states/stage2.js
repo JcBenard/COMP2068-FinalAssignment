@@ -22,7 +22,7 @@ var states;
             this.healthBar = [];
             //private instanced variables
             this.ticks = 0;
-            this.tankHealth = 7;
+            this.tankHealth = 2;
             //set the deafult values
             playerHealth = constants.PLAYER_HEALTH;
             animation = "runRight";

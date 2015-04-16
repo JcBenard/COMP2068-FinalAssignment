@@ -42,7 +42,7 @@ module states {
 
         public collision: managers.Collision;
 
-        private bossHealth = 8;
+        private bossHealth = 2;
         private wallX: number[] = [0, 0, constants.SCREEN_WIDTH - 40, 0];
         private wallY: number[] = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
         private wallWidth: number[] = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];
