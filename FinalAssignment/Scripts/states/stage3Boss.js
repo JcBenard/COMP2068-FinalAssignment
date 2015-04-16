@@ -27,7 +27,7 @@ var states;
             this.healthBar = [];
             this.wallCollisionShapes = [];
             this.smallBoxes = [];
-            this.bossHealth = 2;
+            this.bossHealth = 8;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];
             this.wallY = [0, 0, 0, constants.SCREEN_HEIGHT - 55];
             this.wallWidth = [constants.SCREEN_WIDTH, 60, 40, constants.SCREEN_WIDTH];

@@ -1,5 +1,6 @@
 ﻿/// <reference path="guardloschecker.ts" />
 /// <reference path="../constants.ts" />
+
 module objects {
 
     export class Guard extends createjs.Sprite {

@@ -28,7 +28,7 @@ var states;
             this.wallCollisionShapes = [];
             this.mines = [];
             //private variables and location varaibles for obejcts
-            this.bossHealth = 5;
+            this.bossHealth = 6;
             this.boxesX = [120, 280, 440];
             this.boxesY = 124;
             this.wallX = [0, 0, constants.SCREEN_WIDTH - 40, 0];

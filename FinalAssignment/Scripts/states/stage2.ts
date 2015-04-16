@@ -38,7 +38,7 @@ module states {
 
         //private instanced variables
         private ticks: number = 0;
-        private tankHealth: number = 2;
+        private tankHealth: number = 7;
 
         //constructor///////////////////////////////////////////////////////////////////////
         constructor() {

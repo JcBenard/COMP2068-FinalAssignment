@@ -1,4 +1,6 @@
-﻿module objects {
+﻿/// <reference path="gameobject.ts" />
+
+module objects {
 
     export class Tank extends GameObject {
 

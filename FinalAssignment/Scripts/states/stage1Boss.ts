@@ -47,7 +47,7 @@ module states {
         public collision: managers.Collision;
 
         //private variables and location varaibles for obejcts
-        private bossHealth = 2;
+        private bossHealth = 6;
         private boxesX: number[] = [120, 280, 440];
         private boxesY: number = 124;
         private wallX: number[] = [0, 0, constants.SCREEN_WIDTH - 40, 0];

@@ -1,4 +1,6 @@
-﻿module objects {
+﻿/// <reference path="gameobject.ts" />
+
+module objects {
 
     export class Shell extends GameObject {
 
