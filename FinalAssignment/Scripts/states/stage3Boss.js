@@ -157,9 +157,9 @@ var states;
                 useProjectile = false;
             }
             //get a random number
-            var random = Math.floor((Math.random() * 500) + 1);
+            var random = Math.floor((Math.random() * 300) + 1);
             //if the random number is 500
-            if (random == 500) {
+            if (random == 300) {
                 var random = Math.floor((Math.random() * 2)); //get another random number
                 if (random == 0 && this.ammoBox.x < 0) {
                     var random = Math.floor((Math.random() * 3)); //put an ammo box on the stage at a position in the postion array

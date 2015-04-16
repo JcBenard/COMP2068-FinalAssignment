@@ -30,7 +30,7 @@
             p2.y = collide.y;
 
             //check if the objects are currently colliding
-            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
+            if (this.distance(p1, p2) < ((collide.height * .5) + (collider.width * .5))) {
                 //if they aren't already colliding
                 if (!collider.isColliding) {
                     //play the sound associated with the collider and move it off the stage
@@ -102,7 +102,7 @@
             p2.y = collider.y;
 
             //check if the objects are currently colliding
-            if (this.distance(p1, p2) < ((collide.width * .5) + (collider.width * .5))) {
+            if (this.distance(p1, p2) < ((collide.height * .5) + (collider.height * .5))) {
                 if (!collider.isColliding) {
                     //play the sound associated with the collider
                     createjs.Sound.play(collider.soundString);

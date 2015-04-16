@@ -15,6 +15,8 @@ var states;
             //create and add the player charater with death animation to the game
             this.snake = new objects.Snake(deathX, deathY);
             this.game.addChild(this.snake);
+            dx = 0;
+            dy = 0;
             animation = "idleDown";
             //create add add the gameover background to the game
             this.winBackground = new objects.TransitionBackground("winBackground", 1.75, 0);
